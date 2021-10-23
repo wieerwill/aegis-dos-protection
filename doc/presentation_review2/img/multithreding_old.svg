@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:xhtml="http://www.w3.org/1999/xhtml"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="903"
+   height="202"
+   viewBox="-0.5 -0.5 903 202"
+   content="&lt;mxfile host=&quot;online.visual-paradigm.com&quot; modified=&quot;2021-06-22T17:18:15.016Z&quot; agent=&quot;5.0 (X11)&quot; etag=&quot;BdljaqZ3prJE9im41Jmf&quot; type=&quot;vponline&quot;&gt;&lt;diagram id=&quot;rDqYFQFIfW8HNKqeoAXQ&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;"
+   id="svg250"
+   sodipodi:docname="multithreding_old.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata254">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     id="namedview252"
+     showgrid="false"
+     inkscape:zoom="1.0868928"
+     inkscape:cx="465.6517"
+     inkscape:cy="-1.2576924"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg250" />
+  <defs
+     id="defs45">
+    <style
+       type="text/css"
+       id="style2">ul { margin-top: 0px; margin-bottom: 10px; }
+ol { margin-top: 0px; margin-bottom: 10px; }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; }
+.h1, h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5em; font-weight: bold; }
+h3 { font-size: 1.17em; font-weight: bold; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
+p { margin-top: 0; margin-bottom: 1rem; }
+ul { margin-top: 0px; margin-bottom: 10px; }
+ol { margin-top: 0px; margin-bottom: 10px; }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; }
+.h1, h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5em; font-weight: bold; }
+h3 { font-size: 1.17em; font-weight: bold; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
+p { margin-top: 0; margin-bottom: 1rem; }
+ul { margin-top: 0px; margin-bottom: 10px; }
+ol { margin-top: 0px; margin-bottom: 10px; }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; }
+.h1, h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5em; font-weight: bold; }
+h3 { font-size: 1.17em; font-weight: bold; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
+p { margin-top: 0; margin-bottom: 1rem; }
+</style>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-eeedd9-1-c5c4b0-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#eeedd9"
+         id="stop4" />
+      <stop
+         offset="100%"
+         style="stop-color:#c5c4b0"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-c4f0ff-1-98e1f9-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#c4f0ff"
+         id="stop9" />
+      <stop
+         offset="100%"
+         style="stop-color:#98e1f9"
+         id="stop11" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-ffdfd6-1-efb9aa-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#ffdfd6"
+         id="stop14" />
+      <stop
+         offset="100%"
+         style="stop-color:#efb9aa"
+         id="stop16" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-fdaabd-1-ff7c9b-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#fdaabd"
+         id="stop19" />
+      <stop
+         offset="100%"
+         style="stop-color:#ff7c9b"
+         id="stop21" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-fbedce-1-ffdc8c-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#fbedce"
+         id="stop24" />
+      <stop
+         offset="100%"
+         style="stop-color:#ffdc8c"
+         id="stop26" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-c3fbec-1-91ead2-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#c3fbec"
+         id="stop29" />
+      <stop
+         offset="100%"
+         style="stop-color:#91ead2"
+         id="stop31" />
+    </linearGradient>
+    <filter
+       id="dropShadow">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="1.7"
+         result="blur"
+         id="feGaussianBlur34" />
+      <feOffset
+         in="blur"
+         dx="3"
+         dy="3"
+         result="offsetBlur"
+         id="feOffset36" />
+      <feFlood
+         flood-color="#3D4574"
+         flood-opacity="0.4"
+         result="offsetColor"
+         id="feFlood38" />
+      <feComposite
+         in="offsetColor"
+         in2="offsetBlur"
+         operator="in"
+         result="offsetBlur"
+         id="feComposite40" />
+      <feBlend
+         in="SourceGraphic"
+         in2="offsetBlur"
+         id="feBlend42" />
+    </filter>
+  </defs>
+  <g
+     filter="url(#dropShadow)"
+     id="g232">
+    <path
+       d="M 430.33 101.33 L 450.55 101.33"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path47" />
+    <path
+       d="M 457.55 101.33 L 450.55 104.83 L 450.55 97.83 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path49" />
+    <rect
+       x="229"
+       y="39"
+       width="202"
+       height="125.75"
+       fill="url(#mx-gradient-eeedd9-1-c5c4b0-1-s-0)"
+       stroke="#99976b"
+       pointer-events="all"
+       id="rect51" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g66">
+      <switch
+         id="switch64">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 200px; height: 1px; padding-top: 102px; margin-left: 230px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:font
+                   style="font-size: 20px">
+                  <xhtml:b>PacketDissection</xhtml:b>
+                </xhtml:font>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg62">
+          <defs
+             id="defs54">
+            <path
+               id="lNNdLF6EWiDy_gDt"
+               d="M247.43333435058594,113 h165.13333129882812" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text60">
+            <textPath
+               xlink:href="#lNNdLF6EWiDy_gDt"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath58"><tspan
+   xml:space="preserve"
+   id="tspan56">PacketDissection</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 311.42 54.54 L 299.96 20.48 L 330 0.75 L 360.04 20.48 L 348.58 54.54 Z"
+       fill="url(#mx-gradient-c4f0ff-1-98e1f9-1-s-0)"
+       stroke="#388aa6"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path68" />
+    <rect
+       x="304.96"
+       y="5.75"
+       width="50.08"
+       height="43.79"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect70" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g85">
+      <switch
+         id="switch83">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 48px; height: 1px; padding-top: 28px; margin-left: 306px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:div>
+                  <xhtml:font
+                     style="font-size: 20px">
+                    <xhtml:b>T1</xhtml:b>
+                  </xhtml:font>
+                </xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg81">
+          <defs
+             id="defs73">
+            <path
+               id="XNNdLF6EWiDy_gDu"
+               d="M318.33331298828125,39 h23.333343505859375" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text79">
+            <textPath
+               xlink:href="#XNNdLF6EWiDy_gDu"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath77"><tspan
+   xml:space="preserve"
+   id="tspan75">T1</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 202 101.33 L 220.55 101.33"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path87" />
+    <path
+       d="M 227.55 101.33 L 220.55 104.83 L 220.55 97.83 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path89" />
+    <path
+       d="M 660.33 101.33 L 685.55 101.33"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path91" />
+    <path
+       d="M 692.55 101.33 L 685.55 104.83 L 685.55 97.83 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path93" />
+    <rect
+       x="459"
+       y="39"
+       width="202"
+       height="125.75"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       pointer-events="all"
+       id="rect95" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g110">
+      <switch
+         id="switch108">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 200px; height: 1px; padding-top: 102px; margin-left: 460px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">Inspection</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg106">
+          <defs
+             id="defs98">
+            <path
+               id="ktNdLF6EWiDy_gDv"
+               d="M510,111.5 h100" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="700"
+             id="text104">
+            <textPath
+               xlink:href="#ktNdLF6EWiDy_gDv"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath102"><tspan
+   xml:space="preserve"
+   id="tspan100">Inspection</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 541.42 54.54 L 529.96 20.47 L 560 0.75 L 590.04 20.47 L 578.58 54.54 Z"
+       fill="url(#mx-gradient-c4f0ff-1-98e1f9-1-s-0)"
+       stroke="#388aa6"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path112" />
+    <rect
+       x="534.96"
+       y="5.75"
+       width="50.08"
+       height="43.79"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect114" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g129">
+      <switch
+         id="switch127">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 48px; height: 1px; padding-top: 28px; margin-left: 536px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:div>
+                  <xhtml:font
+                     style="font-size: 20px">
+                    <xhtml:b>T2</xhtml:b>
+                  </xhtml:font>
+                </xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg125">
+          <defs
+             id="defs117">
+            <path
+               id="qtNdLF6EWiDy_gDw"
+               d="M548.3333129882812,39 h23.333343505859375" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text123">
+            <textPath
+               xlink:href="#qtNdLF6EWiDy_gDw"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath121"><tspan
+   xml:space="preserve"
+   id="tspan119">T2</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <rect
+       x="693"
+       y="39"
+       width="202"
+       height="125.75"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       pointer-events="all"
+       id="rect131" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g146">
+      <switch
+         id="switch144">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 200px; height: 1px; padding-top: 102px; margin-left: 694px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">Treatment</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg142">
+          <defs
+             id="defs134">
+            <path
+               id="mtNdLF6EWiDy_gDx"
+               d="M746.3333129882812,111.5 h95.33334350585938" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="700"
+             id="text140">
+            <textPath
+               xlink:href="#mtNdLF6EWiDy_gDx"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath138"><tspan
+   xml:space="preserve"
+   id="tspan136">Treatment</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 775.42 54.55 L 763.96 20.48 L 794 0.76 L 824.04 20.48 L 812.58 54.55 Z"
+       fill="url(#mx-gradient-c4f0ff-1-98e1f9-1-s-0)"
+       stroke="#388aa6"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path148" />
+    <rect
+       x="768.96"
+       y="5.76"
+       width="50.08"
+       height="43.79"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect150" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g165">
+      <switch
+         id="switch163">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 48px; height: 1px; padding-top: 28px; margin-left: 770px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:div>
+                  <xhtml:font
+                     style="font-size: 20px">
+                    <xhtml:b>T3</xhtml:b>
+                  </xhtml:font>
+                </xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg161">
+          <defs
+             id="defs153">
+            <path
+               id="RtNdLF6EWiDy_gDy"
+               d="M782.3333129882812,39 h23.333343505859375" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text159">
+            <textPath
+               xlink:href="#RtNdLF6EWiDy_gDy"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath157"><tspan
+   xml:space="preserve"
+   id="tspan155">T3</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <rect
+       x="0"
+       y="36.62"
+       width="202"
+       height="130.5"
+       fill="url(#mx-gradient-fbedce-1-ffdc8c-1-s-0)"
+       stroke="#ddab38"
+       pointer-events="all"
+       id="rect167" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g182">
+      <switch
+         id="switch180">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 200px; height: 1px; padding-top: 102px; margin-left: 1px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">NicManagement</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg178">
+          <defs
+             id="defs170">
+            <path
+               id="ptNdLF6EWiDy_gDz"
+               d="M24.316665649414062,111.5 h153.36666870117188" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="700"
+             id="text176">
+            <textPath
+               xlink:href="#ptNdLF6EWiDy_gDz"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath174"><tspan
+   xml:space="preserve"
+   id="tspan172">NicManagement</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 82.42 54.54 L 70.96 20.47 L 101 0.75 L 131.04 20.47 L 119.58 54.54 Z"
+       fill="url(#mx-gradient-c4f0ff-1-98e1f9-1-s-0)"
+       stroke="#388aa6"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path184" />
+    <rect
+       x="75.96"
+       y="5.75"
+       width="50.08"
+       height="43.79"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect186" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g201">
+      <switch
+         id="switch199">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 48px; height: 1px; padding-top: 28px; margin-left: 77px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:div>
+                  <xhtml:font
+                     style="font-size: 20px">
+                    <xhtml:b>T0</xhtml:b>
+                  </xhtml:font>
+                </xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg197">
+          <defs
+             id="defs189">
+            <path
+               id="VtNdLF6EWiDy_gD0"
+               d="M89.33332824707031,39 h23.333343505859375" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text195">
+            <textPath
+               xlink:href="#VtNdLF6EWiDy_gD0"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath193"><tspan
+   xml:space="preserve"
+   id="tspan191">T0</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 28 194.75 L 48 157.75 L 160.5 157.75 L 140.5 194.75 Z"
+       fill="url(#mx-gradient-c3fbec-1-91ead2-1-s-0)"
+       stroke="#64b19c"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path203" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g218">
+      <switch
+         id="switch216">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 131px; height: 1px; padding-top: 176px; margin-left: 29px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:font
+                   style="font-size: 20px">
+                  <xhtml:b>NIC</xhtml:b>
+                </xhtml:font>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg214">
+          <defs
+             id="defs206">
+            <path
+               id="dtNdLF6EWiDy_gD1"
+               d="M77.28334045410156,187 h34.433319091796875" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text212">
+            <textPath
+               xlink:href="#dtNdLF6EWiDy_gD1"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath210"><tspan
+   xml:space="preserve"
+   id="tspan208">NIC</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 430.33 101.33 L 450.55 101.33"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path220" />
+    <path
+       d="M 457.55 101.33 L 450.55 104.83 L 450.55 97.83 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path222" />
+    <path
+       d="M 202 101.33 L 220.55 101.33"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path224" />
+    <path
+       d="M 227.55 101.33 L 220.55 104.83 L 220.55 97.83 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path226" />
+    <path
+       d="M 660.33 101.33 L 685.55 101.33"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path228" />
+    <path
+       d="M 692.55 101.33 L 685.55 104.83 L 685.55 97.83 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path230" />
+  </g>
+  <switch
+     id="switch240">
+    <g
+       requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+       id="g234" />
+    <a
+       transform="translate(0,-5)"
+       id="a238">
+      <text
+         text-anchor="middle"
+         font-size="10px"
+         x="50%"
+         y="100%"
+         id="text236" />
+    </a>
+  </switch>
+</svg>

@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:xhtml="http://www.w3.org/1999/xhtml"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="904"
+   height="166"
+   viewBox="-0.5 -0.5 904 166"
+   content="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"
+   id="svg169"
+   sodipodi:docname="roadmap2.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata173">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     id="namedview171"
+     showgrid="false"
+     inkscape:zoom="1.5353982"
+     inkscape:cx="236.01785"
+     inkscape:cy="222.00288"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg169" />
+  <defs
+     id="defs40">
+    <style
+       type="text/css"
+       id="style2">ul { margin-top: 0px; margin-bottom: 10px; }
+ol { margin-top: 0px; margin-bottom: 10px; }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; }
+.h1, h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5em; font-weight: bold; }
+h3 { font-size: 1.17em; font-weight: bold; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
+p { margin-top: 0; margin-bottom: 1rem; }
+ul { margin-top: 0px; margin-bottom: 10px; }
+ol { margin-top: 0px; margin-bottom: 10px; }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; }
+.h1, h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5em; font-weight: bold; }
+h3 { font-size: 1.17em; font-weight: bold; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
+p { margin-top: 0; margin-bottom: 1rem; }
+ul { margin-top: 0px; margin-bottom: 10px; }
+ol { margin-top: 0px; margin-bottom: 10px; }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; }
+.h1, h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5em; font-weight: bold; }
+h3 { font-size: 1.17em; font-weight: bold; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
+p { margin-top: 0; margin-bottom: 1rem; }
+</style>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-eeedd9-1-c5c4b0-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#eeedd9"
+         id="stop4" />
+      <stop
+         offset="100%"
+         style="stop-color:#c5c4b0"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-ffdfd6-1-efb9aa-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#ffdfd6"
+         id="stop9" />
+      <stop
+         offset="100%"
+         style="stop-color:#efb9aa"
+         id="stop11" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-fdaabd-1-ff7c9b-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#fdaabd"
+         id="stop14" />
+      <stop
+         offset="100%"
+         style="stop-color:#ff7c9b"
+         id="stop16" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-fbedce-1-ffdc8c-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#fbedce"
+         id="stop19" />
+      <stop
+         offset="100%"
+         style="stop-color:#ffdc8c"
+         id="stop21" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-c3fbec-1-91ead2-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#c3fbec"
+         id="stop24" />
+      <stop
+         offset="100%"
+         style="stop-color:#91ead2"
+         id="stop26" />
+    </linearGradient>
+    <filter
+       id="dropShadow">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="1.7"
+         result="blur"
+         id="feGaussianBlur29" />
+      <feOffset
+         in="blur"
+         dx="3"
+         dy="3"
+         result="offsetBlur"
+         id="feOffset31" />
+      <feFlood
+         flood-color="#3D4574"
+         flood-opacity="0.4"
+         result="offsetColor"
+         id="feFlood33" />
+      <feComposite
+         in="offsetColor"
+         in2="offsetBlur"
+         operator="in"
+         result="offsetBlur"
+         id="feComposite35" />
+      <feBlend
+         in="SourceGraphic"
+         in2="offsetBlur"
+         id="feBlend37" />
+    </filter>
+  </defs>
+  <g
+     filter="url(#dropShadow)"
+     id="g151">
+    <path
+       d="M 432 65.18 L 452.12 65.18"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path42" />
+    <path
+       d="M 459.12 65.18 L 452.12 68.68 L 452.12 61.68 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path44" />
+    <rect
+       x="230"
+       y="2"
+       width="202"
+       height="125.75"
+       fill="url(#mx-gradient-eeedd9-1-c5c4b0-1-s-0)"
+       stroke="#99976b"
+       pointer-events="all"
+       id="rect46" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g61">
+      <switch
+         id="switch59">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 200px; height: 1px; padding-top: 65px; margin-left: 231px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:font
+                   style="font-size: 20px">
+                  <xhtml:b>PacketDissection</xhtml:b>
+                </xhtml:font>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg57">
+          <defs
+             id="defs49">
+            <path
+               id="7_qtzF6Fas04sgDr"
+               d="M248.43333435058594,76 h165.13333129882812" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text55">
+            <textPath
+               xlink:href="#7_qtzF6Fas04sgDr"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath53"><tspan
+   xml:space="preserve"
+   id="tspan51">PacketDissection</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 201.41 65.18 L 221.53 65.18"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path63" />
+    <path
+       d="M 228.53 65.18 L 221.53 68.68 L 221.53 61.68 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path65" />
+    <path
+       d="M 662.59 65.18 L 686.23 65.18"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path67" />
+    <path
+       d="M 693.23 65.18 L 686.23 68.68 L 686.23 61.68 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path69" />
+    <rect
+       x="460"
+       y="2"
+       width="202"
+       height="125.75"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       pointer-events="all"
+       id="rect71" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g86">
+      <switch
+         id="switch84">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 200px; height: 1px; padding-top: 65px; margin-left: 461px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">Inspection</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg82">
+          <defs
+             id="defs74">
+            <path
+               id="X_qtzF6Fas04sgDs"
+               d="M511,74.5 h100" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="700"
+             id="text80">
+            <textPath
+               xlink:href="#X_qtzF6Fas04sgDs"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath78"><tspan
+   xml:space="preserve"
+   id="tspan76">Inspection</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <rect
+       x="694"
+       y="2"
+       width="202"
+       height="125.75"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       pointer-events="all"
+       id="rect88" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g103">
+      <switch
+         id="switch101">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 200px; height: 1px; padding-top: 65px; margin-left: 695px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">Treatment</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg99">
+          <defs
+             id="defs91">
+            <path
+               id="3_qtzF6Fas04sgDt"
+               d="M747.3333129882812,74.5 h95.33334350585938" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="700"
+             id="text97">
+            <textPath
+               xlink:href="#3_qtzF6Fas04sgDt"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath95"><tspan
+   xml:space="preserve"
+   id="tspan93">Treatment</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <rect
+       x="0"
+       y="-0.38"
+       width="202"
+       height="130.5"
+       fill="url(#mx-gradient-fbedce-1-ffdc8c-1-s-0)"
+       stroke="#ddab38"
+       pointer-events="all"
+       id="rect105" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g120">
+      <switch
+         id="switch118">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 200px; height: 1px; padding-top: 65px; margin-left: 1px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">NicManagement</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg116">
+          <defs
+             id="defs108">
+            <path
+               id="f_qtzF6Fas04sgDu"
+               d="M24.316665649414062,74.5 h153.36666870117188" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="700"
+             id="text114">
+            <textPath
+               xlink:href="#f_qtzF6Fas04sgDu"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath112"><tspan
+   xml:space="preserve"
+   id="tspan110">NicManagement</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 29 157.75 L 49 120.75 L 161.5 120.75 L 141.5 157.75 Z"
+       fill="url(#mx-gradient-c3fbec-1-91ead2-1-s-0)"
+       stroke="#64b19c"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path122" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g137">
+      <switch
+         id="switch135">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 131px; height: 1px; padding-top: 139px; margin-left: 30px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:font
+                   style="font-size: 20px">
+                  <xhtml:b>NIC</xhtml:b>
+                </xhtml:font>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg133">
+          <defs
+             id="defs125">
+            <path
+               id="AAatzF6Fas04sgDv"
+               d="M78.28334045410156,150 h34.433319091796875" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text131">
+            <textPath
+               xlink:href="#AAatzF6Fas04sgDv"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath129"><tspan
+   xml:space="preserve"
+   id="tspan127">NIC</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 432 65.18 L 452.12 65.18"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path139" />
+    <path
+       d="M 459.12 65.18 L 452.12 68.68 L 452.12 61.68 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path141" />
+    <path
+       d="M 201.41 65.18 L 221.53 65.18"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path143" />
+    <path
+       d="M 228.53 65.18 L 221.53 68.68 L 221.53 61.68 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path145" />
+    <path
+       d="M 662.59 65.18 L 686.23 65.18"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path147" />
+    <path
+       d="M 693.23 65.18 L 686.23 68.68 L 686.23 61.68 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path149" />
+  </g>
+  <switch
+     id="switch159">
+    <g
+       requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+       id="g153" />
+    <a
+       transform="translate(0,-5)"
+       id="a157">
+      <text
+         text-anchor="middle"
+         font-size="10px"
+         x="50%"
+         y="100%"
+         id="text155" />
+    </a>
+  </switch>
+</svg>
