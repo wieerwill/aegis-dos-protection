@@ -1,0 +1,57 @@
+@startuml
+\startuml
+start
+:erstelle temporäre Zähler für Statistik;
+:Packetindex auf 0 setzten;
+while
+    (PacketContainer Größe kleiner als aktueller Paketindex)
+    :extrahiere PacketInfo aus PacketContainer bei gegebenem Paketindex;
+    if (liegt UDP Protokoll vor) then (ja)
+        :erhöhe UDP Zähler;
+        if(UDP Threshold übertreten) then (ja)
+            #FF0000:erkannte UDP Flood;
+            :Angriffs-Zähler erhöhen;
+            :Paket aus PacketContainer entfernen;
+        else (nein)
+            :Paket wird zugelassen;
+        endif
+    elseif (liegt TCP Protokoll vor) then (ja)
+        :erhöhe TCP Zähler;
+        :Caste PacketInfo in PacketInfoIpv4TCP;
+        if(TCP Threshold übertreten) then (ja)
+            #FF0000:erkannte TCP Flood;
+            :Angriffs-Zähler erhöhen;
+            :Paket aus PacketContainer entfernen;
+        else (nein)
+        endif
+        if(WindowSize kleiner als vorgegeben) then (ja)
+            #FF0000:erkannte Small/Zero Window;
+            :Angriffs-Zähler erhöhen;
+            :Paket aus PacketContainer entfernen;
+        else (nein)
+        endif
+        if(SYN und FIN oder SYN, FIN und ACK Flags gesetzt) then (ja)
+            #FF0000:erkannte SYN-FIN(-ACK);
+            :Angriffs-Zähler erhöhen;
+            :Paket aus PacketContainer entfernen;
+        else (nein)
+            :Paket wird zugelassen;
+        endif
+    elseif (liegt ICMPv4 Protokoll vor) then (ja)
+        :erhöhe ICMP Zähler;
+        if(ICMP Threshold übertreten) then (ja)
+            #FF0000:erkannte ICMP Flood;
+            :Angriffs-Zähler erhöhen;
+            :Paket aus PacketContainer entfernen;
+        else (nein)
+            :Paket wird zugelassen;
+        endif
+    else (kein Protokoll von Interesse)
+        :Paket wird zugelassen;
+    endif
+endwhile
+:lokale Statistik mit temorären Zählern erneuern;
+:lokale Statistik an globale Statistik senden;
+end
+\enduml
+@enduml
