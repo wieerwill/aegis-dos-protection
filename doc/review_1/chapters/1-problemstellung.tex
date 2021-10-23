@@ -1,0 +1,17 @@
+\documentclass[../review_1.tex]{subfiles}
+\graphicspath{{\subfix{../img/}}}
+\begin{document}
+
+\chapter{Problemstellung}\thispagestyle{fancy}
+% Ausgangssituation?
+\vspace{-0.5cm}
+Denial-of-Service-Angriffe stellen eine ernstzunehmende Bedrohung dar.\\
+Im digitalen Zeitalter sind viele Systeme über das Internet miteinander verknüpft. Viele Unternehmen, Krankenhäusern und Behörden sind dadurch zu beliebten Angriffszielen geworden\cite{infopoint_security_cyber_angriffe}. Motive für solche Angriffe sind finanzielle oder auch politische Gründe.\\
+Bei DoS\footnote{Denial of Service, dt.: Verweigerung des Dienstes, Nichtverfügbarkeit des Dienstes}- und DDoS\footnote{Distributed Denial of Service}-Attacken werden Server und Infrastrukturen mit einer Flut sinnloser Anfragen so stark überlastet, dass sie von ihrem normalen Betrieb abgebracht werden. Daraus kann resultieren, dass Nutzer die angebotenen Dienste nicht mehr erreichen und Daten bei dem Angriff verloren gehen können.\\
+Hierbei können schon schwache Rechner großen Schaden bei deutlich leistungsfähigeren Empfängern auslösen. In Botnetzen können die Angriffe von mehreren Computern gleichzeitig, koordiniert und aus verschiedensten Netzwerken stammen \cite{tecchannel_gefahr_botnet}.\\
+Das Ungleichgewicht zwischen Einfachheit bei der Erzeugung von Angriffsverkehr gegenüber komplexer und ressourcenintensiver DoS-Abwehr verschärft das Problem zusätzlich. Obwohl gelegentlich Erfolge im Kampf gegen DoS-Angriffe erzielt werden (z.B. Stilllegung einiger großer ,,DoS-for-Hire'' Webseiten), vergrößert sich das Datenvolumen durch DoS-Angriffe stetig weiter. Allein zwischen 2014 und 2017 hat sich die Frequenz von DoS-Angriffen um den Faktor 2,5 vergrößert und das Angriffsvolumen verdoppelt sich fast jährlich \cite{neustar_ddos_report}. Die Schäden werden weltweit zwischen 20.000 und 40.000 US-Dollar pro Stunde geschätzt \cite{datacenterknowledge_study}.\\
+% Für einen effektiven (D)DoS-Schutz ist es wichtig, vorgegebene regelbasierte Muster hinter Paketen und Netzwerkverkehr zu erkennen, wie zum Beispiel ähnliche Absenderadressen oder unvollständige Paketdaten.\\
+Im Bereich kommerzieller DoS-Abwehr haben sich einige Ansätze hervorgetan (z.B. Project Shield\cite{projectshield}, Cloudflare\cite{cloudflare}, AWS Shield\cite{aws_shield}). Der Einsatz kommerzieller Lösungen birgt einige Probleme, etwa mitunter erhebliche Kosten oder das Problem des notwendigen Vertrauens, welches dem Betreiber einer DoS-Abwehr entgegengebracht werden muss. Folglich ist eine effiziente Abwehr von DoS-Angriffen mit eigens errichteten und gewarteten Mechanismen ein verfolgenswertes Ziel - insbesondere wenn sich dadurch mehrere Systeme zugleich schützen lassen.\\
+Ziel des Softwareprojekts ist es, ein System zwischen Internet-Uplink und internem Netzwerk zu schaffen, das bei einer hohen Bandbreite und im Dauerbetrieb effektiv (D)DoS Angriffe abwehren kann, während Nutzer weiterhin ohne Einschränkungen auf ihre Dienste zugreifen können. Die entstehende Anwendung implementiert einen (D)DoS-Traffic-Analysator und einen intelligenten Regelgenerator, wodurch interne Netzwerke vor externen Bedrohungen, die zu einer Überlastung des Systems führen würden, geschützt sind. Es enthält Algorithmen zur Verkehrsanalyse, die bösartigen Verkehr erkennen und ausfiltern können, ohne die Benutzererfahrung zu beeinträchtigen und ohne zu Ausfallzeiten zu führen.
+
+\end{document}

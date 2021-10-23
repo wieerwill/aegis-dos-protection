@@ -1,0 +1,98 @@
+\documentclass[../review_1.tex]{subfiles}
+\graphicspath{{\subfix{../img/}}}
+\begin{document}
+
+\chapter{Testdrehbuch}\thispagestyle{fancy}
+
+Wann immer Software entwickelt wird, ist es notwendig zu überprüfen, ob diese Software wie geplant funktioniert. Im Verlauf der Implementierungsphase werden allgemeine Tests durchgeführt, welche die grundlegene Funktionen auf Funktionstüchtigkeit überprüfen. Diese Tests sollten so gestaltet sein, dass sie einzelne Teile des Programms überprüfen. Dadurch kann sichergestellt werden, dass diese Elemente den Belastungen gewachsen sind.
+
+In der Validierungsphase werden die meisten Tests durchgeführt. Diese konzentrieren sich auf das Finden von Fehlern und das Ermitteln von optimierbaren Komponenten. Falls in dieser Phase aber noch grundlegene Fehler gefunden und behoben werden, müssen auch die Tests aus der Implementierungsphase wiederholt werden.
+
+\section{Wichtige Testfälle}
+Es ist geplanen den Großteil der nichtfunktionalen und einzelne der funktionalen Anforderungen mit Tests zu überprüfen. Dabei wird mit der grundlegenden Funktionen der Mitigation-Box begonnen, zu den komplexeren vortgeschritten, bevor die gewünschten Leistungsparametern überprüft werden.
+
+Zuerst muss das System in der Lage sein, Pakete zu empfangen und weiterzuleiten. Danach wird die Analysefähigkeit der Mitigation-Box getestet, indem überprüft wird, ob sie erkennen kann, dass sie angegriffen wird und dann auch zwischen den einzelnen Angriffsarten unterscheiden kann.
+
+Parallel finden Tests statt, wie viel Datenverkehr der Server verarbeiten kann und welche Attacke diesen wie schnell zum Betriebsausfall bringt.
+
+Im Folgenden soll überprüft werden, ob die Mitigation-Box die verschiedenen (D)DoS-Varianten einzeln, sowie gemischt und verkettet abwehren kann. Insbesondere sollen die sämtliche SYN-Paket basierten Attaken vollständig abgewehrt werden.
+
+Da die Mitigation-Box den Betrieb des zu schützenden Systems nicht einschränken soll, wird auch überprüft, wie stark die zu entwickelnde Software den Datenverkehr verlangsamt und wie viele legitime Pakete sie verwirft.
+
+Zum Schluss wird getestet, ob das System selbst anfällig gegen (D)DoS-Attacken ist. Außerdem wird sein Leistungslimit in Hinsicht auf Daten- und Paketrate geprüft.
+
+\section{Testplanung}
+\subsection{Test 1: Paketweiterleitung}
+Zunächst wird das simple Weiterleiten von Paketen getestet. Dafür werden Pakete mit DPDK von einem Port der Netzwerkkarte entgegengenommen und auf den anderen Port weitergegeben. Danach wird  begonnen, einzelne Ping-Anfragen vom äußeren System über die Mitigation-Box zum Server laufen zu lassen. Darauf aufbauend wird ein erster kleiner Lasttest durchgeführt. Dabei wird möglichst viel Traffic an den Server gesendet. Dieser Teil des Tests gilt als erfolgreich, wenn am Server die Netzwerkkarte ausgelastet ist oder der Server aufgrund von zu hoher Datenlast abstürzt. Währenddessen darf die Mitigation-Box selbst nicht ausfallen. Die Auslastung der Netzwerkkarte lässt sich serverseitig mit dem vorinstallierten System-Monitor überprüfen. 
+
+Der Erfolg in beiden Teiltests ist Voraussetzung für alle weiteren Tests.
+
+\subsection{Test 2: Lasttest Server}
+Nachdem Test 1 erfolgreich abgeschlossen wurde, kann damit begonnen werden, Angriffe zu erzeugen und auszuloten wie viel der Test-Server verkraften kann. Dies wird über den Verlauf des Projekts mehrfach wiederholt, um das System mit komplexeren und potenteren Angriffen konfrontieren zu können. So wird auch ein Vergleichsmaß erzeugt, mit dem die Effektivität der Abwehrmaßnahmen abgeschätzt werden kann.
+
+\subsection{Test 3: (D)DoS Erkennung}
+Parallel zu Test 2 wird getestet, ob das System die verschieden (D)DoS-Angriffe erkennen kann. Hierfür wird zu Anfang ein Strom legitimen Verkehrs etabliert und später (D)DoS-Pakete beigemischt. Es wird mit simplen Attacken wie Syn-Flood gestartet. Später werden die Attacken um komplexere Angriffe erweitert.
+
+Dieser Test gilt als erfolgreich, wenn die Mitigation-Box alle Angriffe erkennen kann. Er dient dabei auch der Schärfung der Entscheidungsgrenzen, ab wann ein Angriff als wie gefährlich eingestuft wird und folglich abgeschwächt werden muss.
+
+In einem zweiten Schritt wird das System mit mehreren parallelen und sich abwechselnden Strategien angegriffen. Dabei verzeichnet der Angreifer die einzelnen Attacken in einer log-Datei. Sobald die Mitigation-Box einen Angriff feststellt, trägt sie diesen in ihre log-Datei ein. Beide log-Dateien werden zur Abschätzung der Fehlerrate miteinander verglichen.
+
+\subsection{Test 4: (D)DoS Abwehr}
+Dieser Test setzt den Abschluss von Test 3 voraus. Hier wird die Effektivität der Abwehrmaßnahmen getestet. Beginnend mit den einzelnen Attacken, wird die Wirksamkeit der Verteidigungsmaßnahmen getestet. 
+
+Dabei gibt es zwei Maßzahlen für die Effektivität: Einerseits die Responsivität der Mitigation-Box und andererseits der herausgefilterte Anteil an schädlichen Paketen. Letzteres lässt sich durch Vergleichen von Sende- und Empfangslogs des Servers und Angreifers überprüfen. Hingegen wird die Responsivität nur am legitimen Sender geprüft. Dieser wird ein log führen, in welchem aufgeschrieben wird, zu welchem Zeitpunkt ein Paket gesendet wird und wann die Antwort eingeht. 
+
+In späteren Iterationen dieses Test soll der Server mit mehreren parallelen Angriffen konfrontiert werden.
+
+Dieser Test ist nicht als Stresstest konzipiert, sondern lediglich zum Überprüfen der Abwehrmaßnahmen gedacht. Es sollen Fragen geklärt werden wie: Sind die Maßnahmen effektiv genug? Müssen höhere Verluste an legitimen Paketen in kauf genommen werden? Kann mehr Verkehr durchgelassen werden, ohne die Verfügbarkeit des Servers zu gefährden?
+
+\subsection{Test 5: Transparenz}
+In diesem Test soll der Einfluss der Mitigation-Box auf legitimen Verkehr getestet werden. Es gibt zweierlei Arten, wie das System auf diese Verbindungen einwirken kann: Einerseits, indem es Pakete verzögert, bis sie als legitim deklariert wurden, und andererseits, indem legitime Pakete als bösartig deklariert und gelöscht werden.
+
+Ersteres kann nur im Leerlauffall, d.h. ohne beigemischte (D)DoS-Pakete, gemessen werden. Da es nicht möglich ist, verlässliche RTTs bei laufendem (D)DoS-Angriff auf einen ungeschützten Server zu messen. Trotzdem wird versucht, die RTT während aller Durchläufe dieses Tests zu messen. Dafür wird ein Anfragen-Pool bestimmt, dessen Anfragen in jedem Test abgesendet werden. Diese Anfragen werden zusammen mit der Wartezeit auf die Antwort in einer log-Datei verzeichnet. Ein Vergleich der unterschiedlichen log-Dateien ergibt die Verzögerung. Die Wegwerfrate ergibt sich aus dem Anteil der Anfragen, die keine oder keine vollständige Antwort erhalten.
+
+Dieser Test wird mehrfach mit unterschiedlichen Angriffslasten, aber konstanter Nutzlast durchgeführt. Der erste Testlauf wird ohne Angriffslast und ohne die Mitigation-Box durchgeführt um Vergleichswerte zu ermitteln. Danach werden mehrere Iterationen mit dem System zwischen Angreifer und Server folgen. Bei diesen Testläufen wird die Angriffslast von 0 Gbit/s schrittweise auf 20 Gbit/s erhöht.
+
+\subsection{Test 6: Eigensicherheit}
+In diesem Test wird das Ziel sämtlicher Angriffe direkt oder indirekt die Mitigation-Box selbst sein.
+
+Dafür findet dieser Test in zwei Teilen statt. Im ersten werden die (D)DoS Angriffe auf die Mitigation-Box und nicht auf den Server gerichtet sein. Im zweiten Teil werden die (D)DoS-Angriffe so gestaltet, dass sie maximalen Arbeitsaufwand im System benötigen.
+
+In diese Angriffe soll auch Wissen über Implementierungsdetails einfließen. Alles ist erlaubt, solange es nicht den Link zur Mitigation-Box überlastet.
+
+Das System soll trotz allem in der Lage sein, legitimen Datenverkehr zu ermöglichen. Der Eingang von Antworten am legitimen Sender ist hierbei Erfolgskriterium.
+
+\subsection{Test 7: Paketflut}
+Zuletzt soll die maximal verarbeitbare Paketrate getestet werden. Hiefür wird das System mit einer steigenden Rate von SYN, SYN-FIN und SYN-FIN-ACK Paketen angegriffen. Dabei werden nicht nur für den Angriff, sondern auch für den legitimen Verkehr ausschließlich kleine TCP-Pakete, die Verbindungen auf- und abbauen, verwendet, um die Paketrate zu maximieren.
+
+Die maximale Paketrate gilt als überschritten, wenn kein Verbindungsaufbau mehr zustande kommt. 
+
+In diesem Test werden TCP-SYN-Pakete verwendet, obwohl es für die Mitigation-Box aufwendigere Angriffe gibt. Dies ist eine Idealisierung, um ein absolutes Maximum an Paketen zu ermitteln, die das System verarbeiten kann.
+
+Implizit fungiert dieser Test auch als Beweis, dass die verschiedenen TCP-SYN-Angriffe vollständig abgewehrt werden können.
+
+\subsection{Test 8: Datenrate}
+Dieser Test ist kein richtiger Test, denn er wird in jedem Test durchgeführt, in dem diesen Bestimmungen nicht ausdrücklich widersprochen wird.\\
+Die Soll-Datenrate für legitimen, zum Server gesendeten Verkehr liegt bei 5 Gbit/s.
+
+Der Sollwert für die Datenrate von Angriffspaketen liegt bei 20 Gbit/s.
+
+Bei den tatsächlichen Werte können während der Test Schwankungen auftreten . Ursache wird z.B. der maximale Durchsatz des Links zwischen Mitigation-Box und Angreifer sein, da dieser Pakete in beide Richtungen leiten muss.
+
+
+\section{Tabellarische Übersicht}
+
+\begin{longtable}[ht] {l p{3cm} p{6.5cm} p{2.5cm}}
+    \textbf{Test} & \textbf{Name}      & \textbf{Kurzbeschreibung}                           & \textbf{getestete \newline Anforderungen} \\ \toprule \endhead
+    Nr 1          & Paketweiterleitung & reines weiterleiten von Paketen                     & F07                                       \\
+    Nr 2          & (D)DoS-Angriffe    & Effektivität von (D)DoS-Angriffen testen            &                                           \\
+    Nr 3          & (D)DoS Erkennung   & Kalibrierung von (D)DoS Erkennung                   & F05                                       \\
+    Nr 4          & (D)DoS Abwehr      & Überprüfung Abwehrmaßnahmen                         & F03, F09                                  \\
+    Nr 5          & Transparenz        & Analyse Effekt auf Verbindungen                     & NF02, NF05, NF07, NF09                    \\
+    Nr 6          & Eigensicherheit    & Überprüfung Widerstandsfähigkeit der Miditation-Box & F02                                       \\
+    Nr 7          & Paketrate          & Ermittlung maximaler Paketrate                      & NF04, NF06                                \\
+    Nr 8          & Datenrate          & allgemeine Bestimmungen                             & NF03                                      \\ \bottomrule
+\end{longtable}
+
+
+\end{document}

@@ -1,0 +1,43 @@
+\documentclass[../review_1.tex]{subfiles}
+\graphicspath{{\subfix{../img/}}}
+\begin{document}
+
+\chapter{Ergebnisse der Machbarkeitsanalysen und Beispielrealisierungen}\thispagestyle{fancy}
+%Die folgenden Kapitel sind speziell für den Unified Process gedacht:
+
+Zur Machbarkeitsanalyse wurde zunächst die Testumgebung vorbereitet. Diese besteht aus drei Rechnern: Einem Angreifer, einem Server, der das zu schützende Netzwerk repräsentiert und der Mitigation-Box selbst. Auf allen Computern wurde Ubuntu 20.04 LTS installiert. Sie sind zum Ersten untereinander über extra eingebaute Netzwerkkarten verbunden, zum Zweiten besteht über die interne Netzwerkkarte jedes Computers Kontakt zum Internet, sodass man via SSH auf die Computer zugreifen kann. Zum jetzigen Zeitpunkt ist die Testumgebung bereits vollständig in einem Labor des Fachgebietes ,,Telematik/Rechnernetze'' aufgebaut. Eine Illustrierung ist bei~\ref{fig:Versuchsaufbau} auf Seite~\pageref{fig:Versuchsaufbau} zu finden. 
+
+Der Server ist über eine 10Gbps-Leitung mit der Mitigation-Box verbunden. Zwischen Mitigation Box und Angreifer besteht eine 25Gbps-Verbindung. Um legitimen Datenverkehr zu simulieren, besteht zwischen zwei Netzwerkkarten-Ports des Angreifers eine Verbindung mit einer maximalen Datenrate von 10Gbps. Von dem Computer auf dem der angreifende Prozess läuft werden also legitime Pakete mit einem Prozess gesendet, der nicht der angreifende ist. Diese gelangen über eine Eigenschleife von einer Netzwerkkarte zu einer anderen. Auf das zweite Interface hat das Angreiferprogramm Zugriff, welches den legitimen dann zusammen mit dem bösartigen Verkehr zu der Mitigation Box weiterleitet. Laut Pflichtenheft soll die Mitigation-Box mit bis zu 20-25Gbps eingehenden Traffic (von Seiten des Internets und des Angreifers) umgehen können. Von der Mitigation Box zum Server soll eine 10Gbps-Verbindung bestehen.
+
+Zumindest im Nicht-Angriffsfall sollen Pakete mit insgesamt 10Gbps zum Server möglichst ohne Verzögerung weitergeleitet werden. Um zu beurteilen ob das realisierbar ist, kann man sich die Benchmarks \cite{ryzen_benchmarks}, \cite{mellanox_nic_benchmark} für Mellanox-Karten bzw. \cite{intel_nic_benchmark} für Intel-Karten ansehen.
+
+% Im Idealfall würde man für legitimen und bösartigen Traffic zwei verschiedene Maschinen verwenden. Das Softwareprodukt soll allerdings mit einer eingehenden Datenrate von 20 bis 25 Gbit/s funktionieren und dementsprechend getestet werden. Weil kein entsprechender Switch nur ein Port bei der Mitigation Box zur Verfügung steht, die eine solche Datenrate gewährleisten kann, müssen wir den gesamten eingehenden Traffic über die Verbindung zwischen Angreifer und Mitigation-Box leiten.Aus diesem Grund geht sowohl legitimer als auch bösartiger Datenverkehr vom Angreifer aus.
+
+In \cite{mellanox_nic_benchmark} ist ein Test beschrieben, der die Leistung einer Mellanox ConnectX-5 25GbE beschreibt. Diese Netzwerkkarte wird in der Mitigation-Box für das empfangen und senden der Pakete genutzt. Laut Test 2 erreicht das Interface eine Frame Rate von 74,4Mpps (Million packets per second) bei einer Frame Size von 64Byte. Umgerechnet in Gbps sind das \(74,4 \cdot 10^6 Pakete \cdot 64 \cdot 8 bit = 38092Mbps = 38,092Gbps\). In \cite{mellanox_nic_benchmark} wurde ein Prozessor mit 24 Kernen und einer Taktfrequenz von 2,70GHz verwendet. In der Mitigation-Box ist ein AMD Ryzen 9 5900X verbaut, welcher nach \cite{ryzen_benchmarks} 12 Kerne (halb so viel) und eine Basistaktfrequenz von 3,7GHz (um Faktor 1,3 schneller) beinhaltet. Angenommen, es wird die gleiche Anzahl von Queues auf der Netzwerkkarte, wie bei \cite{mellanox_nic_benchmark} (4 pro Port), verwenden, dann wäre bei dem gleichen Test einen Durchsatz von \(38Gbps \cdot 0,5 \cdot 1,3 = 24,7Gbps\) erzielbar. Bei Test 2 wurde das weiterleiten von Paketen getestet. Angenommen, es wird zwischen Angriffsfall und Nicht-Angriffsfall unterschieden und in ersteren werden die Pakete in jedem Fall weiter geleitet und werten parallel die Daten aus um einen Angriffsfall zu erkennen, dann ist der erforderte Durchsatz von 10Gbps realistisch. Befände sich das System dann aber im Angriffsfall, sodass nahezu jedes Paket untersucht werden müsste, ist es noch unklar, ob eine solch hohe Datenrate erreicht werden kann. Ein Teil der Abwehrmaßnahmen besteht daraus, Headerinformationen eines Paketes auszulesen und auf deren Basis das Paket zu löschen oder weiterzuleiten. Ein aufwändigeres Verfahren ist die Abwehr von SYN-Flood-Angriffen. Rechnet man mit einer Halbierung bis Drittelung der Datenrate, so ist ausgehender Verkehr von 10Gbps in Richtung des Servers bei von außen kommender Datenrate von 25Gbps gerade noch denkbar, das wird dabei allerdings stark von der Implementierung abhängen.
+
+In dem System werden Datenstrukturen benötigt, um z.B. Headerinformationen abzuspeichern oder um Sequenznummern zu mappen. Da das System eine möglichst geringe Verzögerung des Datenverkehrs zu erreichen versucht, müssen sehr effiziente Strukturen verwendet werden. Hierzu werden Dictionaries bzw. \texttt{unordered\_maps} verwendet, da diese mit Hash-Verfahren eine sehr gute Zugriffs- und Einfügzeit bieten. \texttt{unordered\_maps} sind um einiges schneller als maps, da diese keine Ordnung von Schlüsseln benötigen, was in diesem System nicht notwendig ist.
+Die Standard-Biblihotek stellt die \texttt{std::unordered\_maps} zur Verfügung, welche in diesem Projekt jedoch nicht verwendet wird, da es außerhalb der Standardbibliothek effizientere bzw. schnellere \texttt{unordered\_maps} gibt. Andere, wie z.B. \texttt{Robin\_Hood\_unordered\_map} und Patchmap bieten aufgrund schnellerer, bzw. besserer Hash-Verfahren eine sehr gute alternative zur \texttt{std::unordered\_map}. Siehe hierzu die Benchmarks für \texttt{Robin:Hood\_unordered\_mas} \cite{RobinHoodMap} und patchmaps \cite{Patchmap}. Ein weiterer Vorteil dieser Maps ist, dass diese relativ ähnlich wie \texttt{std::unordered\_maps} zu verwenden sind, und nur über ein Header-File eingebunden werden müssen.
+
+%Innerhalb unseres Systems müssen sehr schnelle Datenstrukturen verwendet werden, um eine Abbildung von eingehenden Sequenznummern von TCP-Paketen auf dann ausgehende Sequenznummern zu realisieren. Hierzu wollen wir patchmaps verwenden, welche generell eine sehr gute Zugriffsgeschwindigkeit haben, wenn die Kapazität der Map nicht nahezu ausgelastet ist.
+
+%Für eine pauschale Rechnung der vom System zu verarbeitende Daten können wir grob annehmen, dass für TCP/IP-Verbindungen, die Netzwerkpakete ca. 1500Byte groß sind. Um die Datenstrukturen am weitesteten zu testen, nehmen wir auch noch an, dass es nahezu kaum UDP-Verkehr gibt. Insgesamt macht dies dann auf Angreifer-Seite eine Anzahl von (25.000.000.000 Gbps/8)/1500 Byte \(\approx 2 \cdot 10^6\) Paketen pro Sekunde. Anhand dieser Größe sehen wir schon, dass wir eine riesige Menge an Daten verarbeiten bzw. Sequenznummern berechnen müssen. Damit wir auch unseren Speicherplatz nicht zu stark ausreißen, nehmen wir an, dass wir eine sehr hohe Speicherbelegung der zu verwendenden patchmaps vorliegt. Um noch gute Zugriffszeiten zu erreichen, möchten wir eine Auslastung der Map von ca. 0,7 bzw. 70 Prozent nicht überschreiten. Unter all diesen Annahmen, benötigt eine patchmap ca. 65ns an Zeit um eine lookup-Operation auszuführen.
+
+% Die zur Entwicklung erforderliche Bibliotheksammlung DPDK und für die Netzwerkkarte notwendige Treiber sind auf dem angreifenden Rechner installiert. Einige Testprogramme von DPDK wurden dort erfolgreich ausgeführt.
+
+% Als nächstes wird ein Beispielprogramm geschrieben, welches auf einem Netzwerkkartenport eingehende Pakete empfangen, analysieren und auf einem anderen Port versenden kann.
+
+% TODO: Daten von anderen Leuten ansehen; ob man mit dem was wir haben und DPDK die Datenrate haben die wir wollen
+% Grobe Milchmädchenrechnung: Attack Traffic, bekomm ich das vom interface runter? bekomm ich das gehasht? BEkomm ich das vom Arbeitsspeicher runter...
+
+% Dies und das aber nicht einschätzbar deshalb später aufgreifen
+
+% wo finde ich sowas?
+% Datenstruktur-menschen
+% Es ist nicht klar ob wir DS brauchen. Wenn ich gucken möchte nach leistungsdaten von DPDK
+% Trex, Paketgenerator, von Cisco. Schauen wie viel Traffic er schafft. Schaffen wir das auch mit unserer Single Core performance?
+% Mellanox-Connects: n HW-Queues. schaff ich das mit so und so vielen cores. Benchmarks
+% http://fast.dpdk.org/doc/perf/DPDK_20_02_Intel_NIC_performance_report.pdf
+% https://fast.dpdk.org/doc/perf/DPDK_20_05_Mellanox_NIC_performance_report.pdf
+% https://www.amd.com/en/products/cpu/amd-ryzen-9-5900x
+
+\end{document}

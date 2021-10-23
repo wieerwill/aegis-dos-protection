@@ -1,0 +1,100 @@
+\documentclass[a4paper,10pt, twoside]{report} % Format A4, Schriftgröße 10, zweiseitige Ausrichtung
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel} % Sprache: Deutsch nach neuer Rechtschreibung
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % andere Schriftart
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{amsmath,amsthm,amsfonts,amssymb} % Mathematik
+\usepackage{color,graphicx,overpic}
+\usepackage{listings} % Codefragmente
+\usepackage{fancyhdr} % Kopf- und Fußzeilen
+\usepackage[dvipsnames]{xcolor}
+\usepackage{booktabs}
+\usepackage[hidelinks,pdfencoding=auto]{hyperref} % Links & Verlinkung
+\usepackage{longtable}
+\usepackage{cite}
+\usepackage[section]{placeins} % Bilder auf der richtigen Seite darstellen
+\usepackage{enumitem}
+\usepackage{subfiles}
+\usepackage{parskip}
+\setlength{\headheight}{28.7pt}
+
+\pdfinfo{
+    /Title (SWP2021 AntiDoS - Entwurfsdokumentation)
+    /Creator (TeX)
+    /Producer (pdfTeX 3.14)
+    /Author (Fabienne Göpfert, Leon Leisten, Felix Husslein, Robert Jeutter, Jakob Lerch, Tim Häußler, Johannes Lang, Tobias Scholz)
+    /Subject (Abwehr von Denial-of-Service-Angriffen durch effiziente User-Space Paketverarbeitung)
+}
+
+%% Kopf- und Fußzeilen
+\pagestyle{fancy}
+\lhead{\leftmark} %aktuelles Kapitel
+\chead{}
+\rhead{ \includegraphics[height=25pt]{img/aegis_logo_with_name.pdf}}
+\lfoot{SWP2021 AntiDoS - Pflichtenheft}
+\cfoot{}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{0.2pt} %fügt eine Linie unter der Kopfzeile ein
+
+\begin{document}
+
+\begin{titlepage} %Beginn der Titelseite
+    \begin{center} %zentriert
+        Technische Universität Ilmenau\\
+        Fakultät Informatik und Automatisierung \\
+        Fachgebiet Telematik/Rechnernetze\\
+                %Technische Universität Ilmenau\\
+        \vspace{2em}
+        \includegraphics[width=0.35\linewidth]{img/tu_ilmenau_logo.png}\\
+        %Technische Universität Ilmenau\\
+        \vspace{2em}
+        Erste Review zum Thema\\
+        \vspace{1em}
+        \Large\textsc{Abwehr von Denial-of-Service-Angriffen \\durch effiziente User-Space Paketverarbeitung}\\
+        \vspace{0.5em}
+        \Large\textsc{AEGIS}\\
+        \includegraphics[width=0.35\linewidth]{img/aegis_logo.pdf}\\
+        \normalsize
+        \vspace{2em}
+        Autoren:\\
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{l r}
+                Fabienne Göpfert & Tim Häußler    \\
+                Felix Husslein   & Robert Jeutter  \\
+                Johannes Lang    &  Leon Leisten \\
+                 Jakob Lerch   & Tobias Scholz  \\
+            \end{tabular}
+        \end{table}
+        \vspace{1em}
+        \normalsize {Betreuer:} Martin Backhaus\\
+        \vspace{1em}
+        Entwurf 26.Mai 2021
+    \end{center}
+\end{titlepage}
+\pagebreak
+
+\tableofcontents {\protect\thispagestyle{fancy}
+
+\subfile{chapters/1-problemstellung}
+\subfile{chapters/2-anforderungen}
+\subfile{chapters/3-anforderungsanalyse}
+\subfile{chapters/4-aufwandsschaetzung}
+\subfile{chapters/5-risikoanalyse}
+\subfile{chapters/6-vorgehen}
+\subfile{chapters/7-interne-organisation}
+\subfile{chapters/8-doku-geplanter-entwurf}
+\subfile{chapters/9-technologien}
+\subfile{chapters/10-machbarkeitsanalyse}
+\subfile{chapters/11-testdrehbuch}
+\subfile{chapters/12-abkuerzungsverzeichnis}
+\subfile{chapters/13-glossar}
+
+\bibliography{references}
+\bibliographystyle{ieeetr}
+
+\listoffigures {\protect\thispagestyle{fancy} % Abbildungsverzeichnis
+
+\end{document}

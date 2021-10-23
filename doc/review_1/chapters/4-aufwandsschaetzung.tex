@@ -1,0 +1,89 @@
+\documentclass[../review_1.tex]{subfiles}
+\graphicspath{{\subfix{../img/}}}
+\begin{document}
+
+\chapter{Aufwandsschätzung}\thispagestyle{fancy} %oder besser Aufwandsschätzung?
+Zur Schätzung des Aufwands in einem IT-Projekt liegen verschiedene Verfahren vor. Methoden, wie beispielsweise das Analogieverfahren, bei welchem der Aufwand durch Analogieschlüsse aus anderen, bereits abgeschlossenen Entwicklungsprojekten geschätzt wird, sind für das vorliegende Projekt jedoch wenig geeignet. Denn für diese Art der Aufwandsschätzung müssen Aufwandsdaten bereits abgeschlossener Entwicklungsprojekte vorliegen. Diese Projekte sollen zudem in Punkten wie inhaltliches Ziel, Produktumfang, personelle und zeitliche Ressourcen oder Vorgehensweise sehr ähnlich sein. Solche Daten liegen zu diesem Projekt nicht vor.\\
+Auch das Function Point Verfahren ist hier nicht anwendbar, da bei diesem nur mithilfe einer auf Erfahrung beruhenden Tabelle Functions Points in Aufwand umgerechnet werden können. Eine solche Tabelle liegt hier ebenfalls nicht vor. Zudem lassen sich viele der Anforderungen nicht eindeutig in die fünf Kategorien \glqq Eingabedaten\grqq, \glqq Ausgabedaten\grqq, \glqq Abfragen\grqq, \glqq Datenbestände\grqq{} und \glqq Referenzdateien\grqq{} einordnen. Allgemein werden im Function Point Verfahren nicht (oder nur indirekt) die Komplexität der Algorithmen und der Aufwand für unterstützende Aktivitäten wie Projektmanagement, Qualitätsprüfung oder Dokumentation berücksichtigt. Somit ist dieses Verfahren lediglich für betriebliche und kaufmännische Systeme gut geeignet, weniger aber für technische Anwendungen wie hier.\\
+Anmerkung: Nachfolgende Aufwandsschätzungen werden während des Projektverlaufs weiter aktualisiert (zum Beispiel bei Änderungen von Anforderungen und/oder Meilensteinen).
+
+\section{Parkinson's law}
+Eine sehr bekannte, jedoch ironisierende Methode zur Aufwandsschätzung ist das Parkinsonsche Gesetz (engl.: \glqq Parkinson's law\grqq). Dieses lautet wie folgt: \glqq Work expands so as to fill the time available for its completion\grqq. Laut diesem Gesetz nimmt somit die Dauer der Arbeit genau die Zeit an, die ihr zur Verfügung steht. \\
+Da für die Bearbeitung des Softwareprojekts drei Monate zur Verfügung stehen und das Projektteam aus acht Personen besteht, beträgt der Aufwand nach diesem Gesetz 24 Personenmonate.\\ \newline
+\textbf{Interpretation des Ergebnisses:}\\ \newline
+Das Ergebnis dieser Schätzung sollte nicht zur Planung und Kontrolle des Projektfortschritts verwendet werden, da es zum Aufschieben von Arbeit veranlasst und so die Effizienz reduziert. Dieses Gesetz spiegelt vielmehr den britischen Humor wieder, als es einen sinnvollen Beitrag zur Projektplanung leistet.\\
+Um dem Aufschieben von Aufgaben entgegenzuwirken, zeigt jedoch das Parkinsonsche Gesetz indirekt eine einfache Lösung auf: Es müssen knappe Deadlines gesetzt werden. Das erhöht die Disziplin, die Aktivität und die Produktivität im Team. Der Goal-Gradient-Effekt bestärkt dies zusätzlich. So besagt dieses Gesetz, dass der Aufwand, den man in eine Sache investiert, umgekehrt proportional zur verbleibenden Zeit steigt.
+
+\section{COCOMO II}
+Bei COCOMO II (COnstrucitve COst MOdel), welches bereits 1981 durch den Softwareingenieur Barry W. Boehm entwickelt wurde, handelt sich es um ein algorithmisches Modell zur Aufwandsschätzung von Software. In diesem Modell werden zahlreiche Einflussfaktoren wie Quantität, Qualität oder Produktivität berücksichtigt. Zudem besteht COCOMO II aus drei Teilmodellen, welche sich unter anderem in den Skalenfaktoren oder den Modellkonstanten unterscheiden. Im Folgenden wird sich auf \textit{\glqq The Early Design Model\grqq{}} (Die frühe Entwicklungsstufe) bezogen, da diese Stufe stark zum derzeitigen Projektstand passt. Auf dieser Stufe liegen schon sowohl die Anforderungen als auch ein erster Grobentwurf vor.\\
+Das Modell baut im Wesentlichen auf folgender Formel auf:
+\begin{align}
+    PM = A \cdot \text{Größe}^E \cdot M
+    \label{formel1}
+\end{align}
+Für den Koeffizienten A wird der Erfahrungswert 2,5 angenommen.\\
+Die Größe wird in KLSLOC (kilo source lines of code) angegeben. Sie beträgt hier 3,6. Als Referenzprojekt dient POSEIDON\cite{testFab}.
+In diesem Projekt wurde eine DDoS-Abwehr durch ungefähr 3600 C/C++-Codezeilen implementiert. Im Unterschied zu der hier zu entwickelnden Software wurde jedoch ein komplettes Endprodukt entwickelt und kein Prototyp, wie es in dem vorliegenden Projekt der Fall ist.\\
+Um den steigenden Aufwand bei wachsender Projektgröße zu berücksichtigen, wird der Exponent E, dessen Wert zwischen 1,01 und 1,26 liegt, verwendet. Durch die Bewertung unterschiedlicher Skalierungsfaktoren wird E berechnet. \\ \newline
+\begin{tabular}[h] {l c p{8.0cm}}
+    \textbf{Faktor}              & \textbf{Punkte} & \textbf{Bemerkungen}                                                                                                                                                                                                                               \\ \toprule
+    Neuartigkeit                 & 2               & Bei einzelnen Teammitgliedern liegt noch geringe Erfahrungmit dieser Art von Projekten vor. Dies ist oftmals begründet durch das junge Alter. Jedoch gibt es online schon Lösungen zu ähnlichen Problemen vor, an denen man sich orientieren kann. \\ 
+    Entwicklungsflexibilität     & 2               & Zwar liegen einige Vorgaben zum Ablauf des SW-Projektes vor (z.B. die Einteilung in drei Hauptphasen), jedoch erlaubt das Vorgehensmodell Unified Process noch eine gewisse Flexibilität im Entwicklungsprozess.                                   \\ 
+    Architektur/ Risikoauflösung & 3               & Die Risiken wurden rechtzeitig identifiziert und Maßnahmen überlegt. Jedoch könnten aufgrund der geringen Erfahrung noch Risiken unendeckt geblieben sein.                                                                                         \\
+    Teamzusammenhalt             & 1               & Die Vertrautheit und Zusammenarbeit im Team ist optimal.                                                                                                                                                                                           \\
+    Ausgereiftheit des Prozesses & 5               & Der Prozess ist noch wenig ausgereift.                                                                                                                                                                                                             \\
+\end{tabular} \\ \newline
+E lässt sich nun berechnen, indem man auf den fixen Wert 1,01  ein Hundertstel von der Summe der Punkte addiert.
+\begin{align*}
+    E = 1,01 + \frac{2+2+3+1+5}{100}= 1,01 + 0,13 = 1,14
+\end{align*}
+M ergibt sich durch die Multiplikation folgender Projekt- und Prozessfaktoren:
+\begin{itemize}
+    \setlength\itemsep{-1mm}
+    \item RCPX: Product Reliability and Complexity
+    \item RUSE: Developed for Resuability
+    \item PDIF: Platform Difficulty
+    \item PERS: Personnel Capability
+    \item PREX: Personnel Experience
+    \item FCIL: Facilities
+    \item SCED: Required Developement Schedule
+\end{itemize}
+Mithilfe der unteren Skala werden die einzelnen Projekt- und Prozessfaktoren bewertet. In der Farbe Rot sind diejenigen Faktoren gekennzeichnet, die auf das vorliegende Projekt am besten zutreffen.
+\begin{center}
+    \begin{tabular} [h] {|l|c|c|c|c|c|c|c|}
+        \hline & \textbf{- - -} & \textbf{- -}          & \textbf{-}            & \textbf{\textasciitilde} & \textbf{+}            & \textbf{++} & \textbf{+++} \\ \hline
+        RCPX   & 0,49           & 0,60                  & 0,83                  & 1                        & \textcolor{red}{1,33} & 1,91        & 2,72         \\ \hline
+        RUSE   &                &                       & \textcolor{red}{0,95} & 1                        & 1,07                  & 1,15        & 1,24         \\\hline
+        PDIF   &                &                       & \textcolor{red}{0,87} & 1                        & {1,29}                & 1,81        & 2,61         \\ \hline
+        PERS   & 2,12           & 1,62                  & {1,26}                & \textcolor{red}{1}       & 0,83                  & 0,63        & 0,50         \\ \hline
+        PREX   & 1,59           & \textcolor{red}{1,33} & 1,22                  & 1                        & 0,87                  & 0,74        & 0,63         \\ \hline
+        FCIL   & 1,43           & 1,30                  & 1,10                  & \textcolor{red}{1}       & 0,87                  & 0,73        & 0,62         \\ \hline
+        SCED   &                & 1,43                  & {1,14}                & \textcolor{red}{1}       & 1                     & 1           & n/a          \\ \hline
+    \end{tabular}
+\end{center}
+Nun lässt sich der Multiplikator M berechnen:
+\begin{align*}
+    M = PERS \cdot RCPX \cdot RUSE \cdot PDIF \cdot PREX \cdot FCIL \cdot SCED = 1,33 \cdot 0,95 \cdot 0,87 \cdot1 \cdot 1,33 \cdot 1 \cdot 1 \approx 1,22
+\end{align*}
+Jetzt sind alle Werte gegeben, um mithilfe der Formel \ref{formel1} den Aufwand in Personenmonate zu schätzen.
+\begin{align*}
+    PM = A \cdot \text{Größe}^E \cdot M = 2,5 \cdot 3,6 \textsuperscript{1,14} \cdot1,22 \approx 13,17
+\end{align*}
+Nun kann der Aufwand in Personenmonat in Personenstunden umgerechnet werden die Folgende:
+\begin{align*}
+    PS= 13,17 \cdot 160h = 2107h
+\end{align*}
+Das Team besteht aus zwei Wirtschaftsinformatiker, die jede Woche 15h für das Softwareprojekt aufwenden sollen, und sechs Informatiker und Ingenieurinformatiker, deren Wochenstundenanzahl bei 20h liegt. Das Softwareprojekt soll innerhalb von 12 Wochen beendet werden.\\
+Somit ist die zur Verfügung stehende Zeit:
+\begin{align*}
+    (2\cdot15 h+6\cdot20 h)\cdot12=1800h
+\end{align*}
+\textbf{Interpretation der Ergebnisse:}\\ \newline
+Der Wert von 2107h liegt ca. 300h über dem angestrebten Wert von 1800h. Es kann unterschiedliche Gründe für diese Abweichung geben.\\
+Ein Grund dafür könnte sein, dass im zu entwickelnden System kein schlüsselfertiges Produkt entwickeln wird, sondern vielmehr ein Prototyp. Somit könnte der Schätzwert von 3600 Codezeilen zu hoch gegriffen sein.\\
+Durch die Komplexität des Projektes kann es zudem vorkommen, dass die 15 beziehungsweise 20 Wochenstunden nicht immer ausreichend sind und somit mehr Arbeitszeit aufgewendet werden muss.\\
+Zudem muss keine Zeit zur Berücksichtigung von Support vorgesehen werden, da es nach den 12 Wochen als abgeschlossen angesehen werden kann.\\
+Bereits kleine Änderungen an den Projekt- und Prozessfaktoren haben große Auswirkungen. Falls bereits einer dieser oben aufgeführten Faktoren ungenau geschätzt wurde, kann das Ergebnis verfälscht sein.\\
+Abschließend kann noch angemerkt werden, dass es sich um eine Schätzung handelt. Schätzungen sind (fast) immer mit Ungenauigkeiten verbunden.
+
+\end{document}
