@@ -1,0 +1,6 @@
+{
+    "attack_type": "syn_flood",
+    "number_of_worker_threads": "4",
+    "number_of_attack_packets_per_thread_per_send_call": 100,
+    "call_send_pkts_every_nth_iteration": 1
+}

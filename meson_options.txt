@@ -1,0 +1,11 @@
+# Please keep these options sorted alphabetically.
+
+option('disable_drivers', type: 'string', value: '', description: 'Comma-separated list of drivers to explicitly disable.')
+option('enable_docs', type: 'boolean', value: false, description: 'build documentation')
+option('enable_kmods', type: 'boolean', value: false, description: 'build kernel modules')
+option('examples', type: 'string', value: '', description: 'Comma-separated list of examples to build by default')
+option('machine', type: 'string', value: 'native', description: 'set the target machine type')
+option('max_ethports', type: 'integer', value: 32, description: 'maximum number of Ethernet devices')
+option('max_lcores', type: 'integer', value: 128, description: 'maximum number of cores/threads supported by EAL')
+option('max_numa_nodes', type: 'integer', value: 4, description: 'maximum number of NUMA nodes supported by EAL')
+option('tests', type: 'boolean', value: true, description: 'build unit tests')
