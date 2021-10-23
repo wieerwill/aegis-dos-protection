@@ -1,0 +1,36 @@
+\documentclass[../review_3.tex]{subfiles}
+\graphicspath{{\subfix{../img/}}}
+\begin{document}
+
+\chapter{Bug-Review}\thispagestyle{fancy}
+
+In diesem Bug-Review werden verschiedene Fehler gesammelt. Dabei wird auf die Datei, in der sie auftreten, auf eine Beschreibung und eine Kategorisierung eingegangen. Major Bugs sind versionsverhindernd, critical bugs können auch zur Arbeitsunfähigkeit anderer führen und minor bugs haben eine geringe Auswirkung und somit eine niedrige Priorität.
+
+\begin{longtable} [h] {p{3cm} p{8.7cm} l}
+    \toprule
+    \textbf{Datei}                                                                                                                                                                                                                                                                                                                                                                                                                                          & \textbf{Beschreibung} & \textbf{Kategorie} \\ \endhead
+    \midrule
+
+    PacketInfoIpv4Icmp                                                                                                                                                                                                                                                                                                                                                                                                                                      &
+    Wenn von einem Paket die Header extrahiert werden soll (fill\_info), wird zuerst der mbuf in der \texttt{PacketInfo} verlinkt, dann IP version (IPv4) und Layer 4 Protokol (ICMP) ermittelt. Danach wird die \texttt{PaketInfo} in die entsprechende protokolspezifische \texttt{PacketInfo} gecastet. Auf dieser verwandelten \texttt{PacketInfo} wird set\_ip\_hdr ausgeführt und es kommt zum segmentation fault, der im Abbruch des Threads mündet. &
+    critical bug                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         \\
+
+    %Ist dieser Bug nun gelöst?
+    %PacketInfo &
+    %Wenn in der internen IP-Pakete-Weiterleitungstabelle Änderungen vorgenommen werden, kommt %es beim nächsten Paket im Zuge der Headerextraction zu einem segmentation fault. &
+    %minor bug \\
+
+    Initializer                                                                                                                                                                                                                                                                                                                                                                                                                                             &
+    Die maximale Anzahl an Threads ist 16. Das stellt kein Problem dar, weil nur 12 Threads benötigt werden. mlx5\_pci: port 1 empty mbuf pool; mlx5\_pci: port 1 Rx queue allocation failed: Cannot allocate memory.
+
+    Dieser Fehler tritt beim Ausführen von rte\_eth\_dev\_start(port) auf. Womöglich handelt es sich dabei um ein mempool problem.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            & minor bug                                  \\
+
+    \bottomrule
+\end{longtable}
+
+Schon während der Implementierungsphase wurden Bugs wenn möglich behoben. An den in dieser Tabelle genannten Problemen wird noch gearbeitet. Die Fehlerliste wird auch in der Validierungsphase laufend erweitert, sodass im Idealfall für das abschließende Review-Dokument eine vollständige Bug-Statistik erstellt werden kann.
+
+\textcolor{red}{toDo}
+
+\end{document}

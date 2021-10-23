@@ -1,0 +1,839 @@
+\documentclass[../review_3.tex]{subfiles}
+\graphicspath{{\subfix{../img/}}}
+\begin{document}
+
+\chapter{Testdokumentation}\thispagestyle{fancy}
+Im vorliegenden Softwareprojekt wurden verschiedene Arten von Tests durchgeführt. Zum einen wurden die einzelnen Komponenten mit Hilfe von Unit-Tests auf ihre korrekte Funktionalität geprüft, zum anderen wurde direkt auf dem Testbed getestet. Der Aufbau des Testbeds ist in Abbildung \ref{fig:Versuchsaufbau} (siehe Seite \pageref{fig:Versuchsaufbau}) dargestellt.
+
+\section{Unit-Tests}
+
+In sogenannten Unit-Tests, die auch als Modultest oder Komponententest bezeichnet werden, geht es um den Test einzelner Teile der Software. Unter Testen wird das Überprüfen, ob das Modell dem System entspricht, verstanden. Dies kann jedoch nur die Anwesenheit von Fehlern, nicht aber deren Abwesenheit nachweisen. Fast jede Komponente und die jeweils darin enthaltenen Klassen haben eine eigene Testdatei, in der die Unit-Tests ausgeführt werden konnten.
+
+Da die Unit-Tests im vorliegenden Softwareprojekt bereits in der Implementierungsphase durchgeführt werden konnten, noch vor der eigentlichen Validierungsphase, war es möglich, Fehler bereits frühzeitig zu erkennen. Ein weiterer Vorteil des Unit-Testens besteht darin, dass beim Auftreten eines Fehlers dieser sehr genau eingegrenzt werden kann. Somit kann dieser Fehler schneller gefunden und dann auch behoben werden. Außerdem ermöglichen Unit-Tests eine parallele Bearbeitung, denn das Testbed existiert schließlich nur einmal. 
+
+\subsection{Mocking: \texttt{libdpdk\_dummy}}
+Mocking (dt.: Nachbildung oder Imitation) findet innerhalb der Unit-Tests Verwendung, um so isolierte Tests durchführen zu können. Da in diesem Projekt Tests bereits frühzeitig stattfinden sollten, sich DPDK jedoch nicht mit Unit Tests kompilieren ließ, wurde die Mocking-Bibliothek \texttt{libdpdk\_dummy} erstellt. Diese kleine Bibliothek weist zwar eine geringere Funktionalität als das komplette DPDK-Framework auf, setzt aber genau das um, was bei den Unit-Tests gebraucht wird. So wurden genau die Header-Dateien nachgebildet, deren Funktionalitäten beim Testen benötigt wurden. Diese Nachbildung entstand durch Kopieren aus den \glqq Original-DPDK-Headern\grqq{} und individuelle Anpassung an die Anforderungen des Projekts.
+
+\begin{lstlisting} [caption= {Unit-Test zu \texttt{lipdpdk\_dummy}}, label={libdpdk}]
+TEST_CASE("rte_mbuf", "[]"){
+    struct rte_mbuf* mbuf;
+    struct rte_mempool* mempool = nullptr;
+    
+    mbuf = rte_pktmbuf_alloc(mempool);
+    CHECK(mbuf != nullptr);
+}
+\end{lstlisting}
+
+Auch zu \texttt{lipdpdk\_dummy} existiert ein Unit-Test, um zu überprüfen, ob sie so wie beabsichtigt arbeitet (vgl. Codeausschnitt \ref{libdpdk}). Hier werden zuerst Pointer auf einen \texttt{rte\_mbuf} und einen \texttt{rte\_mempool} angelegt. Danach wird überprüft, ob die Methode \texttt{rte\_pktmbuf\_alloc()} richtig arbeitet, indem gecheckt wird, ob nach der Allokation in \texttt{mbuf} kein Nullpointer liegt. Auf das triviale Löschen des \texttt{mbuf}s wird an dieser Stelle verzichtet, weil es bei diesem Test lediglich auf die grundlegende Funktionalität ankommt. Da das Löschen sehr einfach ist, ist das es in diesem Fall nicht unbedingt notwendig.
+
+\subsection{ConfigurationManagement}
+... %\todo
+\textcolor{red}{toDo Leon}
+
+\subsubsection{Beispiel: Einlesen einer JSON-Datei}
+\begin{lstlisting} [caption= {Unit-Test zum Einlesen einer JSON-Datei}, label={config1}]
+TEST_CASE("Json Datei einlesen", "[]") {
+    
+   REQUIRE_NOTHROW(Configurator::instance()->read_config(
+   "../test/ConfigurationManagement/config_test.json"));
+    
+   REQUIRE(Configurator::instance()->get_config_as_bool("BOOLEAN") == true);    REQUIRE(Configurator::instance()->get_config_as_unsigned_int(
+   "UNSIGNED_INT") == 42);
+   REQUIRE(Configurator::instance()->get_config_as_string("STRING") ==
+   "Hello World.");
+   REQUIRE(Configurator::instance()->get_config_as_float("FLOAT") == 1.337f);
+   REQUIRE(Configurator::instance()->get_config_as_double("DOUBLE") == -3.001);
+} \end{lstlisting}
+\subsubsection{Beispiel: Nicht exisitierende JSON-Datei}
+\begin{lstlisting}[caption= {Unit Test: Nicht existierende JSON-Datei}, label={config2}]
+TEST_CASE("nicht existierende Json-Datei", "[]") {
+    REQUIRE_THROWS(Configurator::instance()->read_config("non-existent.json"));
+    REQUIRE_THROWS(Configurator::instance()->read_config("non-existent.json",
+    "typo.json"));
+}\end{lstlisting}
+
+\subsection{PacketDissection}
+%\todo Ausführlicher das Beschreiben
+Das Paket der \texttt{PacketDissection} wird in zwei verschiedenen Testdateien getestet: \\ %\\weil sonst das von texttt zu weit rausragt
+\texttt{PacketContainer\_test.cpp} und \texttt{PacketInfo\_test.cpp}.
+
+Diese Aufteilung ermöglich einen gewissen Grad an Unabhängigkeit beim Testen. Außerdem findet man die Testfälle zur gewünschten Klasse auf diese Art wesentlich schneller.
+\subsubsection{Beispiele aus dem PacketContainer}
+\begin{lstlisting} [caption = {Testfall PacketContainer}, label={pc1}]
+TEST_CASE("PacketContainer", "[]") { 
+    uint16_t inside_port = 0;
+    uint16_t outside_port = 1;
+    struct rte_mempool mbuf_pool_struct;
+    struct rte_mempool* mbuf_pool = &mbuf_pool_struct;
+    CHECK(mbuf_pool != nullptr);
+    
+    NetworkPacketHandler pkt_handler(0,0);
+    
+    PacketContainer pkt_container(pkt_handler, mbuf_pool, inside_port, outside_port);
+    
+    ...
+   
+} \end{lstlisting}
+Innerhalb des Testfalls \texttt{PacketContainer} sind die folgend dargestellten Sektionen eingebettet (vgl. Codeausschnitt \ref{pc1}). Sektionen dienen im Allgemeinen zur weiteren Unterteilung bzw. Strukturierung der Testcases. Im Folgenden Abschnitt werden einige dieser Sektionen in\\ \texttt{PacketContainer\_test.cpp} näher erläutert.
+
+Im obigen Testfall werden zuerst alle für die folgenden Unit-Tests benötigten Initialisierungen vorgenommen, wie zum Beispiel die des \texttt{rte\_mempool} (siehe Z. 5)  und des \texttt{NetworkPacketHandler} sowie des \texttt{PacketContainer} (siehe Z. 8 und 10).
+
+\begin{lstlisting} [caption= {Sektion \texttt{get\_empty\_packet} mit den zwei Untersektionen \texttt{default} und \texttt{IPv4TCP}}, label={pc2}]
+SECTION("get_empty_packet", "[]") {
+        
+    SECTION("default", "[]") {
+        CHECK(pkt_container->get_number_of_polled_packets() == 0);
+        CHECK(pkt_container->get_total_number_of_packets() == 0);
+        
+        // by default it returns a TCP SYN packet    
+        PacketInfo* pkt_info = pkt_container->get_empty_packet();
+        CHECK(pkt_info != nullptr);
+        CHECK(pkt_info->get_mbuf() != nullptr);
+        CHECK(pkt_info->get_type() == IPv4TCP);
+            
+        CHECK(pkt_container->get_total_number_of_packets() >=
+        pkt_container->get_number_of_polled_packets());
+        CHECK(pkt_container->get_total_number_of_packets() == 1);
+        CHECK(pkt_container->get_number_of_polled_packets() == 0);
+    }
+        
+    SECTION("IPv4TCP", "[]") {
+        CHECK(pkt_container->get_number_of_polled_packets() == 0);
+        CHECK(pkt_container->get_total_number_of_packets() == 0);
+           
+        PacketInfo* pkt_info = pkt_container->get_empty_packet(IPv4TCP);
+        CHECK(pkt_info != nullptr);
+        CHECK(pkt_info->get_mbuf() != nullptr);
+        CHECK(pkt_info->get_type() == IPv4TCP);
+            
+        CHECK(pkt_container->get_total_number_of_packets() >=pkt_container->                   
+        get_number_of_polled_packets());       
+        CHECK(pkt_container->get_total_number_of_packets() == 1);
+        CHECK(pkt_container->get_number_of_polled_packets() == 0);
+    }
+}\end{lstlisting}
+
+Im Codeausschnitt \ref{pc2} zur Methode \texttt{get\_empty\_packet()} wird überprüft, ob die Getter-Methode zum Erhalten eines leeren Paketes wie gewünscht funktioniert. Zunächst wird dazu in Z. 4 f. sichergestellt, dass die bisherige Zahl der (gepollten) Pakete null ist. Anschließend wird für eine \texttt{PacketInfo}-Referenz die entsprechende Methode aufgerufen, wie in Z. 7 zu erkennen ist. In den anschließenden Code-Zeilen wird gecheckt, ob es keine Null-Pointer gibt und ob es sich um \texttt{IPv4TCP} handelt. Außerdem ist es wichtig, dass die Anzahl der Pakete insgesamt größer als die der abgefragten Pakete ist, genauer gesagt eins und null. Die entsprechenden Assertions sind in Z. 27 - 30 zu finden.
+
+Die darauf folgende Section \texttt{IPv4TCP} unterscheidet sich nur insofern von der default-Variante, dass hier in Z. 22 beim Aufruf der \texttt{get\_empty\_packet()}-Methode zusätzlich \texttt{IPv4TCP} übergeben wird. Die Beschreibung der weiteren Bestandteile der Sektion findet man demzufolge im vorhergehenden Absatz.
+
+Im Codeausschnitt \ref{pc3} wird \texttt{get\_empty\_packet()} so oft aufgerufen, bis die \texttt{BURST\_SIZE} erreicht ist. Direkt danach wird sichergestellt, dass die gesamte Anzahl an Paketen auch wirklich der \texttt{BURST\_SIZE} entspricht.
+
+\begin{lstlisting} [caption= {Sektion ,,Create more packets than burst size'' mit den zwei Untersektionen ,,fill till BURST\_SIZE'' und ,,fill till BURST\_SIZE + 1''}, label={pc3}]
+SECTION("create more packets than burst size", "[]") {
+    
+    SECTION("fill till BURST_SIZE", "[]") {
+        for (int i = 0; i < BURST_SIZE; ++i) {
+            PacketInfo* pkt_info = pkt_container->get_empty_packet();
+            CHECK(pkt_info != nullptr);
+        }
+        
+        CHECK(pkt_container->get_total_number_of_packets() == BURST_SIZE);
+    }
+    
+    SECTION("fill till BURST_SIZE + 1", "[]") {
+        for (int i = 0; i < BURST_SIZE + 1; ++i) {
+            PacketInfo* pkt_info = pkt_container->get_empty_packet();
+            CHECK(pkt_info != nullptr);
+        }
+        
+        CHECK(pkt_container->get_total_number_of_packets() ==
+        BURST_SIZE + 1);
+    }
+    
+    CHECK(pkt_container->get_total_number_of_packets() >=
+    pkt_container->get_number_of_polled_packets());
+}\end{lstlisting}
+
+In der anschließenden Sektion wird eine ähnliche Befüllung des \texttt{pkt\_container} vorgenommen. Der Unterschied besteht darin, dass die Methode zum Erhalten der leeren Pakete einmal öfter aufgerufen wird.
+
+Die Test-Section, die in Codeabschnitt \ref{pc4} zu sehen ist, dient zum Test des Zugriffes auf einzelne Pakete an einem bestimmten Index. Dafür wurden zwei Unter-Sections geschrieben, eine für allgemeine Tests und eine, die sich auf Out-of-Bounds-Fehler bezieht.
+
+In ersterer wird zunächst in Z. 5 ein leeres Paket hinzugefügt und wieder die Richtigkeit der Anzahl der Pakete getestet. Darauf hin kommt es für \texttt{pkt\_info\_1} zum Aufruf der\\ \texttt{get\_packet\_at\_index()}-Methode. Dabei wird der mit Hilfe von\\ \texttt{get\_total\_number\_of\_packets()} ermittelte Index des zu Beginn erstellten leeren Pakets übergeben. Anschließend wird wieder einmal gecheckt, ob es sich auch wirklich um ein valide Paket handelt und die Anzahl aller Pakete und der abgerufenen Pakete korrekt ist. In Z. 18 f. wird zunächst getestet, ob es bei der bereits in Z. 9 aufgerufenen Methode auch wirklich zu keinen Fehlern kommt. Bei der Übergabe eines Indexes, unter dem kein Paket zu finden ist, muss es allerdings zum Wurf einer Exception kommen, was in Z. 20 kontrolliert wird.
+
+\begin{lstlisting} [caption= {Sektion ,,get\_packet\_at\_index'' mit den zwei Untersektionen ,,general'' und ,,test out of bounds error''}, label={pc4}]
+SECTION("get_packet_at_index", "[]") {
+    
+    SECTION("general", "[]") {
+        // add empty packet
+        PacketInfo* pkt_info_0 = pkt_container->get_empty_packet();
+        CHECK(pkt_container->get_number_of_polled_packets() == 0);
+        CHECK(pkt_container->get_total_number_of_packets() == 1);
+        
+        PacketInfo* pkt_info_1 = pkt_container->get_packet_at_index(
+        pkt_container->get_total_number_of_packets() - 1);
+        CHECK(pkt_info_0 == pkt_info_1);
+        CHECK(pkt_info_1 != nullptr);
+        CHECK(pkt_info_1->get_mbuf() != nullptr);
+        CHECK(pkt_info_1->get_type() == IPv4TCP);
+        
+        CHECK(pkt_container->get_total_number_of_packets() >=
+        pkt_container->get_number_of_polled_packets());
+        CHECK_NOTHROW(pkt_container->get_packet_at_index(
+        pkt_container->get_total_number_of_packets() - 1));
+        CHECK_THROWS(pkt_container->get_packet_at_index(
+        pkt_container->get_total_number_of_packets()));
+    }
+    
+    SECTION("test out of bounds error", "[]") {
+        for (int i = 0; i < int(BURST_SIZE / 2); ++i) {
+            pkt_container->get_empty_packet();
+        }
+        
+        CHECK(pkt_container->get_total_number_of_packets() ==
+        int(BURST_SIZE / 2));
+        
+        for (int i = 0; i < int(BURST_SIZE / 2); ++i) {
+            CHECK_NOTHROW(pkt_container->get_packet_at_index(i));
+        }
+        
+        for (int i = int(BURST_SIZE / 2); i < BURST_SIZE; ++i) {
+            CHECK_THROWS(pkt_container->get_packet_at_index(i));
+        }
+        
+        CHECK_THROWS(pkt_container->get_packet_at_index(
+        pkt_container->get_total_number_of_packets()));
+        CHECK_NOTHROW(pkt_container->get_packet_at_index(
+        pkt_container->get_total_number_of_packets() - 1));
+    } 
+}\end{lstlisting}
+
+In der zweiten Section des Codeabschnitts \ref{pc4} wird wieder ähnlich wie oben vorgegangen. Zu Beginn wird für jedes \texttt{i} von 0 bis \texttt{BURST\_SIZE / 2} ein leeres Paket abgerufen und geprüft, ob die Anzahl der Pakete stimmt. Somit darf es auch beim Aufruf von \texttt{get\_packet\_at\_index} für die erste Hälfte des Intervalls von null bis \texttt{BURST\_SIZE} zu keinem Fehler kommen, was in Z. 32 ff. getestet wird. In der darauf folgenden for-Schleife muss es hingegen zu einer Exception kommen. Die letzten beiden Checks in Z. 40 - 43 sind äquivalent zu denen in Z. 18 - 21.
+
+\begin{lstlisting} [caption= {Sektion ,,take\_packet and add\_packet''}, label={pc5}]
+SECTION("take_packet and add_packet", "[]") {
+    
+    PacketInfo* pkt_info_0 = pkt_container->get_empty_packet();
+    CHECK(pkt_container->get_number_of_polled_packets() == 0);
+    CHECK(pkt_container->get_total_number_of_packets() == 1);
+    
+    PacketInfo* pkt_info_1 = pkt_container->take_packet(0);
+    CHECK(pkt_info_0 == pkt_info_1);
+    CHECK(pkt_info_1 != nullptr);
+    CHECK(pkt_info_1->get_mbuf() != nullptr);
+    CHECK(pkt_container->get_packet_at_index(0) == nullptr);
+    CHECK(pkt_container->get_total_number_of_packets() == 1);
+    CHECK(pkt_container->get_total_number_of_packets() >=
+    pkt_container->get_number_of_polled_packets());
+    
+    pkt_container->add_packet(pkt_info_1);
+    CHECK(pkt_container->get_total_number_of_packets() >=
+    pkt_container->get_number_of_polled_packets());
+    CHECK(pkt_container->get_number_of_polled_packets() == 0);
+    CHECK(pkt_container->get_total_number_of_packets() == 2);
+    CHECK(pkt_container->get_packet_at_index(1) == pkt_info_1);
+    CHECK(pkt_container->get_packet_at_index(0) == nullptr);
+    
+}\end{lstlisting}
+
+In Codeabschnitt \ref{pc5} wird getestet, ob das Herausnehmen und das Hinzufügen von Paketen funktioniert. Dazu wird zu Beginn wieder ein leeres Paket mittels \texttt{get\_empty\_packet()} erstellt. In den Zeilen 7 - 14 wird zunächst das leere Paket durch die Methode \texttt{take\_paket()} dem \texttt{pkt\_container} entnommen. Dieses wird damit auch aus dem Container entfernt. Danach kommt es zu verschiedenen Checks, wie zum Beispiel, ob das entnommene Paket das selbe ist, welches hinzugefügt wird. In Z. 16 ff. wird dann die Methode \texttt{add\_packet()} getestet. Dafür wird \texttt{pkt\_info\_1} hinzugefügt und die Anzahl der Pakete überprüft. So muss die Anzahl aller Pakete nun zwei betragen. Die Methode \texttt{get\_packet\_at\_index()} muss bei Übergabe des Wertes eins \texttt{pkt\_info\_1} zurückgeben, bei null muss \texttt{nullptr} zurückgegeben werden.
+
+Die Methode \texttt{drop\_packet()} wird durch die im Codeabschnitt \ref{pc6} dargestellte Sektion getestet. Auch hierfür werden in den Zeilen 4 - 7 die gleichen Initialisierungen wie in der vorherigen Section vorgenommen. Nach dem einmaligen Aufruf der Methode \texttt{drop\_packet()} werden die üblichen Checks durchgeführt. Besonders interessant ist Zeile 13, in der getestet wird, ob die Methode \texttt{get\_packet\_at\_index()} für den Index 0 einen Null-Pointer zurückgibt. In Zeile 15 wird sicher gestellt, dass es beim erneuten Aufruf von \texttt{drop\_packet()} nicht zu einer Exception kommt. Die letzten drei Zeilen können mit Z. 11 - 13 verglichen werden.
+
+\begin{lstlisting} [caption= {Sektion ,,drop\_packet''} \label{pc6}]
+SECTION("drop_packet", "[]") {
+    
+    SECTION("default") {
+        PacketInfo* pkt_info_0 = pkt_container->get_empty_packet();
+        CHECK(pkt_container->get_number_of_polled_packets() == 0);
+        CHECK(pkt_container->get_total_number_of_packets() == 1);
+        
+        pkt_container->drop_packet(0);
+        CHECK(pkt_container->get_total_number_of_packets() >=
+        pkt_container->get_number_of_polled_packets());
+        CHECK(pkt_container->get_number_of_polled_packets() == 0);
+        CHECK(pkt_container->get_total_number_of_packets() == 1);
+        CHECK(pkt_container->get_packet_at_index(0) == nullptr);
+        
+        CHECK_NOTHROW(pkt_container->drop_packet(0));
+        CHECK(pkt_container->get_number_of_polled_packets() == 0);
+        CHECK(pkt_container->get_total_number_of_packets() == 1);
+        CHECK(pkt_container->get_packet_at_index(0) == nullptr);
+    }
+        
+}\end{lstlisting}
+
+Der letzte beispielhafte Codeabschnitt für den \texttt{PacketContainer} ist der für den Test von\\ \texttt{poll\_packets}. Auch hierfür wird zu Beginn überprüft, ob die Anzahl der Pakete null ist. In Zeile 6 wird der vorzeichenlose 16-bit-Ganzzahlwert \texttt{nb\_pkts\_polled} definiert. Zum Aufruf der Methode \texttt{poll\_packets} kommt es in Z. 7. Anschließend wird erneut geprüft, ob die Anzahl der Pakete richtig ist. Die Zeilen 13 - 17 sind für den Test von \texttt{get\_packet\_at\_index()} mit der Übergabe des Wertes \texttt{nb\_pkts\_polled - 1} wichtig. So darf es auch hier nicht zum Wurf einer Exception kommen und sowohl \texttt{pkt\_info} als auch \texttt{pkt\_info->get\_mbuf()} dürfen kein Null-Pointer sein. Damit soll getestet werden, ob die Variablen, die von den entsprechenden Getter-Methoden zurückgegeben werden, richtig berechnet worden sind.
+
+\begin{lstlisting} [caption= {Sektion ,,poll\_packets''}, label={pc7}]
+SECTION("poll_packets", "[]") {
+    
+    CHECK(pkt_container->get_number_of_polled_packets() == 0);
+    CHECK(pkt_container->get_total_number_of_packets() == 0);
+    
+    uint16_t nb_pkts_polled;
+    pkt_container->poll_packets(nb_pkts_polled);
+    CHECK(pkt_container->get_number_of_polled_packets() > 0);
+    CHECK(pkt_container->get_total_number_of_packets() ==
+    pkt_container->get_number_of_polled_packets());
+    CHECK(nb_pkts_polled == pkt_container->get_number_of_polled_packets());
+    
+    CHECK_NOTHROW(pkt_container->get_packet_at_index(nb_pkts_polled - 1));
+    PacketInfo* pkt_info =
+    pkt_container->get_packet_at_index(nb_pkts_polled - 1);
+    CHECK(pkt_info != nullptr);
+    CHECK(pkt_info->get_mbuf() != nullptr);
+
+}\end{lstlisting}
+
+Auf die Sektion ,,poll\_packets'' würde noch eine weitere Sektion mit neun Untersektionen folgen, die das Senden von Paketen testet. Diese Sektion wird hier jedoch nicht näher beschrieben.
+
+\subsubsection{Beispiel aus der PacketInfo}
+... %\todo
+\textcolor{red}{toDo für Tobias}
+
+\subsection{Inspection}
+Die Unit-Tests der \texttt{Inspection} können in drei Teile gegliedert werden.
+Der erste Teil muss die korrekte Instanziierung überprüfen, der zweite Teil testet die korrekte Identifizierung der einzelnen Angriffe und der dritte und letzte Teil testet die korrekte Erstellung der Statistik und Auswertung der Paketdaten.
+
+Die korrekte Instanziierung testet, ob aus der Konfiguration korrekte Werte geladen werden, die auch für das System verwendbar sind. Zu diesen Werten zählen beispielsweise nur positive Zahlen. Nicht nur aus den Konfigurationswerten werden während der Instanziierung die Startwerte für die \texttt{Inspection} gebildet. Die Werte der Konfiguration werden aus dem Dummy \texttt{Inspection\_config.json} übergeben und in der Konfiguration eingelesen.
+
+Im zweiten Teil wird jede Form des Angriffs einzeln auf korrekte Erkennung überprüft. Hierzu werden für SYN-Fin, SYN-FIN-ACK, Zero-Window und Small-Window Angriffe jeweils ein \texttt{PacketContainer} und in diesem \texttt{PacketContainer} wird ein Paket mit den jeweiligen Anforderungen (bestimmte Flags gesetzt oder kleine Window Größe) erstellt. Um eine falsch-richtige und richtig-falsche Erkennung ausschließen zu können, werden daneben auch \texttt{PacketContainer} mit korrekten Paketen ohne diese Anforderungen an die Erkennung erstellt und getestet. Nach jedem Durchlauf eines \texttt{PacketContainers} durch die \texttt{Inspection} muss dieser Container leer sein für richtige Angriffserkennung und nicht leer für eine richtige Nicht-Angriff-Erkennung.
+
+\begin{lstlisting}[language=C++, caption={Test von SYN-FIN Angriffen in \texttt{Inspection\_test.cpp}}, label=synfininspection]
+SECTION("SYN-FIN Attack", "[]") {
+    PacketInfoIpv4Tcp* pkt_info = pkt_container->get_empty_packet(IPv4TCP);
+    // create packet with SYN-FIN Flag into packet container
+    // all values are obsolete except the flags 
+    pkt_info->fill_payloadless_tcp_packet("00:00:00:00:00:00","00:00:00:00:00:00",0,0,0,0,0,0,0b00000011,0);
+    // packet container to inspection
+    testInspection.analyze_container(pkt_container);
+    // SYN-FIN Flag should be detected and packet removed
+    // Check if packetContainer is empty
+    CHECK(pkt_container->get_total_number_of_packets() == 0);
+}
+\end{lstlisting}
+
+Für das korrekte Erkennen von UDP-/TCP-/ICMP-Flood Attacken werden jeweils mehrere \texttt{PacketContainer} erstellt, die mit mehr Paketen gefüllt werden als der Threshold in der Instanziierung vorgibt. Werden bei dem jeweils zweiten \texttt{PacketContainer} weniger Pakete weitergesendet, ist die Erkennung korrekt erfolgt. Um auch bei diesen Tests eine richtig-falsch und falsch-richtige Erkennung ausschließen zu können, werden daneben noch \texttt{PacketContainer} mit weniger Paketen, als der Threshold zulässt, erstellt und der \texttt{Inspection} übergeben. Diese \texttt{PacketContainer} müssen die Zahl ihrer Pakete beibehalten.
+
+Die lokale Statistik kann einfach überprüft werden, indem der \texttt{update\_stats()}-Methode feste Werte nach der Instanziierung übergeben werden und die berechneten Werte genau den erwarteten Werten entsprechen müssen.
+
+\subsection{Treatment}
+Die Lines of Code der Unit-Test-Datei der Klasse \texttt{Treatment} belaufen sich auf weit über 1000. Diese vergleichsweise hohe Menge ist unter anderem darauf zurückzuführen, dass in der Datei \texttt{Treatment\_test.cpp} auch die verwendete Hash-Funktion (XXH3) und die verwendete Map (\texttt{dense\_hash\_map}) auf Tauglichkeit für die spätere Verwendung in der Klasse getestet wurde. Desweiteren wurde ein Benchmark erstellt und durchgeführt, welcher die Performance einer \texttt{std::unordered\_map} mit der einer \texttt{dense\_hash\_map} vergleicht.
+
+Durch die Einführung der Friend-Klasse \texttt{Treatment\_friend} ist es möglich, auf die in der Klasse \texttt{Treatment} auf \texttt{private} gesetzten Attribute und Methoden mit Hilfe von Get-Methoden zuzugreifen. Der Wert des Attributs \texttt{\_s\_timestamp} kann außerdem durch eine Set-Methode neu zugewiesen werden.
+
+Entgegen dem in der zweiten Phase vorgestellten Entwurf, ist aus Gründen der Kapselung die Methode \texttt{create\_cookie\_secret()}  nicht mehr Teil der Klasse \texttt{Treatment}. An dessen Stelle tritt nun die Methode \texttt{get\_random\_64bit\_value()} aus der Klasse \texttt{Rand}, welche die gleiche Funktionalität wie \texttt{create\_cookie\_secret()} aufweist. Um dennoch die bereits zuvor erstellten Unit-Tests ausführen zu können, welche die Methode \texttt{create\_cookie\_secret()} verwenden, gibt es in der Klasse \texttt{Treatment\_friend} eine Methode mit dem ebendiesem Namen, welche allerdings die Methode \texttt{get\_random\_64bit\_value()} der Klasse \texttt{Rand} aufruft.
+
+\texttt{Treatment\_friend} ist in der Datei \texttt{Treatment\_test.cpp} definiert (vgl. Codeausschnitt \ref{friend}).
+
+\begin{lstlisting} [caption= {Friend-Klasse \texttt{Treatment\_friend} in der Datei \texttt{Treatment\_test.cpp}}, label = {friend}]
+class Treatment_friend{
+    
+    Treatment* treatment = new Treatment();
+    
+    public:
+    
+        static void s_increment_timestamp(){
+          return Treatment::s_increment_timestamp();
+        }
+        
+        void treat_packets_to_inside(){
+            treatment-> treat_packets_to_inside();
+        }
+    
+        void treat_packets_to_outside(){
+            treatment-> treat_packets_to_outside();
+        }
+    
+        u_int32_t calc_cookie_hash(u_int8_t _s_timestamp, u_int32_t _extip,         u_int32_t _intip, u_int16_t _extport, u_int16_t _intport){
+            return treatment->calc_cookie_hash(_s_timestamp, _extip, _intip,           _extport, _intport);
+        }
+    
+        bool check_syn_cookie(u_int32_t cookie_value, const Data &d){
+            return treatment->check_syn_cookie(cookie_value, d);
+        }
+    
+        u_int64_t create_cookie_secret(){
+            return Rand::get_random_64bit_value();
+        }
+
+        //Getter
+        u_int8_t get_s_timestamp(){
+            return treatment->_s_timestamp;
+        }
+
+        u_int64_t get_cookie_secret(){
+            return treatment->_cookie_secret;
+        }
+
+        PacketContainer* get_packet_to_inside(){
+            return treatment->_packet_to_inside;
+        }
+
+        PacketContainer* get_packet_to_outside(){
+            return treatment->_packet_to_outside;
+        }
+    
+        google::dense_hash_map<Data, Info, MyHashFunction> get_densemap(){
+            return treatment->_densemap;
+        }
+
+        //Setter
+        void set_s_timestamp(u_int8_t value){
+            treatment->_s_timestamp = value;
+        }
+
+};\end{lstlisting}
+
+Zuvor wurde in der Headerdatei der Klasse \texttt{Treatment} angegeben, dass sie mit \texttt{Treatment\_friend} befreundet ist (vgl. Codeausschnitt \ref{friend2}).
+
+\begin{lstlisting} [caption= {Deklaration der friend\_klasse \texttt{Treatment\_friend} in der Datei \texttt{Treatment.h}}, label = {friend2}]
+...
+class Treatment{
+    ...
+    friend class Treatment_friend;
+};\end{lstlisting}
+
+In den folgenden Sektionen werden beispielhaft einzelne, ausgewählte Testfälle erläutert:
+\subsubsection{Beispiel: \texttt{check\_syn\_cookie()}}
+\begin{lstlisting}[caption= {Methode: \texttt{check\_syn\_cookie()} in \texttt{Treatment.cpp}}, label=checksc]
+bool Treatment::check_syn:cookie(u_int32_t cookie_value, const Data\& d){
+    // Extract the first 8 bit of the cookie (= timestamp)
+    u_int8_t cookie_timestamp = cookie_value \& 0x000000FF;
+    
+    u_int8_t diff = _s_timestamp - cookie_timestamp;
+    
+    if(diff<1){
+        // Calculate hash
+        u_int32_t hash;
+        
+        // Case: same time interval
+        if(diff == 0){
+            // calculate expected cookie-hash
+            hash = calc_cookie_hash(_s_timestamp, d._extip, d._intip, d.extport        , d._intport);
+            hash = hash \& 0xFFFFFF00;
+            // stuff cookie-hash with 8 bit _s_timestamp
+            hash |= (u_int8_t) _s_timestamp;
+        }
+        if(diff == 1){
+            // calculate expected cookie-hash
+            hash = calc_cookie_hash((_s_timestamp-1), d._extip, d._intip, d.extport, d._intport);
+            hash = hash \& 0xFFFFFF00;
+            // stuff cookie-hash with 8 bit _s_timestamp
+            hash |= (u_int8_t) (_s_timestamp-1);
+        }
+         // test whether the cookie is as expected; if so, return true
+         if(hash == cookie_value){
+            return true;
+        }
+    }
+       
+    //return false, so that treat_packets is able to continue
+    return false;
+ }\end{lstlisting}
+Die Methode \texttt{check\_syn\_cookie()} (vgl. Codeausschnitt \ref{checksc}) überprüft, ob der empfangene SYN-Cookie im richtigen Zeitintervall am System angekommen ist. Jenes ist zutreffend, sofern der Timestamp des empfangenen Cookie nicht mehr als eine Zeiteinheit von dem aktuellen Timestamp-Wert \texttt{\_s\_timestamp} abweicht. Falls dem so ist, wird überprüft, ob der empfangene Cookie dem erwarteten Cookie entspricht. Die Methode gibt \texttt{true} zurück, falls dies der Fall ist so ist. Sollte dem nicht so sein, so ist der Rückgabewert \texttt{false}.
+
+\begin{lstlisting} [caption= {Unit-Test für die Methode \texttt{check\_cookie\_secret()} in \texttt{Treatment\_test.cpp}}, label = ut_checksc]
+TEST_CASE("check_syn_cookie", "[]"){
+    ....
+    SECTION("check_syn_cookie(): diff==1 with random numbers (without using the PacketDissection)", "[]"){
+        //Create a Treatment object
+        Treatment_friend treat;
+            
+        //Generate a random 8-bit-number
+        u_int8_t ran_num = (u_int8_t) rand();
+            
+        //increment _s_timestamp up to ran_num
+        for(int i=0; i<ran_num; i++){
+            treat.s_increment_timestamp();
+        }
+            
+       CHECK(treat.timestamp==ran_num);
+            
+        u_int32_t extip = rand();
+        u_int32_t intip = rand();
+        u_int16_t extport = rand();
+        u_int16_t intport = rand();
+            
+        //Create cookie_value with timestamp ran_num - 1
+        u_int32_t cookie_value = treat.calc_cookie_hash((ran_num - 1), extip,      intip, extport, intport);
+        cookie_value = cookie_value  & 0xFFFFFF00;
+        cookie_value |=(u_int8_t) (ran_num-1);
+            
+       //Create a Data object
+        Data d;
+        d._extip = extip;
+        d._intip = intip;
+        d._extport = extport;
+        d._intport = intport;
+            
+        CHECK(treat.check_syn_cookie(cookie_value, d));
+    }
+....
+} \end{lstlisting}
+Im Unit-Test in Codeausschnitt \ref{ut_checksc} wird untersucht, ob die Methode \texttt{check\_syn\_cookie()} als Rückgabewert \texttt{true} hat (siehe Zeile 34). Zudem wird in Zeile 15 überprüft, ob der Timestamp korrekt inkrementiert wurde.
+
+Zuerst wird in Zeile 5 das Objekt \texttt{treat} der Klasse \texttt{Treatment\_friend} erzeugt. In Zeile 8 wird anschließend eine 8-Bit lange Zufallszahl generiert, die in der Variable \texttt{ran\_num} gespeichert wird. In einer for-Schleife wird dann der Timestamp des Objektes \texttt{treat} um exakt diesen zufälligen Wert erhöht. Auch die vier 32-Bit langen Variablen \texttt{extip}, \texttt{intip}, \texttt{extport} und \texttt{intport} bekommen eine zufällige Zahl zugewiesen.
+Mit Hilfe der Methode \texttt{calc\_cookie\_hash()} wird in Zeile 23 der Cookie-Wert erzeugt. Hier ist zu beachten, dass der erste Parameter dieser Methode \texttt{ran\_num-1} ist. Somit ist der Timestamp dieses Cookie-Wertes um genau 1 kleiner als derjenige, der in \texttt{treat} gespeichert ist. Das heißt, dass \texttt{diff} in Zeile 5 in dem Codeausschnitt \ref{checksc} genau 1 ist. Somit sollte die Methode \texttt{true} zurückgeben.%Felix, kannst du Zeile 24 und 25 erklären?
+Zeile 24 sorgt dafür, dass der zuvor berechnete \texttt{cookie\_value} auf die ersten 24 Bit gekürzt wird. An die Stelle der letzten acht Bit treten fortan der Wert des Timestamps \texttt{ran\_num-1}.
+In den Zeilen 28 bis 32 wird ein Datenobjekt \texttt{d} im Stack angelegt und mit Werten gefüllt.
+Der zuvor generierte Cookie-Wert und das Datenobjekt werden anschließend in die zu überprüfende Methode \texttt{check\_syn\_cookie()} übergeben.
+
+Das Verhalten der Methode \texttt{check\_syn\_cookie()} wird noch in acht weiteren Sektionen getestet. Hier werden unter anderem die Fälle durchlaufen, dass die Differenz des aktuellen Zeitstempels und des in \texttt{cookie\_value} übergebenen Zeitstempels null, größer eins oder kleiner null ist. Ebenfalls wichtig sind hier die Grenztests, welche auch das Verhalten der Methode bei Überlaufen der  \texttt{u\_int8\_t}-Werte testen. Außerdem gibt es einen Test, indem die IP-Adressen und Port-Nummern des Cookies und des Datenobjektes nicht übereinstimmen.
+\subsubsection{Beispiel: \texttt{s\_increment\_timestamp()}}
+\begin{lstlisting} [caption= {Methode: \texttt{s\_increment\_timestamp()}}, label = incrtimestamp]
+void Treatment::s_increment_timestamp(){
+    // increment _s_timestamp by one
+    ++_s_timestamp; 
+}\end{lstlisting}
+Die Methode \texttt{s\_increment\_timestamp()}, die im Codeausschnitt \ref{incrtimestamp} dargestellt ist, macht vergleichsweise wenig: Sie erhöht den Wert der Membervariable \texttt{\_s\_timestamp} um 1.
+
+\begin{lstlisting}
+TEST_CASE("s_increment_timestamp()", "[]"){
+    ...
+    SECTION("Increment _s_timestamp up to 1000 (>255>size if u_int8_t)", "[]"){
+        Treatment_friend treat;
+        
+        u_int8_t count = 0;
+        
+        for(int i=0; i<1000; i++){
+            CHECK(treat._s_timestamp == count);
+            treat.s_increment_timestamp();
+            count++; 
+        }
+    }
+    ...
+}\end{lstlisting}
+Trotz des vergleichbar kleinen Funktionsumfangs muss getestet werden, wie sich die Variable \texttt{\_s\_timestamp} verhält, wenn sie öfter als 255 mal inkrementiert wurde. Denn der Datentyp der Membervariable \texttt{\_s\_timestamp} ist \texttt{u\_int8\_t} , welcher allerdings lediglich 8 Bit umfasst und somit einen Wertebereich von 0 bis 255 hat. Aus diesem Grund ist das erwartete Verhalten, dass es beim 256. Inkrementieren zum arithmetischen Überlauf kommt. Ab hier beginnt \texttt{\_s\_timestamp} wieder bei 0. %...
+
+\subsubsection{Beispiel: Benchmark}
+Um herauszufinden, welche Map sich am besten für das Softwareprojekt eignet, wurde ein Benchmark erstellt. Dieser vergleicht die Performance einer Unordered-Map mit der einer Dense-Map.
+
+\begin{lstlisting} [caption= {Benchmark zum Vergleich der Performance einer Unordered-Map und einer Dense-Map}, label = benchmark]
+TEST_CASE("Benchmark", "[]"){
+    typedef std::unordered_map<Data, Info, MyHashFunction> unordered;
+    unordered unord;
+    google::dense_hash_map<Data, Info, HashMyFunction> densemap;
+    clock_t tu;
+    clock_t tr;
+    clock_t td;
+    densemap.set_empty_key(Data(0,0,0,0));
+    
+    Info flix;
+    flix._offset = 123;
+    flix._finseen = 0;
+    
+    //--------------------------------------------------------
+    
+    //--------------------------------------------------------
+    
+    long runs = 15; 
+    clock_t uclock [runs] = {}; 
+    clock_t dclock [runs] = {}; 
+    long runner = 600000; 
+    Data arr [runner] = {}; 
+    
+    for(long r = 0; r < runs; ++r) {
+        
+        
+        for(long i = 0; i < runner; ++i){
+            arr[i]._extip = rand(); 
+            arr[i]._intip = rand(); 
+            arr[i]._extport = rand(); 
+            arr[i]._intport = rand(); 
+        }   
+        
+        auto startu = std::chrono::high_resolution_clock::now();
+        tu = clock(); 
+        for(long i = 0; i < runner; ++i){
+            unord.emplace(arr[i], flix);
+            iu->first.extip << std::endl; 
+        }
+        for(long i = 0; i < runner; ++i){
+            unord.find(arr[i-1 % runner]);
+            unord.find(arr[i]);
+            unord.find(arr[i+1 % runner]);
+            unord.find(arr[i+50 % runner]);
+            iu->first.extip << std::endl; 
+        }
+        tu = clock() - tu; 
+        auto finishu = std::chrono::high_resolution_clock::now();
+        
+        
+        auto startd = std::chrono::high_resolution_clock::now();
+        td = clock() ; 
+        for(long i = 0; i < runner; ++i) {
+            densemap.insert(std::pair<Data, Info>(arr[i], flix));  
+        }
+        for(long i = 0; i < runner; ++i){
+            densemap.find(arr[i-1 % runner]);
+            densemap.find(arr[i]);
+            densemap.find(arr[i+1 % runner]);
+            densemap.find(arr[i+50 % runner]);
+            id->first.extip << std::endl; 
+        }
+        td = clock() - td; 
+        auto finishd = std::chrono::high_resolution_clock::now();
+        
+        std::chrono::duration<double> elapsedu = finishu - startu;
+        std::chrono::duration<double> elapsedd = finishd - startd; 
+        dclock[r] = td; 
+        uclock[r] = tu; 
+        BOOST_LOG_TRIVIAL(info) << "Elapsed time of unordered: " << elapsedu.      count();
+        BOOST_LOG_TRIVIAL(info) << "Elapsed time of dense: " << elapsedd.          count();
+        
+    }
+    int sumd = 0; 
+    int sumu = 0; 
+    for (long x = 0; x < runs; ++x) {
+        sumd =  sumd + dclock[x]; 
+        sumu =  sumu + uclock[x];
+    }
+    BOOST_LOG_TRIVIAL(info) << "This is the average clock count of densemap of " << runs << " rounds, of each " << runner << " elements inserted, and " << 4*runner  << " elements searched : " << sumd/runs;
+    BOOST_LOG_TRIVIAL(info) << "This is the average clock count of unordered_map of " << runs << " rounds, of each " << runner << " elements inserted, and " << 4*runner  << " elements searched : " << sumu/runs;
+} \end{lstlisting}
+Das Ergebnis des Benchmarks in Abb. \ref{benchmark} zeigt, dass die Densemap in jedem Durchlauf für die exakt selben Operationen durchschnittlich nur halb so viele CPU-Ticks braucht, wenn die \texttt{std::unordered\_map} als Vergleich verwendet wird. Eine Beispielhafte Ausgabe ist in Codeausschnitt \ref{result_bench} zu erkennen.
+
+\begin{lstlisting}[caption= {Beispielhaftes Ergebnis des Benchmarks zum Vergleich der Performance einer Unordered-Map und einer Dense-Map}, label = result_bench]
+	This is the average clock count of densemap of 10 rounds, of each 600000 elements inserted, and 2400000 elements searched : 224847
+	This is the average clock count of unordered\_map of 10 rounds, of each 600000 elements inserted, and 2400000 elements searched : 614058
+\end{lstlisting}
+
+Ebenfalls getestet wurde die Patchmap von 1ykos. Hierbei stellte sich allerdings heraus, dass die Performanz nicht den Erwartungen genügte.
+
+\subsubsection{Beispiel: Densemap}
+Um die Verhaltensweise der Densemap vor deren Nutzung im Code besser kennenzulernen, wurden mehrere Tests geschrieben, welche die Grundfunktionalitäten der Map wie zum Beispiel das Löschen oder Hinzufügen von Werten testen.
+\begin{lstlisting}[caption= {Unit-Tests zum Löschen von Elementen in der Densemap}, label = ut_densemap]
+TEST_CASE("Map", "[]"){
+    ...
+    SECTION("Densemap: Erase one element whose key is known", "[]"){
+        google::dense_hash_map<Data, Info, MyHashFunction> densemap;
+
+        Data empty;
+        empty._extip = 0;
+        empty._intip = 0;
+        empty._extport = 0;
+        empty._intport = 0;
+        densemap.set_empty_key(empty);
+        
+        Data deleted;
+        deleted._extip = 0;
+        deleted._intip = 0;
+        deleted._extport = 1;
+        deleted._intport = 1;
+        densemap.set_deleted_key(deleted);
+        
+        Data d1;
+        d1._extip = 12345;
+        d1._intip = 12334;
+        d1._extport = 123;
+        d1._intport = 1234;
+        
+        Info i1;
+        i1._offset = 3;
+        i1._finseen = false;
+        // calculates index over d1, store d1 as first an i1 as second
+        densemap[d1] = i1;
+        
+        Data d2;
+        d2._extip = 12345;
+        d2._intip = 12334;
+        d2._extport = 123;
+        d2._intport = 1234;
+        
+        Info i2;
+        i2._offset = 3;
+        i2._finseen = false;
+        densemap[d2] = i2;
+        
+        CHECK(densemap.size() == 2);
+        densemap.erase(d1);
+        CHECK(densemap.size() == 1);
+        densemap.erase(d2);    
+        CHECK(densemap.size() == 0);
+    }
+...
+}    \end{lstlisting}
+
+Der obige Unit-Test (vgl. Abb. \ref{ut_densemap}) verdeutlicht, dass direkt nach Anlegen der Densemap die Methode \texttt{set\_empty\_key()} aufgerufen werden muss. Ohne diese Methodenaufruf ist auch nicht der Aufruf weiterer \texttt{dense\_hash\_map}-Methoden möglich. Deshalb wird in den Zeilen 7 bis 12 ein solcher empty-Key angelegt und als Arugment der Methode \texttt{set\_empty\_key()} übergeben. Dieses Argument darf kein Schlüsselwert sein und wird niemals für legitime Einträge in der Map genutzt, der Wert Data(0,0,0,0) ist hierfür besonders gut geeignet, da legitime Verbindungen nie beide IPs auf den Wert null gesetzt haben.
+
+Zudem wird zum Löschen von Einträgen in der Densemap mit der Methode \texttt{erase()} das Aufrufen der Methode \texttt{set\_deleted\_key()} benötigt. Dieser deleted-Key muss sich vom empty-Key unterscheiden, darf allerdings auch kein legitimer Schlüssel sein.
+Da in diesem Unit-Test das Löschen von Elementen getestet werden soll, wird ein Datenobjekt mit dem Namen \texttt{deleted} angelegt, befüllt und der Methode \texttt{set\_deleted\_key()} übergeben.
+
+Danach wird die Map mit zwei weiteren Einträgen befüllt. Somit muss die Densemap nun die Größe von zwei haben. Nach dem Löschen von \texttt{d1} wird überprüft, ob die Größe der Densemap sich nun auf eins verringert hat. Nachdem der zweite Eintrag gelöscht wurde, wird in Zeile 47 nochmals auf das Übereinstimmen der Densemap-Größe mit dem Wert null getestet.
+
+\subsection{RandomNumberGenerator}
+
+In den folgenden Teilkapiteln geht es zunächst um den Zweck und die Funktionsweise des \texttt{RandomNumberGenerators}, worauf beispielhaft einige Unit-Tests vorgestellt werden.
+
+\subsubsection{Grundlegende Erläuterungen}
+Der \texttt{RandomNumberGenerator} (RNG) ist ein Pseudozufallszahlengenerator, der auf dem Xorshift-Algorithmus basiert. Dieser hat das Ziel, auf effiziente Weise möglichst zufällig verteilte Ganzzahlen zu generieren, welche vom Angreifer als Portnummern und IP-Adressen für von ihm ausgehende Pakete verwendet werden können. Der entwickelte RNG enthält jeweils eine Methode zur Berechnung von 16-bit, 32-bit und 64-bit-Zahlen, weshalb die Typen \texttt{uint16\_t},  \texttt{uin32\_t} und \texttt{uint64\_t} verwendet werden. Außerdem enthält er eine Methode, die einen pseudozufälligen \texttt{uint16\_t}-Wert in einem bestimmten Intervall zurückgibt. Das ist nötig, weil wir die registrierten, aber nicht standardisierten Ports 1024 - 49151 verwenden.
+
+Im Header \texttt{RandomNumberGenerator.h} werden mittels Member Initializer Lists die drei Seeds mit durch \texttt{rand()} generierten zufälligen Werten initialisiert. Wie sich im Code im Codeausschnitt \ref{rng} erkennen lässt, wird dieser Wert daraufhin in den Methoden durch Xor- und Shift-Operationen so verändert, dass die Ergebnisse pseudozufällig sind, also scheinbar zufällig, aber berechenbar. Für weiterführende Erläuterungen und Informationen empfiehlt sich eine Ausarbeitung von George Marsaglia \cite{xorshift}.
+
+\subsubsection{Einfache Tests}
+
+Durch die im Codeausschnitt \ref{rngseed} dargestellten Tests soll geprüft werden, ob der Algorithmus bei gleichem Seed auch die gleiche Zahl generiert. Dies ist eine typische Eigenschaft von Pseudozufallszahlengeneratoren.
+
+\begin{lstlisting}[caption= {Test der Gleichheit der generierten Zahlen bei zwei RNGs mit gleichem Seed}, label = rngseed]
+TEST_CASE("random_number_generator_basic", "[]") {
+    ...
+    SECTION("Check whether the same numbers are generated with the same seed "
+    "for 16 bit","[]") {
+        RandomNumberGenerator xor_shift_1;
+        RandomNumberGenerator xor_shift_2;
+        // set the seed to the same value in both RNGs
+        xor_shift_1._seed_x16 = 30000;
+        xor_shift_2._seed_x16 = 30000;
+        u_int16_t test_1_16_bit = xor_shift_1.gen_rdm_16_bit();
+        u_int16_t test_2_16_bit = xor_shift_2.gen_rdm_16_bit();
+        // check whether the results are the same too
+        CHECK(test_1_16_bit == test_2_16_bit);
+        std::cout << std::endl;
+    }
+    
+    ...
+}\end{lstlisting}
+
+Wie oben wurde dieser Test sowohl für die 16-bit-Methode als auch für die 32- und 64-bit-Methode geschrieben. Zunächst werden, wie in Zeile 5 f. zu sehen, zwei Objekte der Klasse \texttt{RandomNumberGenerator} erzeugt. Anschließend wird der mit \texttt{rand()} erzeugte Seed verändert und bei beiden RNGs auf den gleichen Wert gesetzt. In Zeile 10 und 11 wird dann für jedes der beiden RNG-Objekte die Methode zum Generieren einer 16-bit-Zahl aufgerufen. Nun kann in Z. 13 sichergestellt werden, dass die Zahlen \texttt{test\_1\_16\_bit} und \texttt{test\_2\_16\_bit} auch wirklich gleich sind.
+
+\subsubsection{Test der Verteilung der Zufallszahlen}
+Eine wichtige Eigenschaft des entwickelten \texttt{RandomNumberGenerator} muss eine gute Verteilung sein. Das heißt, dass z. B. nicht jede zehnte Zahl zehn mal so oft wie die theoretische Häufigkeit generiert werden darf und alle anderen Zahlen nie vom RNG ausgegeben werden. Dabei wird angenommen, dass die Wahrscheinlichkeit für eine Zahl, dass genau sie generiert wird, im Idealfall für alle Zahlen gleich hoch sein sollte. Schon vor dem Testen steht fest, dass der Algorithmus keine echt zufällige Zahlen generieren kann und dieses Ziel nicht erfüllt, allerdings kann das auch nie der Anspruch an einen Pseudozufallszahlengenerator sein.
+Um festzustellen, wie sehr die tatsächlichen Häufigkeiten von den theoretischen abweichen, eignet sich ein Chi-Quadrat-Test, welcher in dem Codeausschnitt \ref{chisquare} zu sehen ist.
+
+\begin{lstlisting}[caption= {Chi-Quadrat-Test}, label = chisquaretest]
+TEST_CASE("RandomNumberGeneratorStatistics", "[]") {
+    SECTION("ChiSquare16", "[]") {
+        RandomNumberGenerator xor_shift;
+        // 65536 = 2 ^ 16 different numbers can be generated
+        int r = 65536 - 1;
+        // 1,000,000 numbers are generated
+        int n = 1000000;
+        u_int16_t t;
+        // this array counts how often each number from 0 to r is returned as a
+        // result
+        int f[r] = {};
+        for (int i = 0; i < r; i++) {
+            f[i] = 0;
+        }
+        for (int i = 1; i < n; i++) {
+            t = xor_shift.gen_rdm_16_bit();
+            f[t]++;
+        }
+        double chisquare = 0.0;
+        for (int i = 0; i < r; i++) {
+            // chi square is calculated
+            chisquare = chisquare + ((f[i] - n / r) * (f[i] - n / r) / (n / r));
+        }
+        std::cout << "chi square is: " << chisquare << std::endl;
+        double k = sqrt(chisquare / (n + chisquare));
+        std::cout << "k is: " << k << std::endl;
+        CHECK(k < 1.0);
+    }
+}\end{lstlisting}
+
+Es ist zu erkennen, dass zunächst eine obere Intervallgrenze  \texttt{r} festgelegt wird. Der RNG generiert demzufolge Zahlen von 0 bis \texttt{r} (Z. 5). Ein Array von 0 bis \texttt{r} wird in Z. 11 - 14 initialisiert und vollständig mit dem Wert 0 belegt. Schließlich werden in Z. 15 - 18 \texttt{n} Zahlen \texttt{t} generiert und durch die Inkrementierung der Werte im Array \texttt{f[]} die Häufigkeiten gezählt. Anschließend wird der Wert \texttt{chisquare} nach der folgenden Formel berechnet:
+\begin{align} \label {chisquare}
+    \chi^2 = \sum \frac{(\text{beobachtete Häufigkeit}-\text{theoretische Häufigkeit})^2}{\text{theoretische Häufigkeit}}   
+\end{align}
+Im geschriebenen Test kann in Z. 22 erkannt werden, dass die beobachtete Häufigkeit mit \texttt{f[i]} und die tatsächliche Häufigkeit mit \texttt{n / r} zu vergleichen ist.
+
+Ein Problem des Chi-Quadrats ist allerdings die Abhängigkeit von n. Da sich bei Verdopplung von der Häufigkeiten auch das errechnete Ergebnis verdoppeln würde, ist dieser Wert allein nicht aussagekräftig. Aus diesem Grund wird in Z. 25 noch der Kontingenzkoeffizient \texttt{k} nach der Formel \ref{kontingenz} berechnet.
+\begin{align} \label{kontingenz}
+    K = \sqrt{\frac{\chi^2}{n+\chi^2}}    
+\end{align}
+Das hierbei errechnete Ergebnis ist eine Zahl zwischen 0 und K\textsubscript{max} mit K\textsubscript{max}$\approx$1, welche \texttt{n} berücksichtigt. Eine niedriger Kontingenzkoeffizient heißt, dass die generierten Zahlen gut verteilt sind und die tatsächlichen Werte nah an die theoretischen heranreichen. Ein höherer Kontingenzkoeffizient bedeutet, dass vermehrt Zahlen häufiger bzw. seltener als gewollt vorkommen.
+
+Mit dem oben dargestellten Test hat sich ein \texttt{k} von ca. 0,003 ergeben, was sich als ein sehr gutes Ergebnis bezeichnen lässt. Wird allerdings die Methode \texttt{gen\_rdm\_16\_bit\_in\_interval()} der im Codeausschnitt \ref{rng} dargestellten Datei aufgerufen und dabei die Werte 1024 und 49151 übergeben, so verschlechtert sich der Kontingenzkoeffizient auf einen mittelmäßig guten Wert von ca. 0,59.
+
+Es lässt sich somit festhalten, dass die Verkleinerung des Intervalls der zurückgegebenen Zahl auf das von validen Portnummern eine Verschlechterung der Zufälligkeit des Algorithmus mit sich bringt, was allerdings kein Problem darstellt. Das ist eine logische Konsequenz aus der Tatsache, dass keine Zahlen außerhalb des Intervalls mehr zurückgegeben werden.
+
+Die Methode \texttt{gen\_rdm\_32\_bit()} und \texttt{gen\_rdm\_64\_bit()} konnte wegen Fehlern aufgrund zu vieler zu großer Zahlen leider nicht ähnlich durchgeführt werden. Dennoch besteht Grund zu der Annahme, dass die berechneten integer-Werte ähnlich gut verteilt sind. Schließlich muss erneut darauf hingewiesen werden, dass bei beiden Methoden die Effizienz und nicht unbedingt die Qualität des Zufalls an erster Stelle steht.
+
+\subsubsection{Zeitlicher Vergleich mit rand()}
+Da der auf Xorshift basierende \texttt{RandomNumberGenerator} insbesondere aufgrund einer besseren Effizienz als die der Standardfunktion \texttt{rand()} implementiert wurde, ist ein Vergleich beider Zufallszahlengeneratoren von Interesse. Der für einen Vergleich benutze Test wird im Codeausschnitt \ref{rngtime} beispielhaft für die Methode \texttt{gen\_rdm\_32\_bit()} gezeigt. Es wurden ebenfalls zwei äquivalente Sections für die andere Methode geschrieben. Dabei wurde stets darauf geachtet, dass die mit \texttt{rand()} generierten Zahlen das gleiche Intervall und die gleiche Größe wie beim RNG haben.
+
+\begin{lstlisting}[caption= {Test zum Vergleich der Zeiten vom RandomNumberGenerator mit rand()}, label = rngtime]
+TEST_CASE("RandomNumberGeneratorTime", "[]") {
+    ...
+    SECTION("TestTime32", "[]") {
+        double time1 = 0.0, tstart;
+        tstart = clock();
+        RandomNumberGenerator xor_shift;
+        long n = 10000000;
+        uint32_t test_value;
+        for (long i = 0; i < n; i++) {
+            test_value = xor_shift.gen_rdm_32_bit();
+        }
+        time1 += clock() - tstart;
+        std::cout << "time needed to generate " << n
+        << " 32 bit numbers: " << time1 / CLOCKS_PER_SEC << " s"
+        << std::endl;
+        CHECK(time1 / CLOCKS_PER_SEC < 1.0);
+    }
+    SECTION("TestTime32Rand", "[]") {
+        double time1 = 0.0, tstart;
+        tstart = clock();
+        long n = 10000000;
+        uint32_t test_value;
+        for (long i = 0; i < n; i++) {
+            test_value = (uint16_t)rand();
+            test_value |= (uint16_t)rand() << 16;
+        }
+        time1 += clock() - tstart;
+        std::cout << "time needed to generate " << n
+        << " 32 bit numbers with rand() and shifting: "
+        << time1 / CLOCKS_PER_SEC << " s" << std::endl;
+        CHECK(time1 / CLOCKS_PER_SEC < 1.0);
+    }
+}\end{lstlisting}
+
+Zum Erfassen der Zeiten wurde \texttt{time.h} inkludiert und in Z. 4 f. sowie 19 f. ein Timer initialisiert und gestartet. In diesem Fall werden 10 Mrd. integer-Werte generiert und kurzzeitig in einer Variable \texttt{test\_value} gespeichert, was in den beiden for-Schleifen zu sehen ist. Es fällt auf, dass in Z. 25 eine Verschiebe-Operation verwendet wird, um sicherzustellen, dass es sich tatsächlich um 32 bit Zufall handelt. In den Zeilen 12 f. und 27 f. wird die Differenz zwischen Start- und Endzeitpunkt berechnet, welche darauf hin in Sekunden ausgegeben wird. Auch bei dem 64-bit-Vergleich wurde darauf geachtet, dass es sich bei der mit \texttt{rand()} generierten Zahl um echte 64 bit Zufall handelt. Das heißt, dass auch dafür mehrmals \texttt{rand()} aufgerufen werden musste.
+
+Die Ergebnisse sind in der folgenden Tabelle dargestellt. Selbstverständlich unterscheiden sich die Zeiten bei jedem Ausführen des Tests, jedoch lediglich meist nur in hier nicht angegebenen Nachkommastellen.
+\begin{longtable}[H]{p{9,5cm}c c}
+    \toprule
+    \textbf{Größe des generierten Wertes} & \textbf{Xorshift-RNG} & \textbf{rand()} \\ \toprule \endhead
+    16 bit                                & 0,15 s                & 0,17 s          \\
+    32 bit                                & 0,15 s                & 0,33 s          \\
+    64 bit                                & 0,15 s                & 0,52 s          \\
+    \bottomrule
+\end{longtable}
+Wie zu erkennen ist, sind die Unterschiede zwischen dem selbst implementierten RNG und \texttt{rand()} minimal. Es bleibt anzumerken, dass der Unterschiede bei den anderen Größen auch nur deshalb größer wird, weil \texttt{rand()} dort mehrfach aufgerufen wird. Das ist allerdings auch nötig, weil sonst keine 32 bzw. 64 bit echten Zufall erhalten wird.
+
+Es kann also festgehalten werden, dass sich Xorshift umso mehr lohnt, je größer die generierten Zahlen sein sollen. Auch George Marsaglia empfiehlt den Algorithmus in seinen Ausarbeitungen erst ab einer Größe von 32 bit \cite{xorshift}.
+
+\subsection{Angreifer}
+% Zusätzliche grundlegende Erläuterungen, was der Angreifer überhaupt macht, wozu er da ist
+%
+%
+Die vom \texttt{RandomNumberGenerator} generierten Werte können als IP-Adressen und als Portnummern vom Angreifer verwendet werden. Dieser \texttt{Attacker} wird zum Generieren der SYN-Flut benötigt. Somit ist er vor allem zum Testen dieser Attacke gedacht. Beim Angreifer kommt es nach allen notwendigen Initialisierungen zum Erstellen der benötigten \texttt{PacketContainer} für die Worker-Threads und zum Start sowie dem Ende der Attacke.
+
+
+
+\begin{lstlisting} [caption= {Testen des Timers in \texttt{Attacker\_test.cpp}}, label = timer]
+TEST_CASE("tsc timer", "[]"){
+    const uint64_t MAX_SECONDS = 30;
+    uint64_t cycles_old = 0;
+    uint64_t cycles = 0;
+    uint64_t hz = rte_get_tsc_hz();
+    uint64_t seconds = 0;
+    uint66_t delta_t = 0;
+    
+    std::cout << "cycles : " << cycles << "\t"
+                   << "hz : " << hz << "\t"
+                   << "seconds : " << seconds << "\t" << std::endl;
+    
+    while (seconds < MAX_SECONDS{
+    cycles_old = cycles;
+    cycles = rte_get_tsc_cycles();
+    hz = rte_get_tsc_hz();
+    
+    delta_t =uint64_t(1/hz * (cycles - cycles_old));
+    seconds += delta_t;
+    
+    std::cout << "cycles : " << cycles << "\t"
+                   << "hz : " << hz << "\t"
+                   << "seconds : " << seconds << "\t" << std::endl;
+    }
+} \end{lstlisting}
+Im Testfall ,,tsc timer'' werden die seit dem Teststart vergangenen Sekunden gezählt und ausgegeben (vgl. Codeausschnitt \ref{timer}). Der Code zur Ausgabe befindet sich in den Zeilen 9 bis 11 und 21 bis 23.
+Nach 30 Sekunden endet der Test. %Wofür wird dieser Test benötigt? Kein Check bzw. Require
+\section{Testen anhand des Testdrehbuchs}
+
+\section{Sonstige Tests am Testbed}
+
+\textcolor{red}{toDo}
+
+\end{document}

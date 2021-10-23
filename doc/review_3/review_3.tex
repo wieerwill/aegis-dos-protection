@@ -1,0 +1,155 @@
+\documentclass[a4paper,10pt, twoside]{report} % Format A4, Schriftgröße 10, zweiseitige Ausrichtung
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel} % Sprache: Deutsch nach neuer Rechtschreibung
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % andere Schriftart
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{amsmath,amsthm,amsfonts,amssymb} % Mathematik
+\usepackage{color,graphicx,overpic}
+\usepackage{listings} % Codefragmente
+\usepackage{fancyhdr} % Kopf- und Fußzeilen
+\usepackage[dvipsnames]{xcolor}
+\usepackage{booktabs}
+\usepackage[hidelinks,pdfencoding=auto]{hyperref} % Links & Verlinkung
+\usepackage{longtable}
+\usepackage{cite}
+\usepackage[section]{placeins} % Bilder auf der richtigen Seite darstellen
+\usepackage{enumitem}
+\usepackage{subfiles}
+\usepackage{parskip}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.8}
+\setlength{\headheight}{28.7pt}
+\setcounter{secnumdepth}{3}
+
+\colorlet{mygray}{black!10}
+\definecolor{ghostwhite}{rgb}{0.98, 0.98, 0.98}
+\definecolor{bittersweet}{rgb}{0.96, 0.3, 0.26}
+\definecolor{mygreen}{rgb}{0.0, 0.42, 0.24}
+
+\definecolor{coralred}{rgb}{1.0, 0.25, 0.25}
+\definecolor{deepfuchsia}{rgb}{0.76, 0.33, 0.76}
+\definecolor{deeplilac}{rgb}{0.6, 0.33, 0.73}
+\definecolor{glaucous}{rgb}{0.38, 0.51, 0.71}
+\definecolor{pistachio}{rgb}{0.58, 0.77, 0.45}
+\definecolor{green(ncs)}{rgb}{0.0, 0.62, 0.42}
+\definecolor{mikadoyellow}{rgb}{0.93, 0.53, 0.18}
+\definecolor{peridot}{rgb}{1.0, 0.75, 0.0}
+
+\lstset{
+    language=C++,
+    backgroundcolor=\color{ghostwhite}, 
+    basicstyle = \ttfamily,
+    columns=fullflexible,
+    breakatwhitespace=false,      
+    breaklines=true,                
+    captionpos=b,                    
+    commentstyle=\color{mygreen}, 
+    extendedchars=true,              
+    frame=single,                   
+    keepspaces=true,             
+    keywordstyle=\color{blue},      
+    language=c++,                 
+    numbers=none,                
+    numbersep=5pt,                   
+    numberstyle=\tiny\color{blue}, 
+    rulecolor=\color{mygray},        
+    showspaces=false,               
+    showtabs=false,                 
+    stepnumber=1,                  
+    stringstyle=\color{bittersweet},    
+    tabsize=3,                      
+    title=\lstname,
+    numbers=left,
+    columns = fullflexible,
+    showstringspaces=false
+}
+
+
+\renewcommand{\lstlistingname}{Codeausschnitt}
+\renewcommand{\lstlistlistingname}{Verzeichnis der Codeausschnitte}
+
+\pdfinfo{
+    /Title (SWP2021 AntiDoS - Finales Reviewdokument)
+    /Creator (TeX)
+    /Producer (pdfTeX 3.14)
+    /Author (Fabienne Göpfert, Leon Leisten, Felix Hußlein, Robert Jeutter, Jakob Lerch, Tim Häußler, Johannes Lang, Tobias Scholz)
+    /Subject (Abwehr von Denial-of-Service-Angriffen durch effiziente User-Space Paketverarbeitung)
+}
+
+%% Kopf- und Fußzeilen
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[EL]{\leftmark}
+\fancyhead[OL]{\includegraphics[height=25pt]{img/aegis_logo_with_name.pdf}}
+\fancyhead[OR]{\rightmark}
+\fancyfoot[EL]{\thepage}
+\fancyfoot[ER]{SWP2021 AntiDoS}
+\fancyfoot[OL]{Finales Reviewdokument}
+\fancyfoot[OR]{\thepage}
+\renewcommand{\headrulewidth}{0.2pt} %fügt eine Linie unter der Kopfzeile ein
+
+\renewcommand{\arraystretch}{1.3} %sorgt für größeren Abstand zwischen Zeilen in Tabellen
+
+\begin{document}
+
+\begin{titlepage} %Beginn der Titelseite
+    \begin{center} %zentriert
+        Technische Universität Ilmenau\\
+        Fakultät Informatik und Automatisierung \\
+        Fachgebiet Telematik/Rechnernetze\\
+        %Technische Universität Ilmenau\\
+        \vspace{2em}
+        \includegraphics[width=0.35\linewidth]{img/tu_ilmenau_logo.png}\\
+        %Technische Universität Ilmenau\\
+        \vspace{2em}
+        Drittes Review zum Thema\\
+        \vspace{1em}
+        \Large\textsc{Abwehr von Denial-of-Service-Angriffen \\durch effiziente User-Space Paketverarbeitung}\\
+        \vspace{0.5em}
+        \Large\textsc{Codename: AEGIS}\\
+        \vspace{0.5cm}
+        \includegraphics[width=0.35\linewidth]{img/aegis_logo.pdf}\\
+        \normalsize
+        \vspace{2em}
+        Autoren:\\
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{l r}
+                Fabienne Göpfert & Tim Häußler    \\
+                Felix Hußlein    & Robert Jeutter \\
+                Johannes Lang    & Leon Leisten   \\
+                Jakob Lerch      & Tobias Scholz  \\
+            \end{tabular}
+        \end{table}
+        \vspace{1em}
+        \normalsize {Betreuer:} Martin Backhaus\\
+        \vspace{1em}
+        Entwurf 20. Juli 2021
+    \end{center}
+\end{titlepage}
+\pagebreak
+\tableofcontents {\protect\thispagestyle{fancy}
+
+
+\subfile{chapters/1-einleitung}
+\subfile{chapters/2-grobentwurf}
+\subfile{chapters/3-feinentwurf}
+\subfile{chapters/4-tests}
+\subfile{chapters/5-anforderungen}
+\subfile{chapters/6-bugreview}
+\subfile{chapters/7-statistiken}
+\subfile{chapters/8-kimai}
+\subfile{chapters/9-bewertung}
+\subfile{chapters/10-abkuerzungsverzeichnis}
+\subfile{chapters/11-glossar}
+
+
+\bibliography{references}
+\bibliographystyle{ieeetr}
+
+\listoffigures {\protect\thispagestyle{fancy} % Abbildungsverzeichnis
+
+\lstlistoflistings {\protect\thispagestyle{fancy}
+\end{document}

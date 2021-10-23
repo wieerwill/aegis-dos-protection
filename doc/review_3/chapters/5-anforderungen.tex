@@ -1,0 +1,242 @@
+\documentclass[../review_3.tex]{subfiles}
+\graphicspath{{\subfix{../img/}}}
+\begin{document}
+
+\chapter{Überprüfung der Anforderungen}\thispagestyle{fancy}
+
+In diesem Kapitel wird geklärt, in wie fern das entwickelte System den zu Beginn des Projekts aufgestellten funktionalen und nichtfunktionalen Anforderungen gerecht wird. Dafür wird zunächst kurz auf deren Priorisierung eingangen. Anschließend werden die Anforderungen aufgelistet und kurz erklärt, ob diese erfüllt worden oder nicht.
+
+\section{Priorisierung der Anforderungen}\thispagestyle{fancy}
+Um Anforderungen zu strukturieren und nach Wichtigkeit zu priorisieren, wird in der Regel ein System zur Klassifizierung der Eigenschaften verwendet. Hier wurde eine Priorisierung nach der \textbf{MuSCoW}-Methode vorgenommen:
+\begin{description}
+    \item{\textbf{Must}:} Diese Anforderungen sind unbedingt erforderlich und nicht verhandelbar. Sie sind erfolgskritisch für das Projekt.
+    \item{\textbf{Should}:} Diese Anforderungen sollten umgesetzt werden, wenn alle Must-Anforderungen trotzdem erfüllt werden können.
+    \item{\textbf{Could}:} Diese Anforderungen können umgesetzt werden, wenn die Must- und Should-Anforderungen nicht beeinträchtigt werden. Sie haben geringe Relevanz und sind eher ein \glqq Nice to have\grqq.
+    \item{\textbf{Won't}:} Diese Anforderungen werden im Projekt nicht explizit umgesetzt, werden aber eventuell für die Zukunft vorgemerkt.
+\end{description}
+
+\section{Funktionale Anforderungen}
+
+Die funktionalen und die nichtfunktionalen werden in einzelnen Unterkapiteln getrennt behandelt. Für beide Arten wird zunächst die Tabelle aus dem Pflichtenheft erneut dargestellt. Nach der Auflistung wird eine Überprüfung zum einen anhand des Testdrehbuch und nach anderen Methoden vorgenommen.
+
+\subsection{Auflistung der funktionalen Anforderungen}
+% Sie beschreiben das Systemverhalten durch Spezifikation der erwarteten Input-/Output-Beziehungen
+% --> Was soll umgesetzt werden?
+
+Funktionale Anforderungen legen konkret fest, was das System können soll. Hier wird unter anderem beschrieben, welche Funktionen das System bieten soll. Die folgende Tabelle zeigt diese funktionalen Anforderungen.
+
+\begin{longtable} [h] {p{1cm} p{4cm} p{7cm} l}
+   \toprule
+   \textbf{ID}                                                                                                                                                                                                      & \textbf{Name}                                  & \textbf{Beschreibung}                                                                                                                                                                                                                                   & \textbf{MuSCoW} \\ \midrule \endhead
+    F01                                                                                                                                                                                                              & Lokale Administration                          & Das System muss lokal per Command-Line-Interface administriert werden können.                                                                                                                                                                           & Must            \\
+    F02                                                                                                                                                                                                              & Angriffsarten                                  & Das System muss die Folgen der aufgelisteten (D)DoS-Angriffe abmildern können: \begin{itemize} \setlength{\parskip}{-2pt}
+        \item SYN-Flood
+        \item SYN-FIN Attack
+        \item SYN-FIN-ACK Attack
+        \item TCP-Small-Window Attack
+        \item TCP-Zero-Window Attack
+        \item UDP-Flood
+    \end{itemize}
+    Dabei ist vorausgesetzt, dass das Ziel eines Angriffes eine einzelne Station in einem Netzwerk ist und kein Netzwerk von Stationen. Es sind also direkte Angriffe auf einzelne Server, Router, PC, etc. gemeint. & Must                                                                                                                                                                                                                                                                                                                       \\
+    F03                                                                                                                                                                                                              & Keine zusätzliche Angriffsfläche               & Besonders darf das System den unter ,,Angriffsarten'' spezifizierten Angriffen keine zusätzliche Angriffsfläche bieten, d.h. es darf es auch nicht durch Kenntnis der Implementierungsdetails möglich sein, das System mit diesen Angriffen zu umgehen. & Must            \\
+    F04                                                                                                                                                                                                              & L3/ L4 Protokolle                              & Das System muss mit gängigen L3/ L4 Protokollen klarkommen.                                                                                                                                                                                             & Must            \\
+    F05                                                                                                                                                                                                              & Modi                                           & Passend zum festgestellten Angriffsmuster muss das System eine passende Abwehrstrategie auswählen und ausführen.                                                                                                                                        & Must            \\
+    F06                                                                                                                                                                                                              & Position                                       & Das System soll zwischen dem Internet-Uplink und dem zu schützenden System oder einer Menge von Systemen platziert werden.                                                                                                                              & Must            \\
+    F07                                                                                                                                                                                                              & Weiterleiten von Paketen                       & Das System muss legitime Pakete vom externen Netz zum Zielsystem weiterleiten können.                                                                                                                                                                   & Must            \\
+    F08                                                                                                                                                                                                              & Installation und Deinstallation                & Das System muss durch Befehle in der Kommandozeile zu installieren und zu deinstallieren sein. Hilfsmittel hierzu sind: Installationsanleitung, Installationsskript, Meson und Ninja.                                                                   & Must            \\
+    F09                                                                                                                                                                                                              & Mehrere Angriffe nacheinander und zeitgleich & Das System muss mehreren Angriffen nacheinander und zeitgleich standhalten, hierbei muss berücksichtigt werden, dass auch verschiedene Angriffsarten und Muster zur gleichen Zeit erkannt und abgewehrt werden müssen.                                  & Must            \\
+    F10
+    
+    & IPv4                                           & Das System muss mit IPv4-Verkehr zurechtkommen.                                                                                                                                                                                                         & Must            \\
+    F11                                                                                                                                                                                                                                                                                            & Hardware                                       & Das System soll nicht Geräte- bzw. Rechnerspezifisch sein.                                                                                                                                                                                              & Should          \\
+    F12                                                                                                                                                                                                              & Zugriff                                        & Der Zugriff auf das lokale System soll per SSH oder Ähnlichem erfolgen, um eine Konfiguration ohne Monitor zu ermöglichen.                                                                                                                              & Should          \\
+    F13                                                                                                                                                                                                              & Betrieb                                        & Das System soll auf Dauerbetrieb ohne Neustart ausgelegt sein.                                                                                                                                                                                          & Should          \\
+    F14                                                                                                                                                                                                              & Privacy                                        & Das System soll keine Informationen aus der Nutzlast der ihm übergebenen Pakete lesen oder verändern.                                                                                                                                                   & Should          \\
+    F15                                                                                                                                                                                                              & Konfiguration                                  & Der Administrator soll die Konfiguration mittels Konfigurationsdateien ändern können.                                                                                                                                                                   & Can             \\
+    F16                                                                                                                                                                                                              & Abrufen der Statistik                          & Der Administrator soll Statistiken über das Verhalten des Systems abrufen können.                                                                                                                                                                       & Can             \\
+    F17                                                                                                                                                                                                              & Starten und Stoppen des Systems                & Der Administrator soll das System starten und stoppen können.                                                                                                                                                                                           & Can             \\
+    F18                                                                                                                                                                                                              & Informieren des Anwenders                      & Der Anwender soll über Angriffe informiert werden.                                                                                                                                                                                                      & Can             \\
+    F19                                                                                                                                                                                                              & Administration über graphische Oberfläche      & Das System soll über eine graphische Oberfläche administriert werden können.                                                                                                                                                                            & Can             \\
+    F20                                                                                                                                                                                                              & IPv6                                           & Das System soll mit IPv6-Verkehr zurechtkommen können                                                                                                                                                                                                   & Can             \\
+    F21                                                                                                                                                                                                              & Weitere Angriffsarten                          &  Das System schützt weder vor anderen außer den genannten DoS-Angriffen (siehe F02 \glqq Angriffsarten\grqq)-insbesondere nicht vor denjenigen, welche auf Anwendungsebene agieren-, noch vor anderen Arten von Cyber-Attacken, die nicht mit DoS in Verbindung stehen.
+    So bleibt ein Intrusion Detection System weiterhin unerlässlich.                                                                            & Won't           \\
+    F22                                                                                                                                                                                                              & Anzahl der zu schützenden Systeme              & Das System wird nicht mehr als einen Server, Router, PC, etc. vor Angriffen schützen.                                                                                                                                                                   & Won't           \\
+    F23                                                                                                                                                                                                              & Fehler des Benutzers                           & Das System soll nicht vor Fehlern geschützt sein, da es durch eine nutzungsberechtigte Person am System ausgeführt wird.  So sollen beispielsweise Gefährdungen, welche aus fahrlässigem Umgang des Administrators mit sicherheitsrelevanten Softwareupdates resultieren, durch das zu entwickelnde System nicht abgewehrt werden.                                                                                                                              & Won't           \\
+    F24                                                                                                                                                                                                              & Softwareupdates                                & Das System soll keine Softwareupdates erhalten und soll nicht gewartet werden.                                                                                                                                                                                      & Won't           \\
+    F25                                                                                                                                                                                                              & Router-/Firewall-Ersatz                                & Das System soll  nicht als Router oder als Firewall-Ersatz verwendet werden.                                                                                                   & Won't           \\
+    F26                                                                                                                                                                                                              & Hardware-Ausfälle                              & Das System soll keine Hardwareausfälle (zum Beispiel auf den Links) beheben.                                             & Won't           \\
+    F27                                                                                                                                                                                                              & Fehler in Fremdsoftware                              & Das System kann nicht den Schutz des Servers bei Fehlern in Fremdsoftware garantieren.    & Won't        \\ \bottomrule
+\end{longtable} %fehlt: Pakete weiterleiten, Pakete verwerfen
+
+\subsection{Überprüfung der funktionalen Anforderungen}
+Jede einzelne funktionale Anforderungen wird hier unter einer eigenen kleinen Überschrift überprüft. Die Reihenfolge ist dabei die gleiche wie in der oben stehenden Tabelle.
+
+\subsubsection{F01: Lokale Administration}
+% Leon fragen, Screenshot? %cli2 könnte laufen
+Diese Muss-Anforderung wurde erfüllt. Ein Command-Line-Interace wurde mithilfe von Konventionen wie ,,Human first design'' oder der Forderung, dass das Programm bei der Benutzung unterstützt. So soll es beispielsweise vorschlagen, was als Nächstes gemacht werden kann.
+
+Mit Hilfe der Kommandos ,,help'' oder ,,h'' bekommt der Nutzer alle gültigen Eingaben angezeigt.
+
+Die Eingabe von ,,exit''
+
+\subsubsection{F02: Angriffsarten}
+% Test Nr. 6 (Überprüfung Widerstandsfähigkeit der Miditation-Box)
+% Das System muss die Folgen der aufgelisteten (D)DoS-Angriffe abmildern können:
+Das System kann alle geforderten (D)DoS Angriffe abmildern oder gänzlich verhindern. SYN-FIN, SYN-FIN-ACK sowie Zero Window und Small Window können vollständig erkannt und abgewehrt werden. Die UDP-/TCP- und ICMP-Flood können in ihrer Form abgemildert werden.
+
+\subsubsection{F03: Keine zusätzliche Angriffsfläche}
+% Test Nr. 4 (Überprüfung Abwehrmaßnahmen)
+% Besonders darf das System den unter ,,Angriffsarten'' spezifizierten Angriffen keine zusätzliche Angriffsfläche bieten, d.h. es darf es auch nicht durch Kenntnis der Implementierungsdetails möglich sein, das System mit diesen Angriffen zu umgehen.
+Durch unvollständigkeit des Systems kann diese Anforderung nicht vollständig überprüft werden jedoch ist diese soweit das System implementiert wurde beständig.
+
+\subsubsection{F04: L3/L4 Protokolle}
+Sowohl Protokoll L3, zuständig für die Vermittlung von Daten über einzelne Verbindungsanschnitte und Netzwerkknoten und Adressierung der Kommunikationspartner, als auch Protokoll L4, das die Quell- und Zieladressen und weitere Informationen des Pakets enthält, werden vom System akzeptiert und verwendet. 
+
+\subsubsection{F05: Modi}
+% Test Nr. 3 (Kalibirierung von (D)DOS Erkennung) 
+% Passend zum festgestellten Angriffsmuster muss das System eine passende Abwehrstrategie auswählen und ausführen.                                             
+Das System erkennt und unterscheidet verschiedene Angriffsmethoden und errechnet selbst die passende Abwehrstrategie sowie eine Anpassung der Durchlassrate von Paketen. Die Abwehrstrategie wird von jedem Worker-Thread an seinen eigenen Verkehr angepasst.
+
+\subsubsection{F06: Position}
+In Kapitel 2 ist auf Seite \pageref{fig:Versuchsaufbau} in Abbildung \ref{fig:Versuchsaufbau} der Versuchsaufbau zu sehen. Das System wurde im Labor im Zusebau der TU Ilmenau auch tatsächlich in dieser Reihenfolge aufgebaut. Damit ist diese Anforderung erfüllt.
+
+\subsubsection{F07: Weiterleiten von Paketen}
+Zur Überprüfung dieser Anforderung ist der erste Test des in der Planungs- und Entwurfsphase geschriebenen Testdrehbuchs gedacht. Für den Test der Paketweiterleitung werden zunächst Pakete mit DPDK von einem Port der Netzwerkkarte entgegengenommen und auf den andern Port weitergegeben. Danach wurde begonnen, einzelne Ping-Anfragen vom äußeren System über die Mitigation-Box zum Server laufen zu lassen. Im Anschluss wurde ein Lasttest durchgeführt. Diese Tests haben ergeben, dass... % to do!
+
+\subsubsection{F08: Installation und Deinstallation}     
+Das System wird mit einer Installationsanleitung und Installationsskripten ausgeliefert. Das Installationsskript für abhängige und notwendige Systemeinstellungen und Programme installiert alle notwendigen zusätzlichen Programme und Bibiliotheken und nimmt alle notwendigen Systemeinstellungen vor, soweit möglich. Bei Fehlern wird dem Benutzer ein Hinweis zur Lösung des Problems angezeigt. Die Installation kann auch selbst mit der Installationsanleitung vorgenommen werden, die einzelnen Schritte sind in eigenen Unterkapiteln genauer erklärt.
+Für einen lokalen Bau der Software kann \texttt{Meson} und \texttt{Ninja} verwendet werden, deren Benutzung in der die Installationsanleitung fortführenden Seite \texttt{Usage} erklärt wird. Dort ist auch ein kurzer Einstieg in die Benutzung von \texttt{AEGIS} erklärt.  
+Zur systemweiten Installation von \texttt{AEGIS} kann ebenfalls \texttt{Meson} genutzt werden, das durch ein Installationsskript erweitert wurde.
+Das gesamte Programm und zusätzlich installierten Programme können mit einem Deinstallationsskript wieder vom System gelöscht werden.
+
+Diese Anforderung ist erfüllt.
+
+\subsubsection{F09: Mehrere Angriffe nacheinander und zeitgleich}
+% Test Nr. 4 (Überprüfung Abwehrmaßnahmen)
+Das System ist darauf spezifiziert, einzelne Angriffe und kombinierte Angriffe zu erkennen. Kombinierte Angriffe aus unterschiedlichen angriffsmethoden können erkannt und abgewehrt werden. Ein vollständiger Test konnte mit dem bisherigen Stand des Projektes noch nicht durchgeführt werden.
+
+\subsubsection{F10: IPv4}
+% Das System muss mit IPv4-Verkehr zurechtkommen.
+Das System kann IPv4 Verkehr vollständig verarbeiten, verwalten und stößt auf keine Probleme dabei. Diese Anforderung ist erfüllt.
+
+\subsubsection{F11: Hardware}
+Diese Should-Anforderung wurde mit dem entwickelten System nicht erfüllt. Die Software läuft im derzeitigen Zustand ausschließlich auf dem Testbed im Rechenlabor. Durch kleine Anpassung kann die Nutzung auf alternativer Hardware allerdings ermöglicht werden.
+
+Eine zusätzliche Beschränkung der Hardware besteht in der Nutzung von DPDK und Kernel Bypässen die von der verbauten Netzwerkkarte der Hardware unterstützt werden muss.
+
+\subsubsection{F12: Zugriff}
+Es ist ein ssh-Zugriff auf das System möglich. Die Konfiguration ermöglicht die Authentifizierung nicht mit einem Passwort möglich ist. Mithilfe des Befehls \texttt{ssh-keygen} kann ein Schlüsselpaar generiert werden und ein Public-Key ist in einer Textdatei zu finden. Weiterhin ist es möglich, zu überprüfen, welche anderen Teammitglieder derzeit auf diese Art mit dem System verbunden sind.
+
+\subsubsection{F13: Betrieb}
+% Das System soll auf Dauerbetrieb ohne Neustart ausgelegt sein.
+Zum Zeitpunkt des Projektendes konnte das System in kurzer Zeit betriebsfähig gehalten werden jedoch kein Dauerbetrieb mit Dauerbelastung ausreichend getestet werden. Neustarts zwischen starten und stoppen des Systems waren nicht notwendig.
+Die Anforderung wurde teilweise erfüllt.
+
+\subsubsection{F14: Privacy}
+% Das System soll keine Informationen aus der Nutzlast der ihm übergebenen Pakete lesen oder verändern.
+Dem System ist es möglich auf Paketdaten zuzugreifen und zu lesen. Die Implementierung wurde jedoch genau darauf eingeschränkt, nur Teile der Paketdaten, die zur Erfüllung der Systemaufgaben notwendig sind, zu lesen und gegebenfalls zu verändern. Von dem System kann dadurch keine Nutzlast von Paketen gelesen oder verändert werden. Wird ein Paket als (D)DoS Attacke erkannt wird das Paket mitsamt seiner Nutzlast gelöscht. Ein Eingriff in Privatsphäre oder Analyse von Benutzerdaten außerhalb der systemrelevanten Spezifikationen erfolgt zu keiner Zeit. 
+
+Damit ist diese Anforderung erfüllt.
+
+\subsubsection{F15: Konfiguration}
+Der Administrator kann die Einstellungen von \texttt{AEGIS} durch zwei Konfigurationsdateien anpassen. Innerhalb der \texttt{meson\_options.txt} Datei kann der Bau von Unit Tests und der Dokumentation ein- und ausgeschalten werden. In der Datei \texttt{config.json} können verschiedene Einstellungen wie die zu verwendenden Systemkerne und Durchlassraten eingestellt werden. 
+
+\subsubsection{F16: Abrufen der Statistiken}
+% Der Administrator soll Statistiken über das Verhalten des Systems abrufen können.
+Die globale Statistik mit Informationen über den Datenverkehr soll innerhalb des CLI abgerufen und angezeigt werden. Die Implementierung ist jedoch nicht bis dahin entwickelt. Die Anforderung ist nicht erfüllt.
+
+\subsubsection{F17: Starten und Stoppen des Systems}
+% Der Administrator soll das System starten und stoppen können.
+Das Programm \texttt{AEGIS} kann über ein Terminal vom Benutzer gestartet und gestoppt werden. Das CLI unterstützt den Nutzer dabei mit Hinweisen. Die Anforderung ist erfüllt.
+
+\subsubsection{F18: Informieren über graphische Oberfläche}
+%GUI
+Für die Präsentation ist eine graphische Oberfläche in Arbeit. Diese ist bisher aber nicht fertig und erfüllt die Anforderung noch nicht.
+
+\subsubsection{F19: Administration über grafische Oberfäche}
+Diese Can-Anforderung wurde aus Zeitgründen nicht umgesetzt. Die Administration erfolgt stattdessen über das in F01 beschriebene CLI.
+
+\subsubsection{F20: IPv6}
+%schon einzelne Dinge da, auf die darauf aufgebaut werden kann, oder?
+Das System ist vorerst auf IPv4 ausgelegt und funktionsfähig aber schon darauf ausgerichtet auch IPv6 zu unterstützen. Die Anforderung ist nicht erfüllt kann aber später ohne große Abänderung am gegebenen System hinzugefügt werden. 
+
+\subsubsection{F21: Weitere Angriffsarten}
+% Bei den Anforderungen F21 - F27 handelt es sich solche, die mit Won't priorisiert wurden. Das heißt, dass sie nicht erfüllt werden dürfen. Bei dem während des Softwareprojekts entwickelten System gibt es auch keine Anzeichen dafür, dass es ungewollter Weise vor anderen Gefahren schützt.
+% Das System schützt weder vor anderen außer den genannten DoS-Angriffen (siehe F02 \glqq Angriffsarten\grqq)-insbesondere nicht vor denjenigen, welche auf Anwendungsebene agieren-, noch vor anderen Arten von Cyber-Attacken, die nicht mit DoS in Verbindung stehen. So bleibt ein Intrusion Detection System weiterhin unerlässlich.
+Das System schützt nur vor den in F02 angegebenen (D)DoS Angriffen und stellt keinen Schutz gegen weitere mögliche Angriffe. Die Verwendung weiterer Sicherheitsmechanismen ist weiterhin unerlässlich.
+
+\subsubsection{F22: Anzahl der zu schützende Systeme}
+Das System schützt nur ein einzelnes System. Mit moderaten Änderungen kann die Software aber auf anderen Servern etc. installiert werden und dadurch mehrere schützen. Aus hardwareseitigen Gründen wurde dies aber auch nicht getestet.
+
+\subsubsection{F23: Fehler des Benutzers}
+Auch nach der Entwicklung kann festgehalten werden, dass das System durch einen kompetenten Administrator installiert und genutzt werden muss.
+Fehler durch den Benutzer oder falsche Verwendung können vom System selbst nicht behoben werden.
+
+\subsubsection{F24: Softwareupdates}
+Das System, das während des Projekts entwickelt wurde, wird nach Abschluss der Lehrveranstaltung nicht direkt weiterentwickelt. Während der Erstellung dieses Dokuments wird allerdings davon ausgegangen, dass einige Studierende der Gruppe auch nach Abschluss der Lehrveranstaltung evtl. noch an dem System weiterarbeiten. Features, die möglicherweise dadurch noch hinzugefügt werden, können allerdings nicht als Softwareupdates angesehen werden.
+
+\subsubsection{F25: Router-/Firewall-Ersatz}
+Auch diese Won't-Anforderung wurde nicht erfüllt. Eine Firewall oder vergleichbare schützende Systeme bleiben nach wie vor unerlässlich.
+
+\subsubsection{F26: Hardware-Ausfälle}
+Aegis kann keine Hardwareausfälle beheben.
+
+\subsubsection{F27: Fehler in Fremdsoftware}
+Ebenso gibt keine Möglichkeit das System vor Fehlern einer anderen Software oder Softwareabhängigkeit zu schützen. Der Benutzer ist für die korrekte Installation und Konfiguration aller notwendigen Fremdsoftware und Abhängigkeiten verantwortlich. Die Installations- und Deinstallationsskripte, sowie Dokumentation bieten dem Benutzer Hilfe diese Fehler zu umgehen.
+
+
+\section{Nichtfunktionale Anforderungen}
+% beschreiben qualitative, aber auch quantitative Faktoren des zu entwickelnden Zielsystems 
+% --> Wie sollen die funktionalen Anforderungen umgesetzt werden?
+
+Auch hier wird genau wie bei den funktionalen Anforderungen vorgegangen.
+
+\subsection{Auflistung der nichtfunktionalen Anforderungen}
+
+Nichtfunktionale Anforderungen gehen über die funktionalen Anforderungen hinaus und beschreiben, wie gut das System eine Funktion erfüllt. Hier sind zum Beispiel Messgrößen enthalten, die das System einhalten soll. Im folgenden werden diese nichtfunktionalen Anforderungen beschrieben.
+
+\begin{longtable}[ht] { p{1cm} p{4cm} p{7cm} l }
+    \toprule
+    \textbf{ID} & \textbf{Name}        & \textbf{Beschreibung}                                                                                                                                                                                                                    & \textbf{MuSCoW} \\ \midrule \endhead
+    NF01        & Betriebssystem       & Die entwickelte Software muss auf einer Ubuntu 20.04 LTS Installation laufen. DPDK muss in Version 20.11.1 vorliegen und alle Abhängigkeiten erfüllt sein.                                                                               & Must            \\
+    NF02        & Verfügbarkeit        & Die Verfügbarkeit des Systems soll bei mindestens 98\% liegen. Verfügbarkeit heißt hier, dass das System in der Lage ist, auf legitime Verbindungsanfragen innerhalb von 10 ms zu reagieren.                                             & Must            \\
+    NF03        & Datenrate            & Die anvisierte Datenrate, welche vom externen Netz durch das zu entwickelnde System fließt, muss bei mindestens 20 Gbit/s liegen.                                                                                                        & Must            \\
+    NF04        & Paketrate            & Die anvisierte Paketrate, welche vom zu entwickelnden System verarbeitet werden muss, muss bei mindestens 30 Mpps liegen.                                                                                                                & Must            \\
+    NF05        & Transparenz          & Der Anwender soll das Gefühl haben, dass die Middlebox nicht vorhanden ist.                                                                                                                                                              & Should          \\
+    NF06        & Abwehrrate SYN-Flood & Die für die Angriffe anvisierten Abwehrraten sind für die SYN-Flood, SYN-FIN und SYN-FIN-ACK jeweils 100\%.                                                                                                                              & Should          \\
+    NF07        & False Positive       & Der maximale Anteil an fälschlicherweise nicht herausgefiltertem und nicht verworfenem illegitimen Traffic, bezogen auf das Aufkommen an legitimem Traffic, soll 10\% im Angriffsfall und 5\% im Nicht-Angriffsfall nicht überschreiten. & Should          \\
+    NF08        & False Negative       & Der maximale Anteil an fälschlicherweise nicht verworfenem bösartigem Traffic, bezogen auf das Gesamtaufkommen an bösartigem Traffic, soll 5\% nicht überschreiten.                                                                      & Should          \\
+    NF09        & Round Trip Time      & Die Software soll die Round-Trip-Time eines Pakets um nicht mehr als 10 ms erhöhen. & Should                                                                                                                                                                       \\ \bottomrule
+\end{longtable}
+
+\subsection{Überprüfung der nichtfunktionalen Anforderungen}
+Auch bei den nichtfunktionalen Anforderungen werden jeweils einzelne Unterkapitel genutzt.
+
+\subsubsection{NF01: Betriebssystem}
+Die genannte Software, also Ubuntu 20.04 LTS und DPDK 20.11.1, wurde von allen Teammitgliedern installiert. Schließlich wurde auch nur mit diesen Versionen des Betriebssystems bzw. Frameworks entwickelt und getestet. Es kann also dokumentiert werden, dass das System unter diesen Voraussetzungen wie bei den anderen Tests beschrieben funktioniert. Es kann keine Aussage darüber getroffen werden, inwiefern das System unter anderen Versionen funktioniert.
+
+\subsubsection{NF02: Verfügbarkeit}
+% Test Nr. 5 (Analyse Effekt auf Verbindungen)
+
+\subsubsection{NF03: Datenrate}
+% Test Nr. 8 (allgemeine Bestimmungen)
+
+\subsubsection{NF04: Paketrate}
+% Test Nr. 7 (Ermittlung maximaler Paketrate)
+
+\subsubsection{NF05: Transparenz}
+% Test Nr. 5 (Analyse Effekt auf Verbindungen)
+
+\subsubsection{NF06: Abwehrrate SYN-Flood}
+% Test Nr. 7 (Ermittlung maximaler Paketrate)
+
+\subsubsection{NF07: False Positive}
+% Test Nr. 5 (Analyse Effekt auf Verbindungen)
+
+\subsubsection{NF08: False Negative}
+
+
+\subsubsection{NF09: Round Trip Time}
+% Test Nr. 5 (Analyse Effekt auf Verbindungen)
+
+\end{document}
