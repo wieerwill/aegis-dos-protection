@@ -1,0 +1,5 @@
+{
+    "number_of_attack_packets_per_thread_per_iteration": "20",
+    "attack_type": "udp_flood",
+    "attack_rate": "5"
+}

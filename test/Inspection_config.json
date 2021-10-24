@@ -1,0 +1,11 @@
+{
+    "UDP_flood_weight" : 1,
+    "TCP_flood_weight": 1,
+    "ICMP_flood_weight": 1,
+    "SYNFIN_weight": 1,
+    "SMALLWINDOW_weight": 1,
+    "threshold_UDP": 5,
+    "threshold_TCP": 5,
+    "threshold_ICMP": 5,
+    "min_window_size": 5
+}

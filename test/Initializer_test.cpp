@@ -6,7 +6,7 @@
 
 TEST_CASE("Calculate number of threads", "[]") {
     /*
-        Configurator::instance()->read_config("../test/config.json");
+        Configurator::instance()->read_config("../test/Initializer_config.json");
 
         uint16_t nb_worker_threads = 0;
         // calculate default value of worker threads

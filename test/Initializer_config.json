@@ -1,0 +1,9 @@
+{
+    "STRING" : "Hello World.",
+    "BOOLEAN" : true,
+    "UNSIGNED_INT" : 666,
+    "FLOAT" : 1.337,
+    "DOUBLE" : -3.001,
+    "X" : "80085",
+    "Y" : "Hi"
+}
