@@ -1,0 +1,1241 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:xhtml="http://www.w3.org/1999/xhtml"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="632"
+   height="372"
+   viewBox="-0.5 -0.5 632 372"
+   content="&lt;mxfile host=&quot;online.visual-paradigm.com&quot; modified=&quot;2021-06-23T07:44:35.553Z&quot; agent=&quot;5.0 (X11)&quot; etag=&quot;2cWchRcrlnEFtSp8Dybs&quot; type=&quot;vponline&quot;&gt;&lt;diagram id=&quot;Qtj09UAzpIjFqK8V-_Ze&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;"
+   id="svg323"
+   sodipodi:docname="sym_rss_solution.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata327">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     id="namedview325"
+     showgrid="false"
+     inkscape:zoom="2.1962025"
+     inkscape:cx="266.52651"
+     inkscape:cy="177.45707"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g305" />
+  <defs
+     id="defs50">
+    <style
+       type="text/css"
+       id="style2">ul { margin-top: 0px; margin-bottom: 10px; }
+ol { margin-top: 0px; margin-bottom: 10px; }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; }
+.h1, h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5em; font-weight: bold; }
+h3 { font-size: 1.17em; font-weight: bold; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
+p { margin-top: 0; margin-bottom: 1rem; }
+ul { margin-top: 0px; margin-bottom: 10px; }
+ol { margin-top: 0px; margin-bottom: 10px; }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; }
+.h1, h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5em; font-weight: bold; }
+h3 { font-size: 1.17em; font-weight: bold; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
+p { margin-top: 0; margin-bottom: 1rem; }
+ul { margin-top: 0px; margin-bottom: 10px; }
+ol { margin-top: 0px; margin-bottom: 10px; }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; }
+.h1, h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5em; font-weight: bold; }
+h3 { font-size: 1.17em; font-weight: bold; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
+p { margin-top: 0; margin-bottom: 1rem; }
+</style>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-c3fbec-1-91ead2-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#c3fbec"
+         id="stop4" />
+      <stop
+         offset="100%"
+         style="stop-color:#91ead2"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-c4f0ff-1-98e1f9-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#c4f0ff"
+         id="stop9" />
+      <stop
+         offset="100%"
+         style="stop-color:#98e1f9"
+         id="stop11" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-eeedd9-1-c5c4b0-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#eeedd9"
+         id="stop14" />
+      <stop
+         offset="100%"
+         style="stop-color:#c5c4b0"
+         id="stop16" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-fbedce-1-ffdc8c-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#fbedce"
+         id="stop19" />
+      <stop
+         offset="100%"
+         style="stop-color:#ffdc8c"
+         id="stop21" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-ffdfd6-1-efb9aa-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#ffdfd6"
+         id="stop24" />
+      <stop
+         offset="100%"
+         style="stop-color:#efb9aa"
+         id="stop26" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-e6d2f9-1-d4aef9-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#e6d2f9"
+         id="stop29" />
+      <stop
+         offset="100%"
+         style="stop-color:#d4aef9"
+         id="stop31" />
+    </linearGradient>
+    <linearGradient
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%"
+       id="mx-gradient-fdaabd-1-ff7c9b-1-s-0">
+      <stop
+         offset="0%"
+         style="stop-color:#fdaabd"
+         id="stop34" />
+      <stop
+         offset="100%"
+         style="stop-color:#ff7c9b"
+         id="stop36" />
+    </linearGradient>
+    <filter
+       id="dropShadow">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="1.7"
+         result="blur"
+         id="feGaussianBlur39" />
+      <feOffset
+         in="blur"
+         dx="3"
+         dy="3"
+         result="offsetBlur"
+         id="feOffset41" />
+      <feFlood
+         flood-color="#3D4574"
+         flood-opacity="0.4"
+         result="offsetColor"
+         id="feFlood43" />
+      <feComposite
+         in="offsetColor"
+         in2="offsetBlur"
+         operator="in"
+         result="offsetBlur"
+         id="feComposite45" />
+      <feBlend
+         in="SourceGraphic"
+         in2="offsetBlur"
+         id="feBlend47" />
+    </filter>
+  </defs>
+  <g
+     filter="url(#dropShadow)"
+     id="g305">
+    <rect
+       x="212.01"
+       y="7"
+       width="219"
+       height="322"
+       fill="url(#mx-gradient-c3fbec-1-91ead2-1-s-0)"
+       stroke="#64b19c"
+       pointer-events="all"
+       id="rect52" />
+    <rect
+       x="249.01"
+       y="0"
+       width="145"
+       height="42"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect54" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g69">
+      <switch
+         id="switch67">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 143px; height: 1px; padding-top: 21px; margin-left: 250px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">Middle-Box</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg65">
+          <defs
+             id="defs57">
+            <path
+               id="38_L7F6FqFjKRgLm"
+               d="M267.54998779296875,30.5 h107.88333129882812" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="700"
+             id="text63">
+            <textPath
+               xlink:href="#38_L7F6FqFjKRgLm"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath61"><tspan
+   xml:space="preserve"
+   id="tspan59">Middle-Box</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 321.9 238 L 321.87 191"
+       fill="none"
+       stroke="#000000"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       stroke-dasharray="2 6"
+       pointer-events="stroke"
+       id="path71" />
+    <path
+       d="M 303.87 110.99 L 292.41 76.92 L 322.45 57.2 L 352.49 76.92 L 341.03 110.99 Z"
+       fill="url(#mx-gradient-c4f0ff-1-98e1f9-1-s-0)"
+       stroke="#388aa6"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path73" />
+    <rect
+       x="297.41"
+       y="62.2"
+       width="50.08"
+       height="43.79"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect75" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g90">
+      <switch
+         id="switch88">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 48px; height: 1px; padding-top: 84px; margin-left: 298px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:div>
+                  <xhtml:font
+                     style="font-size: 20px">
+                    <xhtml:b>T0</xhtml:b>
+                  </xhtml:font>
+                </xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg86">
+          <defs
+             id="defs78">
+            <path
+               id="IC_L7F6FqFjKRgLn"
+               d="M310.33331298828125,95 h23.333343505859375" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text84">
+            <textPath
+               xlink:href="#IC_L7F6FqFjKRgLn"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath82"><tspan
+   xml:space="preserve"
+   id="tspan80">T0</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 303.87 182.15 L 292.41 148.08 L 322.45 128.36 L 352.49 148.08 L 341.04 182.15 Z"
+       fill="url(#mx-gradient-c4f0ff-1-98e1f9-1-s-0)"
+       stroke="#388aa6"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path92" />
+    <rect
+       x="297.41"
+       y="133.36"
+       width="50.08"
+       height="43.79"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect94" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g109">
+      <switch
+         id="switch107">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 48px; height: 1px; padding-top: 155px; margin-left: 298px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:div>
+                  <xhtml:font
+                     style="font-size: 20px">
+                    <xhtml:b>T1</xhtml:b>
+                  </xhtml:font>
+                </xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg105">
+          <defs
+             id="defs97">
+            <path
+               id="MC_L7F6FqFjKRgLo"
+               d="M310.33331298828125,166 h23.333343505859375" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text103">
+            <textPath
+               xlink:href="#MC_L7F6FqFjKRgLo"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath101"><tspan
+   xml:space="preserve"
+   id="tspan99">T1</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <rect
+       x="193.01"
+       y="23.26"
+       width="94.89"
+       height="33.94"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect111" />
+    <g
+       transform="translate(-0.5,-4.5)"
+       id="g126">
+      <switch
+         id="switch124">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 93px; height: 1px; padding-top: 40px; margin-left: 194px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 17px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">Port 0</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg122">
+          <defs
+             id="defs114">
+            <path
+               id="CC_L7F6FqFjKRgLp"
+               d="m 216.35001,48.500003 h 48.29998"
+               inkscape:connector-curvature="0" />
+          </defs>
+          <text
+             font-size="17px"
+             font-weight="700"
+             id="text120"
+             style="font-weight:700;font-size:17px;font-family:Helvetica;fill:#000000">
+            <textPath
+               xlink:href="#CC_L7F6FqFjKRgLp"
+               startOffset="50%"
+               id="textPath118"
+               style="text-anchor:middle"><tspan
+   xml:space="preserve"
+   id="tspan116">Port 0</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <rect
+       x="203.01"
+       y="47.51"
+       width="78"
+       height="273"
+       fill="url(#mx-gradient-eeedd9-1-c5c4b0-1-s-0)"
+       stroke="#99976b"
+       pointer-events="all"
+       id="rect128" />
+    <rect
+       x="123.01"
+       y="59.99"
+       width="148"
+       height="51"
+       fill="url(#mx-gradient-fbedce-1-ffdc8c-1-s-0)"
+       stroke="#ddab38"
+       pointer-events="all"
+       id="rect130" />
+    <rect
+       x="221.01"
+       y="71.34"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       pointer-events="all"
+       id="rect132" />
+    <rect
+       x="179.81"
+       y="71.34"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       pointer-events="all"
+       id="rect134" />
+    <rect
+       x="123.01"
+       y="134"
+       width="148"
+       height="51"
+       fill="url(#mx-gradient-fbedce-1-ffdc8c-1-s-0)"
+       stroke="#ddab38"
+       pointer-events="all"
+       id="rect136" />
+    <rect
+       x="219.61"
+       y="145.35"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-e6d2f9-1-d4aef9-1-s-0)"
+       stroke="#9f7ac3"
+       pointer-events="all"
+       id="rect138" />
+    <rect
+       x="179.81"
+       y="145.35"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-e6d2f9-1-d4aef9-1-s-0)"
+       stroke="#9f7ac3"
+       pointer-events="all"
+       id="rect140" />
+    <rect
+       x="366"
+       y="48.5"
+       width="78"
+       height="273"
+       fill="url(#mx-gradient-eeedd9-1-c5c4b0-1-s-0)"
+       stroke="#99976b"
+       pointer-events="all"
+       id="rect142" />
+    <rect
+       x="375.51"
+       y="134"
+       width="148"
+       height="51"
+       fill="url(#mx-gradient-fbedce-1-ffdc8c-1-s-0)"
+       stroke="#ddab38"
+       pointer-events="all"
+       id="rect144" />
+    <rect
+       x="432.31"
+       y="145.35"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       pointer-events="all"
+       id="rect146" />
+    <rect
+       x="387.51"
+       y="145.35"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       pointer-events="all"
+       id="rect148" />
+    <rect
+       x="376.51"
+       y="60"
+       width="148"
+       height="51"
+       fill="url(#mx-gradient-fbedce-1-ffdc8c-1-s-0)"
+       stroke="#ddab38"
+       pointer-events="all"
+       id="rect150" />
+    <rect
+       x="433.31"
+       y="71.35"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       pointer-events="all"
+       id="rect152" />
+    <rect
+       x="388.51"
+       y="71.34"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       pointer-events="all"
+       id="rect154" />
+    <path
+       d="M 303.87 308.15 L 292.42 274.08 L 322.46 254.36 L 352.5 274.08 L 341.04 308.15 Z"
+       fill="url(#mx-gradient-c4f0ff-1-98e1f9-1-s-0)"
+       stroke="#388aa6"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path156" />
+    <rect
+       x="297.42"
+       y="259.36"
+       width="50.08"
+       height="43.79"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect158" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g186">
+      <switch
+         id="switch184">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 48px; height: 1px; padding-top: 281px; margin-left: 298px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 20px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">
+                <xhtml:div><xhtml:font
+   style="font-size: 20px">
+  <xhtml:b>T1</xhtml:b>
+</xhtml:font>
+0</xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg182">
+          <defs
+             id="defs162">
+            <path
+               id="BC_L7F6FqFjKRgLq"
+               d="M304.76666259765625,292 h23.333343505859375" />
+            <path
+               id="RC_L7F6FqFjKRgLr"
+               d="M304.76666259765625,290.5 h34.44999694824219" />
+          </defs>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="900"
+             id="text168">
+            <textPath
+               xlink:href="#BC_L7F6FqFjKRgLq"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath166"><tspan
+   xml:space="preserve"
+   id="tspan164">T1</tspan></textPath>
+          </text>
+          <text
+             fill="rgb(0, 0, 0)"
+             font-size="20px"
+             font-family="Helvetica"
+             font-weight="700"
+             id="text180">
+            <textPath
+               xlink:href="#RC_L7F6FqFjKRgLr"
+               startOffset="50%"
+               text-anchor="middle"
+               id="textPath178"><tspan
+   xml:space="preserve"
+   style="font-size: 20px"
+   id="tspan174"><tspan
+     xml:space="preserve"
+     id="tspan172"><tspan
+       xml:space="preserve"
+       id="tspan170">T1</tspan></tspan></tspan><tspan
+   xml:space="preserve"
+   id="tspan176">0</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <rect
+       x="123.01"
+       y="260"
+       width="148"
+       height="51"
+       fill="url(#mx-gradient-fbedce-1-ffdc8c-1-s-0)"
+       stroke="#ddab38"
+       pointer-events="all"
+       id="rect188" />
+    <rect
+       x="219.61"
+       y="271.35"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       pointer-events="all"
+       id="rect190" />
+    <rect
+       x="175.01"
+       y="271.35"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       pointer-events="all"
+       id="rect192" />
+    <rect
+       x="375.51"
+       y="260"
+       width="148"
+       height="51"
+       fill="url(#mx-gradient-fbedce-1-ffdc8c-1-s-0)"
+       stroke="#ddab38"
+       pointer-events="all"
+       id="rect194" />
+    <rect
+       x="432.31"
+       y="271.35"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-e6d2f9-1-d4aef9-1-s-0)"
+       stroke="#9f7ac3"
+       pointer-events="all"
+       id="rect196" />
+    <rect
+       x="387.51"
+       y="271.35"
+       width="34.4"
+       height="28.3"
+       rx="4.25"
+       ry="4.25"
+       fill="url(#mx-gradient-e6d2f9-1-d4aef9-1-s-0)"
+       stroke="#9f7ac3"
+       pointer-events="all"
+       id="rect198" />
+    <path
+       d="M 9.03 106.78 L 9.03 98.48 L 53.05 98.48 L 53.05 106.78 Z"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path200" />
+    <path
+       d="M 61.01 91.2 L 61.01 99.52 L 53.05 106.78 L 53.05 98.48 L 9.03 98.48 Z"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path202" />
+    <path
+       d="M 53.05 98.48 L 53.05 65.77 L 9.03 65.77 L 9.03 98.48 Z M 53.05 98.48 L 61.01 91.2 L 61.01 58.49 L 16.45 58.49 L 9.03 65.77 L 53.05 65.77 Z M 53.05 65.77 L 61.01 58.49"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path204" />
+    <path
+       d="M 50.94 112.49 L 50.94 107.82 L 0.01 107.82 L 5.85 102.1 L 56.78 102.1 L 56.78 106.78 Z M 50.94 107.82 L 50.94 112.49 L 0.01 112.49 L 0.01 107.82 Z M 50.94 107.82 L 56.78 102.1"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path206" />
+    <rect
+       x="0.01"
+       y="58.49"
+       width="0"
+       height="0"
+       fill="none"
+       stroke="#d77d63"
+       stroke-width="2"
+       pointer-events="all"
+       id="rect208" />
+    <path
+       d="M 49.35 94.85 L 49.35 69.4 L 12.74 69.4 L 12.74 94.85 Z"
+       fill="none"
+       stroke="#d77d63"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path210" />
+    <path
+       d="M 9.03 180.78 L 9.03 172.48 L 53.05 172.48 L 53.05 180.78 Z"
+       fill="url(#mx-gradient-e6d2f9-1-d4aef9-1-s-0)"
+       stroke="#9f7ac3"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path212" />
+    <path
+       d="M 61.01 165.21 L 61.01 173.53 L 53.05 180.78 L 53.05 172.48 L 9.03 172.48 Z"
+       fill="url(#mx-gradient-e6d2f9-1-d4aef9-1-s-0)"
+       stroke="#9f7ac3"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path214" />
+    <path
+       d="M 53.05 172.48 L 53.05 139.77 L 9.03 139.77 L 9.03 172.48 Z M 53.05 172.48 L 61.01 165.21 L 61.01 132.5 L 16.45 132.5 L 9.03 139.77 L 53.05 139.77 Z M 53.05 139.77 L 61.01 132.5"
+       fill="url(#mx-gradient-e6d2f9-1-d4aef9-1-s-0)"
+       stroke="#9f7ac3"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path216" />
+    <path
+       d="M 50.93 186.5 L 50.93 181.83 L 0.01 181.83 L 5.85 176.11 L 56.77 176.11 L 56.77 180.78 Z M 50.93 181.83 L 50.93 186.5 L 0.01 186.5 L 0.01 181.83 Z M 50.93 181.83 L 56.77 176.11"
+       fill="url(#mx-gradient-e6d2f9-1-d4aef9-1-s-0)"
+       stroke="#9f7ac3"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path218" />
+    <rect
+       x="0.01"
+       y="132.5"
+       width="0"
+       height="0"
+       fill="none"
+       stroke="#9f7ac3"
+       stroke-width="2"
+       pointer-events="all"
+       id="rect220" />
+    <path
+       d="M 49.34 168.85 L 49.34 143.4 L 12.74 143.4 L 12.74 168.85 Z"
+       fill="none"
+       stroke="#9f7ac3"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path222" />
+    <path
+       d="M 9.03 306.78 L 9.03 298.48 L 53.05 298.48 L 53.05 306.78 Z"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path224" />
+    <path
+       d="M 61 291.21 L 61 299.53 L 53.05 306.78 L 53.05 298.48 L 9.03 298.48 Z"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path226" />
+    <path
+       d="M 53.05 298.48 L 53.05 265.77 L 9.03 265.77 L 9.03 298.48 Z M 53.05 298.48 L 61 291.21 L 61 258.5 L 16.44 258.5 L 9.03 265.77 L 53.05 265.77 Z M 53.05 265.77 L 61 258.5"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path228" />
+    <path
+       d="M 50.93 312.5 L 50.93 307.83 L 0 307.83 L 5.84 302.11 L 56.77 302.11 L 56.77 306.78 Z M 50.93 307.83 L 50.93 312.5 L 0 312.5 L 0 307.83 Z M 50.93 307.83 L 56.77 302.11"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path230" />
+    <rect
+       x="0"
+       y="258.5"
+       width="0"
+       height="0"
+       fill="none"
+       stroke="#b75a70"
+       stroke-width="2"
+       pointer-events="all"
+       id="rect232" />
+    <path
+       d="M 49.34 294.85 L 49.34 269.4 L 12.74 269.4 L 12.74 294.85 Z"
+       fill="none"
+       stroke="#b75a70"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path234" />
+    <path
+       d="M 76.01 75.51 L 116.64 75.11"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path236" />
+    <path
+       d="M 121.89 75.06 L 114.92 78.63 L 116.64 75.11 L 114.85 71.63 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path238" />
+    <path
+       d="M 524.5 75.51 L 565.14 75.11"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path240" />
+    <path
+       d="M 570.39 75.06 L 563.42 78.63 L 565.14 75.11 L 563.35 71.63 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path242" />
+    <path
+       d="M 82.37 95.75 L 123.01 95.36"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path244" />
+    <path
+       d="M 77.12 95.81 L 84.09 92.24 L 82.37 95.75 L 84.16 99.24 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path246" />
+    <path
+       d="M 530.87 95.28 L 571.51 94.89"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path248" />
+    <path
+       d="M 525.62 95.34 L 532.59 91.77 L 530.87 95.28 L 532.66 98.77 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path250" />
+    <path
+       d="M 612.38 65 L 580.01 65 L 580.01 116.5 L 612.38 116.5 Z M 612.38 116.5 L 623.01 106.52 L 623.01 54.5 L 590.61 54.5 L 580.01 65 L 612.38 65 L 612.38 116.5 Z"
+       fill="url(#mx-gradient-fdaabd-1-ff7c9b-1-s-0)"
+       stroke="#b75a70"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path252" />
+    <rect
+       x="580.01"
+       y="54.5"
+       width="0"
+       height="0"
+       fill="none"
+       stroke="#b75a70"
+       stroke-width="2"
+       pointer-events="all"
+       id="rect254" />
+    <path
+       d="M 612.38 65 L 623.01 54.5 M 580.01 84.97 L 612.38 84.97 M 580.01 108.61 L 612.38 108.61 M 587.97 72.88 L 596.98 72.88 M 600.71 76.03 L 600.71 69.72 L 584.24 69.72 L 584.24 76.03 L 600.71 76.03 Z"
+       fill="none"
+       stroke="#b75a70"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path256" />
+    <path
+       d="M 612.39 139 L 580.01 139 L 580.01 190.51 L 612.39 190.51 Z M 612.39 190.51 L 623.01 180.53 L 623.01 128.51 L 590.62 128.51 L 580.01 139 L 612.39 139 L 612.39 190.51 Z"
+       fill="url(#mx-gradient-ffdfd6-1-efb9aa-1-s-0)"
+       stroke="#d77d63"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path258" />
+    <rect
+       x="580.01"
+       y="128.51"
+       width="0"
+       height="0"
+       fill="none"
+       stroke="#d77d63"
+       stroke-width="2"
+       pointer-events="all"
+       id="rect260" />
+    <path
+       d="M 612.39 139 L 623.01 128.51 M 580.01 158.98 L 612.39 158.98 M 580.01 182.62 L 612.39 182.62 M 587.97 146.89 L 596.99 146.89 M 600.71 150.04 L 600.71 143.73 L 584.25 143.73 L 584.25 150.04 L 600.71 150.04 Z"
+       fill="none"
+       stroke="#d77d63"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path262" />
+    <path
+       d="M 612.38 265 L 580.01 265 L 580.01 316.5 L 612.38 316.5 Z M 612.38 316.5 L 623.01 306.52 L 623.01 254.5 L 590.61 254.5 L 580.01 265 L 612.38 265 L 612.38 316.5 Z"
+       fill="url(#mx-gradient-e6d2f9-1-d4aef9-1-s-0)"
+       stroke="#9f7ac3"
+       stroke-width="2"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path264" />
+    <rect
+       x="580.01"
+       y="254.5"
+       width="0"
+       height="0"
+       fill="none"
+       stroke="#9f7ac3"
+       stroke-width="2"
+       pointer-events="all"
+       id="rect266" />
+    <path
+       d="M 612.38 265 L 623.01 254.5 M 580.01 284.97 L 612.38 284.97 M 580.01 308.62 L 612.38 308.62 M 587.97 272.88 L 596.98 272.88 M 600.71 276.04 L 600.71 269.73 L 584.24 269.73 L 584.24 276.04 L 600.71 276.04 Z"
+       fill="none"
+       stroke="#9f7ac3"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path268" />
+    <rect
+       x="359"
+       y="24.56"
+       width="94.89"
+       height="33.94"
+       fill="none"
+       stroke="none"
+       pointer-events="all"
+       id="rect270" />
+    <g
+       transform="translate(-0.5,-4.5)"
+       id="g285">
+      <switch
+         id="switch283">
+        <foreignObject
+           style="overflow: visible; text-align: left;"
+           pointer-events="none"
+           width="100%"
+           height="100%"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 93px; height: 1px; padding-top: 42px; margin-left: 360px;">
+            <xhtml:div
+               style="box-sizing: border-box; font-size: 0; text-align: center; ">
+              <xhtml:div
+                 style="display: inline-block; font-size: 17px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; font-weight: bold; word-break: break-word; white-space: normal; word-wrap: normal; ">Port 1</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <svg
+           width="100%"
+           height="100%"
+           version="1.1"
+           id="svg281">
+          <defs
+             id="defs273">
+            <path
+               id="bC_L7F6FqFjKRgLs"
+               d="m 382.35001,50.500003 h 48.29998"
+               inkscape:connector-curvature="0" />
+          </defs>
+          <text
+             font-size="17px"
+             font-weight="700"
+             id="text279"
+             style="font-weight:700;font-size:17px;font-family:Helvetica;fill:#000000">
+            <textPath
+               xlink:href="#bC_L7F6FqFjKRgLs"
+               startOffset="50%"
+               id="textPath277"
+               style="text-anchor:middle"><tspan
+   xml:space="preserve"
+   id="tspan275">Port 1</tspan></textPath>
+          </text>
+        </svg>
+      </switch>
+    </g>
+    <path
+       d="M 321.9 238 L 321.87 191"
+       fill="none"
+       stroke="#000000"
+       stroke-width="2"
+       stroke-miterlimit="10"
+       stroke-dasharray="2 6"
+       pointer-events="stroke"
+       id="path287" />
+    <path
+       d="M 76.01 75.51 L 116.64 75.11"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path289" />
+    <path
+       d="M 121.89 75.06 L 114.92 78.63 L 116.64 75.11 L 114.85 71.63 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path291" />
+    <path
+       d="M 524.5 75.51 L 565.14 75.11"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path293" />
+    <path
+       d="M 570.39 75.06 L 563.42 78.63 L 565.14 75.11 L 563.35 71.63 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path295" />
+    <path
+       d="M 82.37 95.75 L 123.01 95.36"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path297" />
+    <path
+       d="M 77.12 95.81 L 84.09 92.24 L 82.37 95.75 L 84.16 99.24 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path299" />
+    <path
+       d="M 530.87 95.28 L 571.51 94.89"
+       fill="none"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="stroke"
+       id="path301" />
+    <path
+       d="M 525.62 95.34 L 532.59 91.77 L 530.87 95.28 L 532.66 98.77 Z"
+       fill="#000000"
+       stroke="#000000"
+       stroke-miterlimit="10"
+       pointer-events="all"
+       id="path303" />
+  </g>
+  <switch
+     id="switch313">
+    <g
+       requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+       id="g307" />
+    <a
+       transform="translate(0,-5)"
+       id="a311">
+      <text
+         text-anchor="middle"
+         font-size="10px"
+         x="50%"
+         y="100%"
+         id="text309" />
+    </a>
+  </switch>
+</svg>
