@@ -11,7 +11,7 @@ In sogenannten Unit-Tests, die auch als Modultest oder Komponententest bezeichne
 
 Da die Unit-Tests im vorliegenden Softwareprojekt bereits in der Implementierungsphase durchgeführt werden konnten, noch vor der eigentlichen Validierungsphase, war es möglich, Fehler bereits frühzeitig zu erkennen. Ein weiterer Vorteil des Unit-Testens besteht darin, dass beim Auftreten eines Fehlers dieser sehr genau eingegrenzt werden kann. Somit kann dieser Fehler schneller gefunden und dann auch behoben werden. Außerdem ermöglichen Unit-Tests eine parallele Bearbeitung, denn das Testbed existiert schließlich nur einmal. 
 
-\subsection{Mocking: \texttt{libdpdk\_dummy}}
+\subsection{Mocking: libdpdk\_dummy}
 Mocking (dt.: Nachbildung oder Imitation) findet innerhalb der Unit-Tests Verwendung, um so isolierte Tests durchführen zu können. Da in diesem Projekt Tests bereits frühzeitig stattfinden sollten, sich DPDK jedoch nicht mit Unit Tests kompilieren ließ, wurde die Mocking-Bibliothek \texttt{libdpdk\_dummy} erstellt. Diese kleine Bibliothek weist zwar eine geringere Funktionalität als das komplette DPDK-Framework auf, setzt aber genau das um, was bei den Unit-Tests gebraucht wird. So wurden genau die Header-Dateien nachgebildet, deren Funktionalitäten beim Testen benötigt wurden. Diese Nachbildung entstand durch Kopieren aus den \glqq Original-DPDK-Headern\grqq{} und individuelle Anpassung an die Anforderungen des Projekts.
 
 \begin{lstlisting} [caption= {Unit-Test zu \texttt{lipdpdk\_dummy}}, label={libdpdk}]
@@ -27,29 +27,54 @@ TEST_CASE("rte_mbuf", "[]"){
 Auch zu \texttt{lipdpdk\_dummy} existiert ein Unit-Test, um zu überprüfen, ob sie so wie beabsichtigt arbeitet (vgl. Codeausschnitt \ref{libdpdk}). Hier werden zuerst Pointer auf einen \texttt{rte\_mbuf} und einen \texttt{rte\_mempool} angelegt. Danach wird überprüft, ob die Methode \texttt{rte\_pktmbuf\_alloc()} richtig arbeitet, indem gecheckt wird, ob nach der Allokation in \texttt{mbuf} kein Nullpointer liegt. Auf das triviale Löschen des \texttt{mbuf}s wird an dieser Stelle verzichtet, weil es bei diesem Test lediglich auf die grundlegende Funktionalität ankommt. Da das Löschen sehr einfach ist, ist das es in diesem Fall nicht unbedingt notwendig.
 
 \subsection{ConfigurationManagement}
-... %\todo
-\textcolor{red}{toDo Leon}
+
+Das ConfigurationManagement bietet eine Schnittstelle zu den Konfigurationsdateien (config.json und default\_config.json). In der Datei config.json kann der Endnutzer Einstellungen wie die Anzahl der verwendeten Threads ändern. In der Standarddatei default\_config.json hingegen stehen Standardwerte, die vom Programm vorgegeben sind und verwendet werden, wenn die Daten der anderen Datei fehlerhaft oder nicht vorhanden sind.
+
+Da die Klasse \texttt{Configurator} als \texttt{Singleton} implementiert ist, es also nur ein Objekt der Klasse gibt, kann im Code nicht über einen Konstruktor, sondern nur über eine Methode \texttt{instance()} auf die Klasse zugegriffen werden.
+
+Die folgenden Tests sollen prüfen, ob die Dateien korrekt erkannt werden und ob Einstellungen sowie Standardwerte richtig eingelesen werden.
 
 \subsubsection{Beispiel: Einlesen einer JSON-Datei}
+
+Dieser Test prüft, ob die Konfigurationsdatei erkannt und richtig eingelesen wird.
+
 \begin{lstlisting} [caption= {Unit-Test zum Einlesen einer JSON-Datei}, label={config1}]
 TEST_CASE("Json Datei einlesen", "[]") {
     
-   REQUIRE_NOTHROW(Configurator::instance()->read_config(
-   "../test/ConfigurationManagement/config_test.json"));
+   REQUIRE_NOTHROW(Configurator::instance()->read_config("../test/ConfigurationManagement/config_test.json"));
     
-   REQUIRE(Configurator::instance()->get_config_as_bool("BOOLEAN") == true);    REQUIRE(Configurator::instance()->get_config_as_unsigned_int(
-   "UNSIGNED_INT") == 42);
-   REQUIRE(Configurator::instance()->get_config_as_string("STRING") ==
-   "Hello World.");
+   REQUIRE(Configurator::instance()->get_config_as_bool("BOOLEAN") == true);
+   REQUIRE(Configurator::instance()->get_config_as_unsigned_int("UNSIGNED_INT")  == 42);
+   REQUIRE(Configurator::instance()->get_config_as_string("STRING") == "Hello World.");
    REQUIRE(Configurator::instance()->get_config_as_float("FLOAT") == 1.337f);
    REQUIRE(Configurator::instance()->get_config_as_double("DOUBLE") == -3.001);
 } \end{lstlisting}
+
 \subsubsection{Beispiel: Nicht exisitierende JSON-Datei}
+
+Dieser Test prüft, ob das Programm bei einem falschen Pfad zu einer Konfigurationsdatei auch tatsächlich keine Datei einliest.
+
 \begin{lstlisting}[caption= {Unit Test: Nicht existierende JSON-Datei}, label={config2}]
 TEST_CASE("nicht existierende Json-Datei", "[]") {
     REQUIRE_THROWS(Configurator::instance()->read_config("non-existent.json"));
-    REQUIRE_THROWS(Configurator::instance()->read_config("non-existent.json",
-    "typo.json"));
+    REQUIRE_THROWS(Configurator::instance()->read_config("non-existent.json", "typo.json"));
+}\end{lstlisting}
+
+\subsubsection{Beispiel: Default Config}
+
+Dieser Test prüft, ob, wenn und nur wenn ein Eintrag in der normalen Datei nicht existiert, die Daten aus der Standarddatei gelesen werden.
+
+Die Methoden zum Auslesen der Konfigurationsdateien ermöglichen es, zusätzlich einen optionalen Übergabewert auf \texttt{true} zu setzen. Dadurch wird erzwungen, dass die Standarddatei zum Auslesen verwendet wird.
+
+\begin{lstlisting}[caption= {Unit Test: Default Config}, label={config4}]
+TEST_CASE("Default Config") {
+    REQUIRE_NOTHROW(Configurator::instance()->read_config(
+    "../test/ConfigurationManagement/config_test.json",
+    "../test/ConfigurationManagement/default_config_test.json"));
+    
+    REQUIRE(Configurator::instance()->get_config_as_unsigned_int("UNSIGNED_INT") == 42);
+    REQUIRE(Configurator::instance()->get_config_as_unsigned_int("UNSIGNED_INT", true) == 666);
+    REQUIRE(Configurator::instance()->get_config_as_string("X") == "80085");
 }\end{lstlisting}
 
 \subsection{PacketDissection}
@@ -115,11 +140,11 @@ SECTION("get_empty_packet", "[]") {
 
 Im Codeausschnitt \ref{pc2} zur Methode \texttt{get\_empty\_packet()} wird überprüft, ob die Getter-Methode zum Erhalten eines leeren Paketes wie gewünscht funktioniert. Zunächst wird dazu in Z. 4 f. sichergestellt, dass die bisherige Zahl der (gepollten) Pakete null ist. Anschließend wird für eine \texttt{PacketInfo}-Referenz die entsprechende Methode aufgerufen, wie in Z. 7 zu erkennen ist. In den anschließenden Code-Zeilen wird gecheckt, ob es keine Null-Pointer gibt und ob es sich um \texttt{IPv4TCP} handelt. Außerdem ist es wichtig, dass die Anzahl der Pakete insgesamt größer als die der abgefragten Pakete ist, genauer gesagt eins und null. Die entsprechenden Assertions sind in Z. 27 - 30 zu finden.
 
-Die darauf folgende Section \texttt{IPv4TCP} unterscheidet sich nur insofern von der default-Variante, dass hier in Z. 22 beim Aufruf der \texttt{get\_empty\_packet()}-Methode zusätzlich \texttt{IPv4TCP} übergeben wird. Die Beschreibung der weiteren Bestandteile der Sektion findet man demzufolge im vorhergehenden Absatz.
+Die darauf folgende Section \texttt{IPv4TCP} unterscheidet sich nur insofern von der default-Variante, dass hier in Z. 22 beim Aufruf der \texttt{get\_empty\_packet()}-Methode zusätzlich \texttt{IPv4TCP} übergeben wird. Die Beschreibung der weiteren Bestandteile der Sektion kann demzufolge im vorhergehenden Absatz gefunden werden.
 
 Im Codeausschnitt \ref{pc3} wird \texttt{get\_empty\_packet()} so oft aufgerufen, bis die \texttt{BURST\_SIZE} erreicht ist. Direkt danach wird sichergestellt, dass die gesamte Anzahl an Paketen auch wirklich der \texttt{BURST\_SIZE} entspricht.
 
-\begin{lstlisting} [caption= {Sektion ,,Create more packets than burst size'' mit den zwei Untersektionen ,,fill till BURST\_SIZE'' und ,,fill till BURST\_SIZE + 1''}, label={pc3}]
+\begin{lstlisting} [caption= {Sektion \texttt{Create more packets than burst size} mit den zwei Untersektionen \texttt{fill till BURST\_SIZE} und \texttt{fill till BURST\_SIZE + 1}}, label={pc3}]
 SECTION("create more packets than burst size", "[]") {
     
     SECTION("fill till BURST_SIZE", "[]") {
@@ -127,7 +152,6 @@ SECTION("create more packets than burst size", "[]") {
             PacketInfo* pkt_info = pkt_container->get_empty_packet();
             CHECK(pkt_info != nullptr);
         }
-        
         CHECK(pkt_container->get_total_number_of_packets() == BURST_SIZE);
     }
     
@@ -136,7 +160,6 @@ SECTION("create more packets than burst size", "[]") {
             PacketInfo* pkt_info = pkt_container->get_empty_packet();
             CHECK(pkt_info != nullptr);
         }
-        
         CHECK(pkt_container->get_total_number_of_packets() ==
         BURST_SIZE + 1);
     }
@@ -151,7 +174,7 @@ Die Test-Section, die in Codeabschnitt \ref{pc4} zu sehen ist, dient zum Test de
 
 In ersterer wird zunächst in Z. 5 ein leeres Paket hinzugefügt und wieder die Richtigkeit der Anzahl der Pakete getestet. Darauf hin kommt es für \texttt{pkt\_info\_1} zum Aufruf der\\ \texttt{get\_packet\_at\_index()}-Methode. Dabei wird der mit Hilfe von\\ \texttt{get\_total\_number\_of\_packets()} ermittelte Index des zu Beginn erstellten leeren Pakets übergeben. Anschließend wird wieder einmal gecheckt, ob es sich auch wirklich um ein valide Paket handelt und die Anzahl aller Pakete und der abgerufenen Pakete korrekt ist. In Z. 18 f. wird zunächst getestet, ob es bei der bereits in Z. 9 aufgerufenen Methode auch wirklich zu keinen Fehlern kommt. Bei der Übergabe eines Indexes, unter dem kein Paket zu finden ist, muss es allerdings zum Wurf einer Exception kommen, was in Z. 20 kontrolliert wird.
 
-\begin{lstlisting} [caption= {Sektion ,,get\_packet\_at\_index'' mit den zwei Untersektionen ,,general'' und ,,test out of bounds error''}, label={pc4}]
+\begin{lstlisting} [caption= {Sektion \texttt{get\_packet\_at\_index} mit den zwei Untersektionen \texttt{general} und \texttt{test out of bounds error}}, label={pc4}]
 SECTION("get_packet_at_index", "[]") {
     
     SECTION("general", "[]") {
@@ -200,7 +223,7 @@ SECTION("get_packet_at_index", "[]") {
 
 In der zweiten Section des Codeabschnitts \ref{pc4} wird wieder ähnlich wie oben vorgegangen. Zu Beginn wird für jedes \texttt{i} von 0 bis \texttt{BURST\_SIZE / 2} ein leeres Paket abgerufen und geprüft, ob die Anzahl der Pakete stimmt. Somit darf es auch beim Aufruf von \texttt{get\_packet\_at\_index} für die erste Hälfte des Intervalls von null bis \texttt{BURST\_SIZE} zu keinem Fehler kommen, was in Z. 32 ff. getestet wird. In der darauf folgenden for-Schleife muss es hingegen zu einer Exception kommen. Die letzten beiden Checks in Z. 40 - 43 sind äquivalent zu denen in Z. 18 - 21.
 
-\begin{lstlisting} [caption= {Sektion ,,take\_packet and add\_packet''}, label={pc5}]
+\begin{lstlisting} [caption= {Sektion \texttt{take\_packet and add\_packet}}, label={pc5}]
 SECTION("take_packet and add_packet", "[]") {
     
     PacketInfo* pkt_info_0 = pkt_container->get_empty_packet();
@@ -230,7 +253,7 @@ In Codeabschnitt \ref{pc5} wird getestet, ob das Herausnehmen und das Hinzufüge
 
 Die Methode \texttt{drop\_packet()} wird durch die im Codeabschnitt \ref{pc6} dargestellte Sektion getestet. Auch hierfür werden in den Zeilen 4 - 7 die gleichen Initialisierungen wie in der vorherigen Section vorgenommen. Nach dem einmaligen Aufruf der Methode \texttt{drop\_packet()} werden die üblichen Checks durchgeführt. Besonders interessant ist Zeile 13, in der getestet wird, ob die Methode \texttt{get\_packet\_at\_index()} für den Index 0 einen Null-Pointer zurückgibt. In Zeile 15 wird sicher gestellt, dass es beim erneuten Aufruf von \texttt{drop\_packet()} nicht zu einer Exception kommt. Die letzten drei Zeilen können mit Z. 11 - 13 verglichen werden.
 
-\begin{lstlisting} [caption= {Sektion ,,drop\_packet''} \label{pc6}]
+\begin{lstlisting} [caption= {Sektion \texttt{drop\_packet}} \label{pc6}]
 SECTION("drop_packet", "[]") {
     
     SECTION("default") {
@@ -255,7 +278,7 @@ SECTION("drop_packet", "[]") {
 
 Der letzte beispielhafte Codeabschnitt für den \texttt{PacketContainer} ist der für den Test von\\ \texttt{poll\_packets}. Auch hierfür wird zu Beginn überprüft, ob die Anzahl der Pakete null ist. In Zeile 6 wird der vorzeichenlose 16-bit-Ganzzahlwert \texttt{nb\_pkts\_polled} definiert. Zum Aufruf der Methode \texttt{poll\_packets} kommt es in Z. 7. Anschließend wird erneut geprüft, ob die Anzahl der Pakete richtig ist. Die Zeilen 13 - 17 sind für den Test von \texttt{get\_packet\_at\_index()} mit der Übergabe des Wertes \texttt{nb\_pkts\_polled - 1} wichtig. So darf es auch hier nicht zum Wurf einer Exception kommen und sowohl \texttt{pkt\_info} als auch \texttt{pkt\_info->get\_mbuf()} dürfen kein Null-Pointer sein. Damit soll getestet werden, ob die Variablen, die von den entsprechenden Getter-Methoden zurückgegeben werden, richtig berechnet worden sind.
 
-\begin{lstlisting} [caption= {Sektion ,,poll\_packets''}, label={pc7}]
+\begin{lstlisting} [caption= {Sektion \texttt{poll\_packets}}, label={pc7}]
 SECTION("poll_packets", "[]") {
     
     CHECK(pkt_container->get_number_of_polled_packets() == 0);
@@ -276,11 +299,57 @@ SECTION("poll_packets", "[]") {
 
 }\end{lstlisting}
 
-Auf die Sektion ,,poll\_packets'' würde noch eine weitere Sektion mit neun Untersektionen folgen, die das Senden von Paketen testet. Diese Sektion wird hier jedoch nicht näher beschrieben.
+Auf die Sektion \texttt{poll\_packets} würde noch eine weitere Sektion mit neun Untersektionen folgen, die das Senden von Paketen testet. Diese Sektion wird hier jedoch nicht näher beschrieben.
 
 \subsubsection{Beispiel aus der PacketInfo}
-... %\todo
-\textcolor{red}{toDo für Tobias}
+
+In der unten stehenden Testsektion (siehe Abb. \ref{utpi}) wird das Beibehalten des Datentyps für \texttt{IPv4ICMP}, \texttt{IPv4TCP} und \texttt{IPv4UDP} getestet. In den Zeilen 6-9, 12-15 und 18-21 werden jeweils neue Objekte erstellt und gecastet. Am Ende geht es um die Überprüfung des korrekten Typs in den \texttt{CHECK}-Statements. In Z. 24 f. wird validiert, dass eine neue \texttt{PacketInfo} auch tatsächlich \texttt{NONE} beim Aufruf von \texttt{get\_type()} zurückgibt. Die letzten Zeilen des Codeabschnitts sind für das Löschen zuständig.
+
+\begin{lstlisting} [caption= {Testfall \texttt{Transformation} im Unit-Test zur \texttt{PacketInfo}}, label={utpi}]
+TEST_CASE("Transformation", "[]") {
+    
+    SECTION("keeping Type", "[]") {
+        PacketInfo* pkt_inf;
+        // pkt_inf = PacketInfoCreator::create_pkt_info(IPv4ICMP);
+        pkt_inf = new PacketInfoIpv4Icmp;
+        PacketInfoIpv4Icmp* pkt_inf_icmp;
+        pkt_inf_icmp = static_cast<PacketInfoIpv4Icmp*>(pkt_inf);
+        CHECK(pkt_inf_icmp->get_type() == IPv4ICMP);
+        
+        // PacketInfoCreator::create_pkt_info(IPv4TCP)
+        pkt_inf = new PacketInfoIpv4Tcp;
+        PacketInfoIpv4Tcp* pkt_inf_tcp;
+        pkt_inf_tcp = static_cast<PacketInfoIpv4Tcp*>(pkt_inf);
+        CHECK(pkt_inf_tcp->get_type() == IPv4TCP);
+        
+        // PacketInfoCreator::create_pkt_info(IPv4UDP)
+        pkt_inf = new PacketInfoIpv4Udp;
+        PacketInfoIpv4Udp* pkt_inf_udp;
+        pkt_inf_udp = static_cast<PacketInfoIpv4Udp*>(pkt_inf);
+        CHECK(pkt_inf_udp->get_type() == IPv4UDP);
+        
+        // PacketInfoCreator::create_pkt_info(NONE)
+        pkt_inf = new PacketInfo;
+        CHECK(pkt_inf->get_type() == NONE);
+        
+        PacketInfo* pkt_inf_arr[5];
+        pkt_inf_arr[0] = pkt_inf_icmp;
+        pkt_inf_arr[1] = pkt_inf_tcp;
+        pkt_inf_arr[2] = pkt_inf_udp;
+        pkt_inf_arr[3] = pkt_inf;
+        CHECK(pkt_inf_arr[0]->get_type() == IPv4ICMP);
+        CHECK(pkt_inf_arr[1]->get_type() == IPv4TCP);
+        CHECK(pkt_inf_arr[2]->get_type() == IPv4UDP);
+        CHECK(pkt_inf_arr[3]->get_type() == NONE);
+        
+        // clean up
+        delete pkt_inf;
+        delete pkt_inf_icmp;
+        delete pkt_inf_tcp;
+        delete pkt_inf_udp;
+        delete pkt_inf_arr;
+    }
+}\end{lstlisting}
 
 \subsection{Inspection}
 Die Unit-Tests der \texttt{Inspection} können in drei Teile gegliedert werden.
@@ -426,7 +495,7 @@ Die Methode \texttt{check\_syn\_cookie()} (vgl. Codeausschnitt \ref{checksc}) ü
 
 \begin{lstlisting} [caption= {Unit-Test für die Methode \texttt{check\_cookie\_secret()} in \texttt{Treatment\_test.cpp}}, label = ut_checksc]
 TEST_CASE("check_syn_cookie", "[]"){
-    ....
+    ...
     SECTION("check_syn_cookie(): diff==1 with random numbers (without using the PacketDissection)", "[]"){
         //Create a Treatment object
         Treatment_friend treat;
@@ -457,10 +526,9 @@ TEST_CASE("check_syn_cookie", "[]"){
         d._intip = intip;
         d._extport = extport;
         d._intport = intport;
-            
         CHECK(treat.check_syn_cookie(cookie_value, d));
     }
-....
+    ...
 } \end{lstlisting}
 Im Unit-Test in Codeausschnitt \ref{ut_checksc} wird untersucht, ob die Methode \texttt{check\_syn\_cookie()} als Rückgabewert \texttt{true} hat (siehe Zeile 34). Zudem wird in Zeile 15 überprüft, ob der Timestamp korrekt inkrementiert wurde.
 
@@ -509,7 +577,6 @@ TEST_CASE("Benchmark", "[]"){
     clock_t tr;
     clock_t td;
     densemap.set_empty_key(Data(0,0,0,0));
-    
     Info flix;
     flix._offset = 123;
     flix._finseen = 0;
@@ -525,7 +592,6 @@ TEST_CASE("Benchmark", "[]"){
     Data arr [runner] = {}; 
     
     for(long r = 0; r < runs; ++r) {
-        
         
         for(long i = 0; i < runner; ++i){
             arr[i]._extip = rand(); 
@@ -550,7 +616,6 @@ TEST_CASE("Benchmark", "[]"){
         tu = clock() - tu; 
         auto finishu = std::chrono::high_resolution_clock::now();
         
-        
         auto startd = std::chrono::high_resolution_clock::now();
         td = clock() ; 
         for(long i = 0; i < runner; ++i) {
@@ -572,7 +637,6 @@ TEST_CASE("Benchmark", "[]"){
         uclock[r] = tu; 
         BOOST_LOG_TRIVIAL(info) << "Elapsed time of unordered: " << elapsedu.      count();
         BOOST_LOG_TRIVIAL(info) << "Elapsed time of dense: " << elapsedd.          count();
-        
     }
     int sumd = 0; 
     int sumu = 0; 
@@ -590,7 +654,7 @@ Das Ergebnis des Benchmarks in Abb. \ref{benchmark} zeigt, dass die Densemap in 
 	This is the average clock count of unordered\_map of 10 rounds, of each 600000 elements inserted, and 2400000 elements searched : 614058
 \end{lstlisting}
 
-Ebenfalls getestet wurde die Patchmap von 1ykos. Hierbei stellte sich allerdings heraus, dass die Performanz nicht den Erwartungen genügte.
+Ebenfalls getestet wurde die Patchmap von 1ykos. Hierbei stellte sich allerdings heraus, dass die Performance nicht den Erwartungen genügte.
 
 \subsubsection{Beispiel: Densemap}
 Um die Verhaltensweise der Densemap vor deren Nutzung im Code besser kennenzulernen, wurden mehrere Tests geschrieben, welche die Grundfunktionalitäten der Map wie zum Beispiel das Löschen oder Hinzufügen von Werten testen.
@@ -714,7 +778,7 @@ TEST_CASE("RandomNumberGeneratorStatistics", "[]") {
         double chisquare = 0.0;
         for (int i = 0; i < r; i++) {
             // chi square is calculated
-            chisquare = chisquare + ((f[i] - n / r) * (f[i] - n / r) / (n / r));
+            chisquare = chisquare + ((f[i] - n / r)*(f[i] - n / r) / (n / r));
         }
         std::cout << "chi square is: " << chisquare << std::endl;
         double k = sqrt(chisquare / (n + chisquare));
@@ -735,7 +799,7 @@ Ein Problem des Chi-Quadrats ist allerdings die Abhängigkeit von n. Da sich bei
 \end{align}
 Das hierbei errechnete Ergebnis ist eine Zahl zwischen 0 und K\textsubscript{max} mit K\textsubscript{max}$\approx$1, welche \texttt{n} berücksichtigt. Eine niedriger Kontingenzkoeffizient heißt, dass die generierten Zahlen gut verteilt sind und die tatsächlichen Werte nah an die theoretischen heranreichen. Ein höherer Kontingenzkoeffizient bedeutet, dass vermehrt Zahlen häufiger bzw. seltener als gewollt vorkommen.
 
-Mit dem oben dargestellten Test hat sich ein \texttt{k} von ca. 0,003 ergeben, was sich als ein sehr gutes Ergebnis bezeichnen lässt. Wird allerdings die Methode \texttt{gen\_rdm\_16\_bit\_in\_interval()} der im Codeausschnitt \ref{rng} dargestellten Datei aufgerufen und dabei die Werte 1024 und 49151 übergeben, so verschlechtert sich der Kontingenzkoeffizient auf einen mittelmäßig guten Wert von ca. 0,59.
+Mit dem oben dargestellten Test hat sich ein \texttt{k} von ca. 0,003 ergeben, was sich als ein sehr gutes Ergebnis bezeichnen lässt. Wird allerdings die Methode \texttt{gen\_rdm\_16\_bit\_in\_interval()} aufgerufen und dabei die Werte 1024 und 49151 übergeben, so verschlechtert sich der Kontingenzkoeffizient auf einen mittelmäßig guten Wert von ca. 0,59.
 
 Es lässt sich somit festhalten, dass die Verkleinerung des Intervalls der zurückgegebenen Zahl auf das von validen Portnummern eine Verschlechterung der Zufälligkeit des Algorithmus mit sich bringt, was allerdings kein Problem darstellt. Das ist eine logische Konsequenz aus der Tatsache, dass keine Zahlen außerhalb des Intervalls mehr zurückgegeben werden.
 
@@ -744,7 +808,7 @@ Die Methode \texttt{gen\_rdm\_32\_bit()} und \texttt{gen\_rdm\_64\_bit()} konnte
 \subsubsection{Zeitlicher Vergleich mit rand()}
 Da der auf Xorshift basierende \texttt{RandomNumberGenerator} insbesondere aufgrund einer besseren Effizienz als die der Standardfunktion \texttt{rand()} implementiert wurde, ist ein Vergleich beider Zufallszahlengeneratoren von Interesse. Der für einen Vergleich benutze Test wird im Codeausschnitt \ref{rngtime} beispielhaft für die Methode \texttt{gen\_rdm\_32\_bit()} gezeigt. Es wurden ebenfalls zwei äquivalente Sections für die andere Methode geschrieben. Dabei wurde stets darauf geachtet, dass die mit \texttt{rand()} generierten Zahlen das gleiche Intervall und die gleiche Größe wie beim RNG haben.
 
-\begin{lstlisting}[caption= {Test zum Vergleich der Zeiten vom RandomNumberGenerator mit rand()}, label = rngtime]
+\begin{lstlisting}[caption= {Test zum Vergleich der Zeiten vom RandomNumberGenerator mit \texttt{rand()}}, label = rngtime]
 TEST_CASE("RandomNumberGeneratorTime", "[]") {
     ...
     SECTION("TestTime32", "[]") {
@@ -828,12 +892,97 @@ TEST_CASE("tsc timer", "[]"){
                    << "seconds : " << seconds << "\t" << std::endl;
     }
 } \end{lstlisting}
-Im Testfall ,,tsc timer'' werden die seit dem Teststart vergangenen Sekunden gezählt und ausgegeben (vgl. Codeausschnitt \ref{timer}). Der Code zur Ausgabe befindet sich in den Zeilen 9 bis 11 und 21 bis 23.
+Im Testfall \texttt{tsc timer} werden die seit dem Teststart vergangenen Sekunden gezählt und ausgegeben (vgl. Codeausschnitt \ref{timer}). Der Code zur Ausgabe befindet sich in den Zeilen 9 bis 11 und 21 bis 23.
 Nach 30 Sekunden endet der Test. %Wofür wird dieser Test benötigt? Kein Check bzw. Require
+
 \section{Testen anhand des Testdrehbuchs}
+
+\label{tdblabel}
+%wird genutzt, um bei der Überprüfung der nichtfunktionalen Anforderungen eine pageref auf diese Seite zu ermöglichen
+
+	Das Testdrehbuch ist das Mittel zur Überprüfung der nichtfunktionalen Anforderungen. 
+	Diese können, im Gegensatz zu funktionalen Anforderungen, nicht hinzugefügt werden, wenn noch Zeit ist, sondern müssen von Anfang an mit bedacht werden. 
+	Dementsprechend war es sehr ungünstig, dass erst im Verlauf der dritten Phase mehrere Komponenten zusammen funktionierten und dementsprechend getestet werden konnten.
+	
+	Darüber hinaus musste im Verlauf des Projekts festgestellt werden, dass Reihenfolge, Umsetzung und Kriterien der Tests in der Planungsphase sehr logisch erschien, in der Praxis aber unserem Vorgehen in der Umsetzungs- und Testphase zuwider lief und teilweise auch zu aufwendig geplant war. 
+
+	Auch wurde festgestellt, dass der Aufbau des Testbeds die geplante Umsetzung einzelner Tests unmöglich macht.
+	Dies wird im Zuge der einzelnen Tests ausfürhlich erläutert.
+	
+\subsection{Test 1: Paketweiterleitung}
+    Dies ist der einzige Test, der bereits in der Planungsphase angegangen und dessen erste Hälfte auch erfolgreich abgeschlossen wurde.
+    Dieser erste Prototyp besaß allerdings kaum selbst programmierten Code.
+    Er ermöglichte aber, Erfahrung im Umgang mit DPDK zu gewinnen.
+
+    Der simple Weiterleitungstest war auch fast der einzige Test, der in der Implementierungsphase überprüft wurde, da bereits in der \texttt{PacketDissection} immer wieder Fehler und Bugs entdeckt wurden.
+    Im Zuge der dritten Phase wurde der Test leicht umformuliert, sodass er als bestanden gilt, wenn erfolgreich durch AEGIS hindurch gepingt werden kann.
+    Dieser Test wird im Allgemeinem Ping-Test genannt und ist mittlerweile bei jedem Build von AEGIS erfolgreich.
+    Trotzdem wird der Ping-Test immer noch durchgeführt, um sicher zu gehen.
+
+    Den Last-Weiterleitungstest konnten wir nicht im gewünschten Ausmaß durchführen, da es uns nicht gelang, ausreichend Angriffstraffic zu generieren, um den Link vollständig auszulasten oder den Server zum Absturz zu bringen.
+    Allerdings besitzt unser Testbed im Gegensatz zum Einsatzgebiet von AEGIS nur einen Angreiferrechner und dieser deutlich weniger Rechenleistung als der verwendete Server.
+
+\subsection{Test 2: Lasttest Server}
+    Wie bereits unter Test 1 erwähnt, wurde keine ausreichende Angriffsrate erreicht, um Ausfälle zu erzeugen. 
+    Dementsprechend kann das ursprüngliche Kriterium, des Systemausfalls, nicht verwendet werden.
+    Als Ersatz dient der eingehende Verkehr am Server im Verhältnis zur verursachten CPU Last.
+
+\subsection{Test 3: (D)DoS-Erkennung}
+    Im Laufe des Projekts verschob sich der Fokus sehr auf die Abwehr der verschiedenen SYN-Flood Varianten.
+    Diese können ohne Erkennung mithilfe von SYN-Cookies abgewehrt werden, sodass dieser Test deutlich an Bedeutung verloren hat.
+    
+    Alle Angriffe können von AEGIS erkannt werden, allerdings wurde das Detektions-Modul zum Zeitpunkt der Niederschrift noch nicht integriert, sodass ausführliche Test nicht durchgeführt werden konnten.
+
+\subsection{Test 4: (D)DoS Abwehr}
+    Bei der SYN-Flood beträgt die Abwehrrate dank SYN-Cookies 100\%.
+    
+    Sowohl SYN-FINs als auch SYN-FIN-ACKs werden bei Erkennung sofort gelöscht, sodass auch diese vollständig abgewehrt werden.
+
+\subsection{Test 5: Transparenz}
+    Es hat sich als sehr aufwendig herausgestellt, die Angriffsrate schrittweise zu erhöhen, weshalb dieser Test nur bei voller Last, keiner Last und ohne AEGIS durchgeführt wurde.
+    
+    Der TCP-Handshake dauerte ohne Aegis 4,045 ms, mit hingegen 4,365. Beim Ping steht der Zeit von 0,523 ms ohne das System ein Wert von 0,564 mit eingeschalteter Software gegenüber.
+    
+    Dementsprechend lässt sich schlussfolgern, dass der Einfluss von Aegis im Nichtangriffsfall messbar, aber nicht signifikant ist.
+    Eine SYN-Flood ist deutlich auffälliger, der Server ist aber immer noch in akzeptabler Zeit erreichbar.
+
+\subsection{Test 6: Eigensicherheit}
+    Der erste Teil des Tests ist erfolgreich, denn die Mitigation-Box ist über den überwachten Link selbst nicht erreichbar. 
+    Sie kann also auch nicht durch (D)DoS Angriffe über diesen Link beeinträchtigt werden.
+    
+    Den zweiten Teil bestand das System auch. Denn meisten Aufwand verursacht die SYN-Flood. 
+    SYN-Pakete müssen nicht nur betrachtet und analysiert werden, sondern auch noch beantwortet.
+
+\subsection{Test 7: Paketflut}
+    Dieser Test kann nicht als Erfolg bezeichnet werden. Die Paketrate war mit 18,5 Mpps nicht ausreichend, um einen Verbindungsaufbau zu verhindern.
+
+\subsection{Test 8: Datenrate}
+    Wie mehrfach erwähnt, waren wir nicht in der Lage, die angezielten Datenraten zu erreichen. 
+    
+    Die Angriffsrate beträgt 7,7 Gbit/s. Da nur TCP-SYN-Pakete verschickt werden, ist der Ethernet-1-Frame verhältnismäßig groß zum eigentlichen Paket, sodass wir eine Datenrate von 11,9 Gbit/s auf dem Kabel erreichen.
+    Dies liegt primär daran, dass der Rechenaufwand für die Berechnung von Checksummen unterschätzt wurde.
+    
+    Die Menge an legitimen Daten kann nicht gemittelt werden, da wir während eines laufenden Angriffs nur sporadisch legitimen Verkehr starteten.
 
 \section{Sonstige Tests am Testbed}
 
-\textcolor{red}{toDo}
+Schon zu Beginn des Projekt wurde sich darauf geeinigt, zum Testen der entwickelten Software ein Testbed zu verwenden. Dabei handelt es sich um \glqq eine wissenschaftliche Umgebung für Experimente dar. Anders als Softwaresimulatoren bestehen Testbeds aus realer Hardware und unterliegen den physikalischen Einflüssen ihrer Umgebung.\grqq\cite{testbed}
+
+In der KW 19 wurde dieses im Raum 3033 im Zusebau der TU Ilmenau aufgebaut. Zunächst bestand das Testbed aus drei Rechnern, für die Abschlusspräsentation wurde allerdings noch ein weiterer hinzugefügt. SSH (Secure Shell) erlaubt den Zugriff auch von außerhalb des Universitätsgebäude. Auf diesen PCs wurde Ubuntu 20.04 LTS installiert. Dabei handelt es sich um das gleiche Betriebssystem, das auch alle Teammitglieder für die Entwicklung installiert haben.
+
+Alle vier Rechner wurden zur einfacheren Unterscheidung mit Namen versehen. \textbf{Alice} sendet legitimen Verkehr an Bob (und ist damit der \glqq freundliche Server von nebenan \grqq). Dagegen handelt es sich bei \textbf{Mallory} um den bösartigen Angreifer, der unter Anderem für die Ausführung der DoS-Attacken zuständig ist. Die Mitigation-Box, die für die Ausführung von Aegis verantwortlich ist, wurde \textbf{Dave} genannt. \textbf{Bob} ist der empfangende Server.
+
+
+Beim Testen stellte sich heraus, dass die Angriffe eventuell mit externem Verkehr interferieren könnten und Anfragen durch Bob automatisch verworfen wurden, da die Quell-IPs aus dem falschen Netzbereich kamen. Dies lies sich durch die Verwendung von Network Namespaces umgehen, da diese Bob und Alice vorgaukeln, allein im Internet zu sein.
+
+\subsection{Pingtest}
+
+Um das entwickelte Programm auf dem Testbed auszuführen, müssen zunächst drei seperate Kommandozeilenfenster geöffnet werden. Um die einzelnen Programme ausführen zu können werden die Rechte eines \texttt{super-users} benötigt. In diesen Modus kann durch den Befehl \texttt{su} gewechselt werden, \texttt{exit} ermöglich den Wechsel zurück. Die Passwörten für das erfolgreiche Ausführen dieses Befehls können in einem Wiki-Eintrag in GitLab gefunden werden. Weiterhin ist zu Beginn eine SSH-Verbindung aufzubauen.
+
+Verwendet werden können die NICs, also die Netzwerkkarten, indem die folgende Syntax beachtet wird: \texttt{su} und danach \texttt{ip netns exec AEGISNS [YOUR COMMAND HERE]}. Diese Commands sind in einem Wiki-Eintrag zusammengefasst. TShark ermöglicht die Analyse des Netzwerkverkehrs. Mittels verschiedener Parameter können Probleme bei der Übertragung gefunden werden.
+
+\subsection{Verbindungstests}
+
+Um zu überprüfen, ob das entwickelte Produkt den Anforderungen bezüglich der Ermöglichung von TCP-Verbindungen zwischen Alice und Bob genügt, mussten beispielhafte Verbindungen simuliert werden. Hierzu wurde sich der Tools wget und iperf3 bedient. Hierbei zeigte sich, dass Verbindungen zwischen Alice und Bob korrekt aufgebaut wurden, die Funktion des TCP Proxies inklusive des Erstellens und Überprüfens von SYN-Cookies wie vom Auftraggeber gewünscht funktionieren. Auch der Verbindungsabbau zeigte sich nach einigen Anpassungen an die Besonderheiten der drei Wege Verbindungstermination voll funktionsfähig. Ein weiterer wichtiger Test war die Übertragung von Dateien verschiedener Größen sowie die Realisation eines Livestreams von Bob zu Alice. Auch diese Tests verliefen mit insgesamt positivem Ergebnis.
 
 \end{document}

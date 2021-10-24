@@ -15,9 +15,9 @@ Mithilfe des  Zeiterfassungssystems Kimai können Arbeitszeiten der Teammitglied
     \item Recherche (z.B. Vergleichen verschiedener Maps durch Reports im Internet)
     \item Test (z.B. Ausführen von Unit Tests und anderen Tests)
 \end{itemize}
-Mithilfe dieses Tools kann somit jedes Teammitglied regelmäßig einen Überblick erhalten, was es wann wie lange für das Software-Projekt gemacht hat. \\
-Am Ende jeder der drei Phasen (Planung- und Entwurf, Implementierung, Validierung) werden die vom Kimai erfassten Daten ausgewertet. Dies ermöglicht, Probleme zu identifizieren und so eventuell später aufkommende Komplikationen vorzubeugen. Falls sich somit in der Auswertung Probleme zeigen, werden Verbesserungsvorschläge und Gegenmaßnahmen entwickelt. \\
-In diesem Kapitel werden die bisher erfassten Zeiten analysiert und in Diagrammen dargestellt. Diese Diagramme wurden automatisch aus den Daten einer Excel-Datei generiert. Diese Daten stimmen mit denen aus dem Kimai überein. %was bedeutet stand?
+Mithilfe dieses Tools kann somit jedes Teammitglied regelmäßig einen Überblick erhalten, was es wann wie lange für das Software-Projekt gearbeitet hat. \\
+Am Ende jeder der drei Phasen (Planung- und Entwurf, Implementierung, Validierung) werden die vom Kimai erfassten Daten ausgewertet. Dies ermöglicht die Identifikation von Problemen und das Vorbeugen eventuell später aufkommender Komplikationen. Falls sich somit in der Auswertung Probleme zeigen, werden Verbesserungsvorschläge und Gegenmaßnahmen entwickelt. \\
+In diesem Kapitel werden die bisher erfassten Zeiten analysiert und in Diagrammen dargestellt. Diese Diagramme wurden automatisch aus den Daten einer Excel-Datei generiert. Diese Daten stimmen mit denen aus dem Kimai überein.
 
 Den drei Phasen wurden folgende Kalenderwochen zugeordnet:
 \begin{itemize}
@@ -30,14 +30,16 @@ Anmerkung: Die Kalenderwoche 29 wird nicht ausgewertet, da diese durch die Abgab
 Die Phasen werden in den folgenden Kapiteln einzeln ausgewertet und deren Ergebnisse am Ende verglichen.
 \section{Planungs- und Entwurfsphase}
 
+Die folgenden Auswertungen wurden direkt nach Ende der Planungs- und Entwurfsphase vorgenommen.
+
 \begin{figure} [h]
     \centering
-    \includegraphics[width = 0.9 \linewidth]{img/Kimai1.pdf}
+    \includegraphics[width = 0.8 \linewidth]{img/Kimai1.pdf}
     \caption{Planungs- und Entwurfsphase (KW 17-21): Anteile der Aufgabenkategorien an der insgesamt aufgebrachten Zeit}
     \label{kategorien}
 \end{figure}
 
-Das Diagramm \ref{kategorien} zeigt, dass die Zeit in der Planungs- und Entwurfsphase vorwiegend für \textbf{Meetings} aufgewendet wurde. Der Grund dafür könnten die häufigen langen Diskussionen in den Meetings mit allen Teammitgliedern sein. Zudem wurde oft die gemeinsame Arbeit an Aufgaben ebenfalls als Meeting gebucht, auch wenn eine andere Kategorie besser gepasst hätte. Beispielsweise wurde das Klassendiagramm in den wöchentlichen Meetings gemeinsam entworfen. Diese Entwurfsaktivität wurde hier aber unter Meetings und nicht unter Entwurf verbucht. Lösungsideen sind, Meetings themenspezifischer zu buchen und diese nach Möglichkeit in kleineren Gruppen abzuhalten, falls die Themen nicht alle Mitglieder betreffen. Jedoch ist zu beachten, dass hierbei die Konsistenz gewahrt wird. Das bedeutet, dass die ,,großen'' Meetings mit dem gesamten Team weiterhin unter Meetings verbucht werden müssen. Dies wurde sowohl bei einem Meeting als auch durch einen Eintrag im Wiki allen Teilnehmern des Projekts kommuniziert. Weiterhin könnten weniger bzw. kürzere Meetings gehalten werden und detaillierte Fragen direkt mit den zuständigen Personen geklärt werden. Dies dann entweder in einem eigenen Meeting oder über die Plattform Zulip.
+Das Diagramm \ref{kategorien} zeigt, dass die Zeit in der Planungs- und Entwurfsphase vorwiegend für \textbf{Meetings} aufgewendet wurde. Der Grund dafür könnten die häufigen langen Diskussionen in den Meetings mit allen Teammitgliedern sein. Zudem wurde oft die gemeinsame Arbeit an Aufgaben ebenfalls als Meeting gebucht, auch wenn eine andere Kategorie besser gepasst hätte. Beispielsweise wurde das Klassendiagramm in den wöchentlichen Meetings gemeinsam entworfen. Diese Entwurfsaktivität wurde hier aber unter Meetings und nicht unter Entwurf verbucht. Lösungsideen sind, Meetings themenspezifischer zu buchen und diese nach Möglichkeit in kleineren Gruppen abzuhalten, falls die Themen nicht alle Mitglieder betreffen. Jedoch ist zu beachten, dass hierbei die Konsistenz gewahrt wird. Das bedeutet, dass die \glqq großen\grqq{} Meetings mit dem gesamten Team weiterhin unter Meetings verbucht werden müssen. Dies wurde sowohl bei einem Meeting als auch durch einen Eintrag im Wiki allen Teilnehmern des Projekts kommuniziert. Weiterhin könnten weniger bzw. kürzere Meetings gehalten werden und detaillierte Fragen direkt mit den zuständigen Personen geklärt werden. Dies dann entweder in einem eigenen Meeting oder über die Plattform Zulip.
 
 Außerdem wurde mit 26\% viel Zeit für die Kategorie \textbf{Dokumentation} in Anspruch genommen. Ein möglicher Grund dafür ist, dass auch die Arbeit am Entwurf (z.B. am Klassen- oder Paketdiagramm) und die dazugehörige Entwurfsdokumentation nur unter der Kategorie Dokumentation, nicht aber unter der Kategorie Entwurf gebucht wurde. Daraus ergibt sich, dass das Team in Zukunft detaillierter buchen soll und die Kategorien womöglich angepasst werden muss.
 Die für die \textbf{Recherche} aufgebrachte Zeit ist tendenziell verhältnismäßig und bedarf keiner Änderung.
@@ -46,7 +48,7 @@ Es fällt auf, dass für die \textbf{Vorbereitung} von Präsentationen  mit 11\%
 
 Für die \textbf{Installation} sind 6\% der Zeit aufgebracht worden. Auch dieser Wert sollte im Verlauf sinken, weil ein Großteil der Installationen bereits erfolgt sind.
 
-In der Planungs- und Entwurfsphase war der Zeitaufwand für die \textbf{Implementierung} sehr gering, was zu Beginn des Projektes allerdings kein Problem darstellt, da hier lediglich ein erster Prototyp mit stark reduziertem Funktionsumfang entwickelt wurde. Zudem kann es daraus resultieren, dass in dieser Phase mit der Implementierung lediglich zwei der acht Teammitglieder beauftragt waren. Es wird erwartet, dass mit Beginn der Implementierungsphase  der für die Implementierung erfasste Aufwand sprunghaft ansteigt.
+In der Planungs- und Entwurfsphase war der Zeitaufwand für die \textbf{Implementierung} sehr gering, was zu Beginn des Projektes allerdings kein Problem darstellt, da hier lediglich ein erster Prototyp mit stark reduziertem Funktionsumfang entwickelt wurde. Zudem kann es daraus resultieren, dass in dieser Phase mit der Implementierung lediglich zwei der acht Teammitglieder beauftragt waren. Es wird erwartet, dass mit Beginn der Implementierungsphase der für die Implementierung erfasste Aufwand sprunghaft ansteigt.
 
 Der geringe Anteil des \textbf{Administrationsaufwandes} ist positiv zu bewerten, weil er auf eine effiziente Planung und Verwaltung hinweist.
 
@@ -88,16 +90,19 @@ Somit lässt sich generell ein positiver Trend ablesen. Es wird jedoch erwartet,
     \label{teammitglieder2}
 \end{figure}
 
-Den Abbildungen \ref{teammitglieder} und \ref{teammitglieder2} ist zu entnehmen, dass teilweise große Unterschiede zwischen den Teammitgliedern in Bezug auf die wöchentlich aufgebrachten Stunden für das Softwareprojekt bestehen. \footnote{\noindent Jede Linienfarbe in einem Projektmitglied zugeordnet. Auf die Beschriftung der einzelnen Linien wurde jedoch verzichtet, um die Anonymität der einzelnen Personen zu wahren.}
+Den Abbildungen \ref{teammitglieder} und \ref{teammitglieder2} ist zu entnehmen, dass teilweise große Unterschiede zwischen den Teammitgliedern in Bezug auf die wöchentlich aufgebrachten Stunden für das Softwareprojekt bestehen. \footnote{\noindent Jede Linienfarbe in einem Projektmitglied zugeordnet. Auf die Beschriftung der einzelnen Linien wurde jedoch verzichtet, um die Anonymität der jeweiligen Personen zu wahren.}
 Aus dem Diagramm geht hervor, dass in Kalenderwoche 17 noch nicht jeder seine Arbeitszeiten in das Kimai eingetragen hat, da es zu diesem Zeitpunkt Ihnen noch nicht zur Verfügung stand und sie diese hätten nachtragen müssen. Somit liegt bei zwei Personen der Wert in KW17 bei 0.
 Es ist ein positiver Trend zu sehen, was auch in der Abbildung \ref{sollist} deutlich wurde.
 Es ist hervorzuheben, dass einzelne Mitglieder weit über 20 Stunden pro Woche für das Softwareprojekt aufwenden. In der Kalenderwoche 20 liegt diese beispielsweise bei einem Teammitglied über 52 Stunden.
 
 
 \section{Implementierungsphase}
+
+Die folgenden Auswertungen wurden direkt nach Ende der Implementierungsphase vorgenommen.
+
 \begin{figure} [h]
     \centering
-    \includegraphics[width = \linewidth]{img/kimai5.pdf}
+    \includegraphics[width = 0.8\linewidth]{img/kimai5.pdf}
     \caption{Implementierungsphase (KW 22-24): Anteile der Aufgabenkategorien an der insgesamt aufgebrachten Zeit}
     \label{kimai5}
 \end{figure}
@@ -113,20 +118,20 @@ Positiv zu bewerten ist, dass die restlichen Kategorien, also \textbf{Präsentat
 
 \begin{figure} [h]
     \centering
-    \includegraphics[width = \linewidth]{img/kimai7.pdf}
+    \includegraphics[width = \linewidth, trim=10pt 5pt 10pt 10pt, clip]{img/kimai7.pdf}
     \caption{Implementierungsphase (KW 22-24): Vergleich des theoretischen Aufwands mit dem tatsächlichen Aufwand}
     \label{kimai7}
 \end{figure}
-Abbildung \ref{kimai7} macht deutlich, dass in jeder einzelnen Woche der Implementierungsphase (KW 22 - 24) der tatsächliche Zeitaufwand über dem theoretischen Zeitaufwand lag. Die vorgegebenen 150 Stunden Zeitaufwand pro Woche wurden in der Kalenderwoche 23 sogar um über 38 Stunden überschritten. Wenn man diese 38 Stunden durch die Anzahl der Teammitglieder teilt, die bei acht liegt, wird deutlich, dass in dieser Woche im Durchschnitt jedes Teammitglied 4 Stunden und 45 Minuten mehr Zeit für das Softwareprojekt aufgewendet hat als vorgegeben.
+Abbildung \ref{kimai7} macht deutlich, dass in jeder einzelnen Woche der Implementierungsphase (KW 22 - 24) der tatsächliche Zeitaufwand über dem theoretischen Zeitaufwand lag. Die vorgegebenen 150 Stunden Zeitaufwand pro Woche wurden in der Kalenderwoche 23 sogar um über 38 Stunden überschritten. Wenn diese 38 Stunden durch die Anzahl der Teammitglieder geteilt wird, die bei acht liegt, wird deutlich, dass in dieser Woche im Durchschnitt jedes Teammitglied 4 Stunden und 45 Minuten mehr Zeit für das Softwareprojekt aufgewendet hat als vorgegeben.
 \begin{figure} [h]
     \centering
-    \includegraphics[width = \linewidth]{img/kimai9.pdf}
+    \includegraphics[width = \linewidth, trim=10pt 10pt 10pt 10pt, clip]{img/kimai9.pdf}
     \caption{Implementierungsphase (KW 22-24): Zeitaufwand der einzelnen Teammitglieder}
     \label{kimai9}
 \end{figure}
 
 Aus Abbildung \ref{kimai9} lässt sich grundsätzlich kein starker Anstieg der Zeit, die jeder einzelne Beteiligte für das Softwareprojekt aufgewendet hat, erkennen. Bei sechs der acht Teammitglieder liegt ihr persönliches Maximum in diesem Zeitraum in KW 23. Hier liegt auch der Punkt, mit dem größten Wert in der Implementierungsphase. Der dazugehörige Wert beträgt 32 Stunden und 30 Minuten (vgl. Abb. \ref{kimai11}).
-Bei einigen Teammitglieder kann erkannt werden, dass die empfohlene Zeit von 15 bzw. 20 Stunden in einzelnen Fällen unterschritten wird. Üblicherweise wird auf die gesamte Zeit bezogen der Soll-Wert allerdings erfüllt, was  auch in Abbildung \ref{kimai7} erkannt werden kann.
+Bei einigen Teammitglieder kann erkannt werden, dass die empfohlene Zeit von 15 bzw. 20 Stunden in einzelnen Fällen unterschritten wird. Üblicherweise wird auf die gesamte Zeit bezogen der Soll-Wert allerdings erfüllt, was auch in Abbildung \ref{kimai7} erkannt werden kann.
 
 \begin{figure} [h]
     \centering
@@ -136,48 +141,53 @@ Bei einigen Teammitglieder kann erkannt werden, dass die empfohlene Zeit von 15 
 \end{figure}
 
 \section{Validierungsphase}
-% to do: die tatsächlichen Prozentzahlen am Montag vor der Abgabe eintragen und evtl. die Reihenfolge der Absätze ändern + Diagramme müssen noch eingefügt werden
-%\begin{figure} [h]
-%    \centering
-%    \includegraphics[width = 0.8\linewidth]{img/kimaix.pdf}
-%    \caption{Validierungsphase (KW 25-28): Anteile der Aufgabenkategorien an der insgesamt aufgebrachten Zeit}
-%    \label{kimaix}
-%\end{figure}
+\begin{figure} [h]
+    \centering
+    \includegraphics[width = 0.9\linewidth, trim=10pt 10pt 10pt 2pt, clip]{img/KreisVal.pdf}
+    \caption{Validierungsphase (KW 25-28): Anteile der Aufgabenkategorien an der insgesamt aufgebrachten Zeit}
+    \label{kimai19}
+\end{figure}
 
-In der Validierungsphase, also der letzten Phase des Softwareprojekts, wurden wieder Zeiten in ganz anderen Kategorien gebucht im Vergleich zu den vorherigen Phasen. Die Verteilung kann man im Diagramm in Abbildung 4.x sehen.
+In der Validierungsphase, also der letzten Phase des Softwareprojekts, wurden wieder Zeiten indie  ganz unterschiedlichen Kategorien gebucht. Die Verteilung kann im Diagramm in Abbildung \ref{kimai19} abgelesen werden.
 
-Während für die \textbf{Implementierung} in der zweiten Phase des Projekts noch fast die Hälfte der Zeit aufgebracht wurde, hat sich dieser Wert in der Validierungsphase mit x\% auf etwas mehr als ein Viertel reduziert. Das war auch zu erwarten, weil der größte Teil der eigentlichen Programmierung schon in diesem Zeitraum schon erledigt gewesen ist. Dennoch kann festgehalten werden, dass auch über die gesamte Phase noch implementiert werden musste.
+Während für die \textbf{Implementierung} in der zweiten Phase des Projekts noch fast die Hälfte der Zeit aufgebracht wurde, hat sich dieser Wert in der Validierungsphase mit 28\% auf etwas mehr als ein Viertel reduziert. Das war auch zu erwarten, weil der größte Teil der eigentlichen Programmierung schon in dieser vorherigen Phase erledigt gewesen ist. Dennoch kann festgehalten werden, dass auch über die gesamte Phase noch implementiert wurde.
 
-Nicht immer klar von der Implementierung abzugrenzen ist die Kategorie \textbf{Test}. Diese gehen teilweise ineinander über, d. h. beide Tätigkeiten wurden des öfteren zusammen erledigt. Deshalb kann eine gewisse Ungenauigkeit der beiden Anteile nicht ausgeschlossen werden. Etwas weniger als ein Viertel der Gesamtzeit, genauer gesagt x\%, wurde für das Testen gebucht. Vor Beginn der Phase hätte man vermuten können, dass dieser Wert höher ausfällt. Das Nichteintreten dieser Vermutung könnte aus der Überschneidung mit der Kategorie Implementierung und aus dem relativ hohen Zeitaufwand für andere Kategorien resultieren.
+Nicht immer klar von der Implementierung abzugrenzen ist die Kategorie \textbf{Test}. So gehen diese beiden Kategorien teilweise ineinander über,das heißt, beide Tätigkeiten wurden des Öfteren zusammen erledigt. Deshalb kann eine gewisse Ungenauigkeit bzw. Verschmelzung der beiden Anteile nicht ausgeschlossen werden. Etwas mehr als ein Viertel der Gesamtzeit, genauer gesagt 26\%, wurde für das Testen gebucht. Vor Beginn der Phase hätte vermutet werden können, dass dieser Wert höher ausfällt. Das Nichteintreten dieser Vermutung könnte aus der Überschneidung mit der Kategorie Implementierung und aus dem relativ hohen Zeitaufwand für andere Kategorien resultieren.
 
-Während die \textbf{Meetings} in den vergangenen beiden Phasen an erster und zweiter Stelle standen, sind diese in der Validierungsphase erstmals an dritter Stelle zu finden, und zwar mit einem Anteil von x\%. Beim Vergleich dieses Wertes mit der ersten Phase fällt auf, dass gegen Ende des Projekts nur noch ca. halb so viel Zeit mit Meetings verbracht wurde wie am Anfang, was positiv zu bewerten ist. Es mussten allerdings auch wesentlich weniger grundlegende Entscheidungen über das Projekt diskutiert und entschieden werden. Das am Montag Abend stattfindende Meeting dauerte fast immer am längsten, unter anderem Aufgrund, weil Martin Backhaus in dieser Zeit Feedback zum geschriebenen Code gab und wichtige Verbesserungen besprochen wurden. Die restlichen wöchentlichen Meetings vielen dann meist wesentlich kürzer aus und wurden meist für kurze Statusabfragen und für die Klärung individueller Fragen genutzt.
+Während die \textbf{Meetings} in den vergangenen beiden Phasen an erster und zweiter Stelle standen, sind diese in der Validierungsphase erstmals an dritter Stelle zu finden, und zwar mit einem Anteil von 15\%. Beim Vergleich dieses Wertes mit der ersten Phase fällt auf, dass gegen Ende des Projekts nur noch ca. halb so viel Zeit mit Meetings verbracht wurde wie am Anfang, was positiv zu bewerten ist. Es mussten allerdings auch wesentlich weniger grundlegende Entscheidungen über das Projekt diskutiert und entschieden werden. Das am Montag Abend stattfindende Meeting dauerte fast immer am längsten, unter anderem deshalb, weil Martin Backhaus in dieser Zeit Feedback zum geschriebenen Code gab und wichtige Verbesserungen besprochen wurden. Die restlichen wöchentlichen Meetings fielen dann meist wesentlich kürzer aus und wurden meist für kurze Statusabfragen und für die Klärung individueller Fragen genutzt.
 
-x\% der Zeit wurde für die \textbf{Dokumentation} verwendet. Diese hat in der Validierungsphase etwas weniger Zeit in Anspruch genommen als vermutet, womöglich weil sich wenige Teammitglieder besonders viel mit der Dokumentation beschäftigt haben. Die Mehrheit des Teams hat sich gegen Ende des Projekts tendentiell eher für andere Aufgaben verantwortlich gefühlt, was allerdings kein Problem darstellt.
+14\% der Zeit wurde für die \textbf{Dokumentation} verwendet. Diese hat in der Validierungsphase etwas weniger Zeit in Anspruch genommen als vermutet, womöglich weil sich lediglich einige wenige Teammitglieder besonders viel mit der Dokumentation beschäftigt haben. Die Mehrheit des Teams hat sich gegen Ende des Projekts tendentiell eher für andere Aufgaben verantwortlich gefühlt, was allerdings kein Problem darstellte.
 
-Die \textbf{Präsentationsvorbereitung} muss hier an nächster Stelle angemerkt werden, denn ihr ist ein Wert von x\% zuzuordnen. Die Abschlusspräsentation findet in dieser Phase erstmals in Präsenz im Audimax der TU Ilmenau statt und bedarf daher einer anderen Vorbereitung. Die möglichst gut zu erkennende Darstellung der Funktionalität des Systems steht hierbei an erster Stelle. Für diese visuelle Darstellung wurde ein kurzes PyQT-Programm geschrieben.
+Die \textbf{Präsentationsvorbereitung} muss hier an nächster Stelle angemerkt werden, denn ihr ist ein Wert von 7\% zuzuordnen. Die Abschlusspräsentation findet in dieser Phase erstmals in Präsenz im Audimax der TU Ilmenau statt und bedarf daher einer besonderen Vorbereitung. Die möglichst gut zu erkennende Darstellung der Funktionalität des Systems steht hierbei an erster Stelle. Für diese visuelle Darstellung wurde ein kurzes PyQT-Programm geschrieben.
 
-Die \textbf{Administration} nahm x\% der Zeit in Anspruch. Eine wichtige administrative Aufgaben dieser Phase war zum Beispiel das Erstellen und Auswerten der durchgeführten Umfrage, deren Ergebnisse im 9. Kapitel dieses Dokuments zu finden sind.
+Die \textbf{Administration} nahm 5\% der Zeit in Anspruch. Eine wichtige administrative Aufgabe dieser Phase war zum Beispiel das Erstellen und Auswerten der durchgeführten Umfrage, deren Ergebnisse im 9. Kapitel dieses Dokuments zu finden sind.
 
-Die verbleibenden Kategorien \textbf{Recherche} (x\%), \textbf{Installation} (x\%) und \textbf{Entwurf} (x\%) wurden in der letzten Projektphase kaum gebucht. Das lässt sich damit begründen, dass es sich bei diesen um typische Aufgaben für den Beginn des Projekts handelt.
+Die verbleibenden Kategorien \textbf{Recherche} (3\%), \textbf{Installation} (2\%) und \textbf{Entwurf} (<0,5\%) wurden in der letzten Projektphase kaum gebucht. Das lässt sich damit begründen, dass es sich bei diesen um typische Aufgaben des Projektbeginns handelt.
 
-%\begin{figure} [h]
-%    \centering
-%    \includegraphics[width = \linewidth]{img/kimaix.pdf}
-%    \caption{Implementierungsphase (KW 25-28): Vergleich des theoretischen Aufwands mit dem tatsächlichen Aufwand}
-%    \label{kimaix}
-%\end{figure}
+\begin{figure} [h]
+    \centering
+    \includegraphics[width = \linewidth, trim=5pt 5pt 5pt 5pt, clip]{img/phase3.pdf}
+    \caption{Validierungsphase (KW 25-28): Vergleich des theoretischen Aufwands mit dem tatsächlichen Aufwand}
+    \label{kimai14}
+\end{figure}
 
-Aus der Abbildung 4.x wird ersichtlich, dass das Ziel von 150 Wochenstunden in allen Wochen dieser Projektphase (KW 25-28) erreicht wurde. Es bleibt erneut anzumerken, dass auch während der ersten drei Tage der KW 29 noch am Softwareprojekt gearbeitet wird. Sollte das Reviewdokument diese Zeiten auch noch enthalten, könnte es erst nach Ende des Projekts fertig gestellt werden. Es muss allerdings noch vor dem letzten Review abgegeben werden. Der erfasste Aufwand überstieg den theoretischen in allen Wochen sogar um über 30 Stunden. Die tatsächlich insgesamt aufgebrachten Zeit kann also durchaus als zufriedenstellend bezeichnet werden.
+Aus der Abbildung \ref{kimai14} wird ersichtlich, dass das Ziel von 150 Wochenstunden in allen Wochen dieser Projektphase (KW 25-28) erreicht wurde. Es bleibt erneut anzumerken, dass auch während der ersten drei Tage der KW 29 noch am Softwareprojekt gearbeitet wird. Sollte das Reviewdokument diese Zeiten auch noch enthalten, könnte es erst nach Ende des Projekts fertig gestellt werden. Es muss allerdings noch vor dem letzten Review abgegeben werden. Der erfasste Aufwand überstieg den theoretischen in allen Wochen sogar um über 30 Stunden. Die tatsächlich insgesamt aufgebrachten Zeit kann also durchaus als zufriedenstellend bezeichnet werden.
 
-%\begin{figure} [h]
-%    \centering
-%    \includegraphics[width = \linewidth]{img/kimaix.pdf}
-%    \caption{Implementierungsphase (KW 25-28): Zeitaufwand der einzelnen Teammitglieder}
-%    \label{kimaix}
-%\end{figure}
+\begin{figure} [h]
+    \centering
+    \includegraphics[width = \linewidth, trim=5pt 5pt 5pt 5pt, clip]{img/zeiten2.pdf}
+    \caption{Validierungsphase (KW 25-28): Zeitaufwand der einzelnen Teammitglieder}
+    \label{kimai13}
+\end{figure}
 
-Die Unterschiede zwischen den einzelnen Teammitgliedern können aus Abbildung 4.x abgelesen werden. Die längste Wochenarbeitsdauer wurde mit 43:31 h in KW 25 erreicht. Ein Teammitglied konnte krankheitsbedingt in KW 26 nur weniger als 11 Stunden mit dem Softwareprojekt beschäftigt sein. Auch in dieser Phase kann wieder erkannt werden, dass der Plan-Wert in Einzelfällen unterschritten wurde. Diese Defizite wurden in den allermeisten Fällen dann allerdings in anderen Wochen aufgeholt.
-% An diesem Absatz muss evtl. in der nächsten Woche noch einiges geändert werden.
+Die Unterschiede zwischen den einzelnen Teammitgliedern können aus Abbildung \ref{kimai13} abgelesen werden. Die längste Wochenarbeitsdauer wurde mit 43:31 h in KW 25 erreicht. Ein Teammitglied konnte krankheitsbedingt in KW 26 nur weniger als 11 Stunden mit dem Softwareprojekt beschäftigt sein (vgl. Abb. \ref{kimai20}). Auch in dieser Phase kann wieder erkannt werden, dass der Plan-Wert in Einzelfällen unterschritten wurde. Diese Defizite wurden in den allermeisten Fällen dann allerdings in anderen Wochen aufgeholt.
+
+\begin{figure} [h]
+    \centering
+    \includegraphics[width = 0.8\linewidth]{img/tabelle1.png}
+    \caption{Validierungsphase (KW 25-28): Tabelle mit den erfassten Zeiten}
+    \label{kimai20}
+\end{figure}
 
 \section{Vergleich der Planungs- und Entwurfsphase mit der Implementierungsphase}
 
@@ -185,7 +195,7 @@ Dieses Kapitel wurde gegen Ende der Implementierungsphase erstellt.
 
 \begin{figure} [h]
     \centering
-    \includegraphics[width = 0.8\linewidth]{img/kimai6.pdf}
+    \includegraphics[width = 0.9\linewidth]{img/kimai6.pdf}
     \caption{Planungs- und Entwurfsphase und Implementierungsphase (KW 17-24): Anteile der Aufgabenkategorien an der insgesamt aufgebrachten Zeit}
     \label{kimai6}
 \end{figure}
@@ -211,7 +221,7 @@ In der zweiten Phase hat sich der \textbf{Testaufwand} von 2 auf 4\% verdoppelt.
 
 \begin{figure} [h]
     \centering
-    \includegraphics[width = \linewidth]{img/kimai8.pdf}
+    \includegraphics[width = \linewidth, trim=8pt 5pt 8pt 8pt, clip]{img/kimai8.pdf}
     \caption{Planungs- und Entwurfsphase und Implementierungsphase (KW 17-24): Vergleich des theoretischen Aufwands mit dem tatsächlichen Aufwand}
     \label{kimai8}
 \end{figure}
@@ -223,14 +233,14 @@ Denn wenn die theoretischen Werte aller bisherigen Wochen (KW 17-24) aufaddiert 
     1 \cdot 75h+7 \cdot 150h= 1125h
 \end{align*}
 In der ersten Aufwandsschätzung schätzten wir den Aufwand des gesamten Projekts auf 2107 Stunden.
-Würden wir in den kommenden Wochen (KW 25-29) ,,lediglich'' den theoretische berechnete Zeit brauchen, wären das zu den bisher benötigten 1289 Stunden und 56 Minuten noch 675 Stunden, also insgesamt 1964 Stunden und 56 Minuten. Dieser Wert kommt dem Schätzwert aus der Aufwandsschätzung sehr nahe.
+Würden wir in den kommenden Wochen (KW 25-29) \glqq lediglich\grqq{} den theoretische berechnete Zeit brauchen, wären das zu den bisher benötigten 1289 Stunden und 56 Minuten noch 675 Stunden, also insgesamt 1964 Stunden und 56 Minuten. Dieser Wert kommt dem Schätzwert aus der Aufwandsschätzung sehr nahe.
 \begin {align*}
 4 \cdot 150h + 1 \cdot 75h = 675h
 \end{align*}
 
 \begin{figure} [h]
     \centering
-    \includegraphics[width = \linewidth]{img/kimai10.pdf}
+    \includegraphics[width = 0.9\linewidth, trim=10pt 10pt 10pt 10pt, clip]{img/kimai10.pdf}
     \caption{Planungs- und Entwurfsphase und Implementierungsphase (KW 17-24): Zeitaufwand der einzelnen Teammitglieder}
     \label{kimai10}
 \end{figure}
@@ -246,63 +256,77 @@ Der maximale Wert an Wochenstunden pro Person bleibt in KW 20 mit über 52 Stund
 
 \begin{figure} [H]
     \centering
-    \includegraphics[width = \linewidth]{img/kimai12.png}
+    \includegraphics[width = 0.9\linewidth]{img/kimai12.png}
     \caption{Planungs- und Entwurfsphase und Implementierungsphase (KW 17-24): Tabelle mit den erfassten Zeiten}
     \label{kimai12}
 \end{figure}
 
 \subsection{Vergleich aller drei Phasen}
 
-%\begin{figure} [h]
-%    \centering
-%    \includegraphics[width = 0.8\linewidth]{img/kimaix.pdf}
-%    \caption{Vergleich aller Phasen (KW 17-28): Anteile der Aufgabenkategorien an der insgesamt aufgebrachten Zeit}
-%    \label{kimaix}
-%\end{figure}
+\begin{figure} [h]
+    \centering
+    \includegraphics[width = \linewidth, trim=5pt 5pt 5pt 2pt, clip]{img/allePhasenKreis.pdf}
+    \caption{Vergleich aller Phasen (KW 17-28): Anteile der Aufgabenkategorien an der insgesamt aufgebrachten Zeit}
+    \label{kimai18}
+\end{figure}
 
-Das Kreisdiagramm in Abbildung 4.x findet man die Anteile aller Kategorien an der Gesamtzeit über den gesamten Zeitraum des Projekts hinweg, wieder mit Ausnahme der letzten drei Tage.
+Das Kreisdiagramm in Abbildung \ref{kimai18} sind die Anteile aller Kategorien an der Gesamtzeit über den gesamten Zeitraum des Projekts hinweg zu sehen, wieder mit Ausnahme der letzten drei Tage.
 
-Im Softwareprojekt wurde am meisten an der \textbf{Implementierung} gearbeitet. Ein Viertel der insgesamt aufgewendeten Zeit (x\%) wurde im Zeiterfassungssystem Kimai in dieser Kategorie gebucht. Während in der ersten Phase weniger als 10\% der Zeit implementiert wurde, wurde wie vom Fachgebiet System- und Software-Engineering vorgesehen in der Implementierungsphase am meisten Zeit dafür verwendet. In der Validierungsphase sank dieser Wert wieder, allerdings nicht so sehr, wie ursprünglich erhofft. Aufgrund der Komplexität des Projekts stellt es allerdings kein Problem dar, dass die Implementierung nicht in der jeweiligen Phase abgeschlossen wurde. Mit diesem Wert können die Teammitglieder also in durchaus zufrieden sein.
+Im Softwareprojekt wurde am meisten an der \textbf{Implementierung} gearbeitet. Rund ein Viertel der insgesamt aufgewendeten Zeit (26\%) wurde im Zeiterfassungssystem Kimai in dieser Kategorie gebucht. Während in der ersten Phase weniger als 10\% der Zeit implementiert wurde, wurde wie vom Fachgebiet System- und Software-Engineering vorgesehen in der Implementierungsphase am meisten Zeit dafür verwendet. In der Validierungsphase sank dieser Wert wieder, allerdings nicht so sehr, wie ursprünglich erhofft. Aufgrund der Komplexität des Projekts stellt es allerdings kein Problem dar, dass die Implementierung nicht in der jeweiligen Phase abgeschlossen wurde. Mit diesem Wert können die Teammitglieder also insgesamt zufrieden sein.
 
-Ziemlich genau ein Fünftel der gesamten Zeit wurde für die \textbf{Meetings} gebucht, x\% um genau zu sein. Nach den anfänglichen Problemen konnte dieser Anteil in der Implementierungsphase gesenkt werden. Das Team hat es geschafft, diesen Trend auch in der letzten Phase des Projekts fortführen zu können. Entscheidend dafür ist vermutlich, dass die richtigen Maßnahmen getroffen und auch umgesetzt werden. Detailliertere Infos zu diesem Thema können auch dem vorherigen, gegen Ende der Implementierungsphase erstellten Kapitel entnommen werden.
+Etwa ein Fünftel der gesamten Zeit wurde für die \textbf{Meetings} gebucht, 19\% um genau zu sein. Nach den anfänglichen Problemen konnte dieser Anteil in der Implementierungsphase gesenkt werden. Das Team hat es geschafft, diesen Trend auch in der letzten Phase des Projekts fortführen zu können. Entscheidend dafür ist vermutlich, dass die richtigen Maßnahmen getroffen und auch umgesetzt werden. Detailliertere Infos zu diesem Thema können auch dem vorherigen, gegen Ende der Implementierungsphase erstellten Kapitel entnommen werden.
 
-Knapp danach kommt bei dieser absteigenden Sortierung die \textbf{Dokumentation} mit x\%. Es kann noch hinzugefügt werden, dass immer gegen Ende einer Phase mehr Zeit in dieser Kategorie gebucht wurde als am Anfang, was wahrscheinlich aus der vermehrten Arbeit am Reviewdokument resultiert.
+Knapp danach kommt bei dieser absteigenden Sortierung die \textbf{Dokumentation} mit 18\%. Es kann noch hinzugefügt werden, dass immer gegen Ende einer Phase mehr Zeit in dieser Kategorie gebucht wurde als am Anfang, was wahrscheinlich aus der vermehrten Arbeit am Reviewdokument resultiert.
 
-Die \textbf{Präsentationsvorbereitung} hat insgesamt x\% der Zeit in Anspruch genommen. Wie bereits in den vorhergehenden Kapiteln beschrieben wurde, war der Anteil dieser Kategorie aufgrund der zum Thema hinführenden Kurzvorträge zu Beginn des Projekts am höchsten. Insgesamt kann hiermit festgehalten werden, dass auch die Anteile dieser Kategorie durchaus zufriedenstellend sind.
+11\% der insgesamt aufgebrachten Zeit wurde für das \textbf{Testen} genutzt. Vor allem gegen Ende des Projekts hätte womöglich noch etwas mehr getestet werden können. Es muss jedoch auch an dieser Stelle angemerkt werden, dass einige für das Testen aufgewendete Zeit in der Kategorie Implementierung gebucht worden ist.
 
-Auch der Anteil der \textbf{Recherche} ist mit x\% vollkommen in Ordnung.
+Die \textbf{Präsentationsvorbereitung} hat insgesamt 8\% der Zeit in Anspruch genommen. Wie bereits in den vorhergehenden Kapiteln beschrieben wurde, war der Anteil dieser Kategorie aufgrund der zum Thema hinführenden Kurzvorträge zu Beginn des Projekts am höchsten. Insgesamt kann hiermit festgehalten werden, dass auch die Anteile dieser Kategorie durchaus zufriedenstellend sind.
 
-x\% der insgesamt aufgebrachten Zeit wurde für das \textbf{Testen} genutzt. Vor allem gegen Ende des Projekts hätte womöglich noch etwas mehr getestet werden können. Es muss jedoch auch an dieser Stelle angemerkt werden, dass einige für das Testen aufgewendete Zeit in der Kategorie Implementierung gebucht worden ist.
+Auch der Anteil der \textbf{Recherche} ist mit 8\% vollkommen in Ordnung.
 
-Der geringe \textbf{Administrationsaufwand} von x\% zeugt von einer hohen Effizienz bei administrativen Aufgaben über das gesamte Projekt hinweg.
+Der geringe \textbf{Administrationsaufwand} von 4\% zeugt von einer hohen Effizienz bei administrativen Aufgaben über das gesamte Projekt hinweg.
 
-Der ähnlich niedrige Wert für den \textbf{Entwurf} wurde in anderen Kapiteln schon ausführlich genug behandelt. Es ist definitiv angemessen, dass in der letzten Projektphase nicht mehr viel Zeit in dieser Kategorie gebucht wurde.
+Der ähnlich niedrige Wert für den \textbf{Entwurf} (3\%) wurde in anderen Kapiteln schon ausführlich genug behandelt. Es ist definitiv angemessen, dass in der letzten Projektphase nicht mehr viel Zeit in dieser Kategorie gebucht wurde.
 
-Wie gegen Ende der letzten Phase prognostiziert, ist der Wert für die \textbf{Installation} noch weiter gesunken. Dieser Trend ist durchaus positiv zu bewerten.
+Nach allen Projektphasen beläuft sich der Wert für die \textbf{Installation} ebenfalls auf 3\%. Dieser Anteil ist durchaus positiv zu bewerten.
 
-%\begin{figure} [h]
-%    \centering
-%    \includegraphics[width = \linewidth]{img/kimaix.pdf}
-%    \caption{Vergleich aller Phasen (KW 17-28): Vergleich des theoretischen Aufwands mit dem tatsächlichen Aufwand}
-%    \label{kimaix}
-%\end{figure}
+\begin{figure} [h]
+    \centering
+    \includegraphics[width = \linewidth, trim=5pt 5pt 5pt 5pt, clip]{img/allephasen.pdf}
+    \caption{Vergleich aller Phasen (KW 17-28): Vergleich des theoretischen Aufwands mit dem tatsächlichen Aufwand}
+    \label{kimai15}
+\end{figure}
 
-Zu den in den vorherigen Kapiteln zu findenden Überlegungen zum Vergleich des theoretischen Aufwands mit dem tatsächlichen lässt sich nicht mehr sehr viel hinzufügen. Nach ziemlich geringem tatsächlichen Aufwand zu Beginn überstieg das tatsächliche Pensum das mindeste in jeder Woche. Womöglich ist einigen Studierenden zu Beginn des Projekts nicht wirklich bewusst gewesen, wie viel Arbeit dieses wirklich erfordert. Das hat sich im Laufe des Projekts verbessert. Zu Beginn wurde allerdings auch noch nicht die gesamte aufgebrachte Zeit im Kimai-System gebucht.
+Zu den in den vorherigen Kapiteln zu findenden Überlegungen zum Vergleich des theoretischen Aufwands mit dem tatsächlichen lässt sich nicht mehr viel hinzufügen. Eine Übersicht für das gesamte Projekt kann sowohl in Abb. \ref{kimai15} als auch in \ref{kimai17} gefunden werden. Nach ziemlich geringem tatsächlichen Aufwand zu Beginn überstieg das tatsächliche Pensum das Mindeste in jeder Woche. Womöglich ist einigen Studierenden zu Beginn des Projekts nicht wirklich bewusst gewesen, wie viel Arbeit dieses wirklich erfordert. Das hat sich im Laufe des Projekts verbessert. Zu Beginn wurde allerdings auch noch nicht die gesamte aufgebrachte Zeit im Kimai-System gebucht.
 
-%\begin{figure} [h]
-%    \centering
-%    \includegraphics[width = \linewidth]{img/kimaix.pdf}
-%    \caption{Vergleich aller Phasen (KW 17-28): Zeitaufwand der einzelnen Teammitglieder}
-%    \label{kimaix}
-%\end{figure}
+\begin{figure} [h]
+    \centering
+    \includegraphics[width = \linewidth, trim=5pt 5pt 5pt 5pt, clip]{img/allephasen2.pdf}
+    \caption{Vergleich aller Phasen (KW 17-28): Vergleich des theoretischen Aufwands mit dem tatsächlichen Aufwand als Liniendiagramm}
+    \label{kimai17}
+\end{figure}
 
-In der Abbildung 4.x kann man die Verteilung der Gesamtzeit auf die einzelnen Teammitglieder erkennen. Das Maximum über das gesamte Projekt hinweg wurde nach wie vor in der Planungs- und Entwurfsphase aufgestellt. Es lässt sich festhalten, dass sich das wöchentlichen Arbeitspensum mit Verlauf des Projekts etwas stabilisiert hat und gegen Ende weniger schwankt. Auch fällt auf, dass einzelne Teammitglieder dauerhaft mehr am Projekt gearbeitet haben als andere. Insgesamt kann man mit den aufgebrachten Zeiten der Studierenden sehr zufrieden sein. Weitere Ausarbeitungen zum Aufwand können im folgenden Kapitel gefunden werden.
+In der Abbildung \ref{kimai16} wird die Verteilung der Gesamtzeit auf die einzelnen Teammitglieder dargestellt. Das Maximum über das gesamte Projekt hinweg wurde nach wie vor in der Planungs- und Entwurfsphase aufgestellt. Es lässt sich festhalten, dass sich das wöchentlichen Arbeitspensum mit Verlauf des Projekts etwas stabilisiert hat und gegen Ende weniger schwankt. Auch fällt auf, dass einzelne Teammitglieder dauerhaft mehr am Projekt gearbeitet haben als andere. Insgesamt ist die aufgebrachte Zeiten der Studierenden (siehe Abb. \ref{kimai22}) sehr zufriedenstellend. Weitere Ausarbeitungen zum Aufwand können im folgenden Kapitel gefunden werden.
+
+\begin{figure} [h]
+    \centering
+    \includegraphics[width = \linewidth, trim=5pt 5pt 5pt 5pt, clip]{img/zeiten1.pdf}
+    \caption{Vergleich aller Phasen (KW 17-28): Zeitaufwand der einzelnen Teammitglieder}
+    \label{kimai16}
+\end{figure}
+
+\begin{figure} [h]
+    \centering
+    \includegraphics[angle=270, width = 0.42\linewidth]{img/tabelle2.png}
+    \caption{Alle Phasen (KW 17-28): Tabelle mit den erfassten Zeiten}
+    \label{kimai22}
+\end{figure}
 
 \section{Validierung der Aufwandsschätzung der Planungs- und Entwurfsphase}
-Im Abschnitt ,,\nameref{kap1}'' wird zunächst das Aufwandsschätzverfahren COCOMO II  kurz vorgestellt. Die dort erhaltenen Ergebnisse werden im Abschnitt  ,,\nameref{kap2}'' mit dem tatsächlichen Aufwand verglichen. Dieser IST-Aufwand berechnet sich aus den von den Teammitgliedern in die Zeiterfassungs-Software Kimai eingetragenen Zeiten.
+Im Abschnitt \glqq \nameref{kap1}\grqq{} wird zunächst das Aufwandsschätzverfahren COCOMO II  kurz vorgestellt. Die dort erhaltenen Ergebnisse werden im Abschnitt  \glqq \nameref{kap2}\grqq{} mit dem tatsächlichen Aufwand verglichen. Dieser IST-Aufwand berechnet sich aus den von den Teammitgliedern in die Zeiterfassungs-Software Kimai eingetragenen Zeiten.
 
 \subsection{Aufwandsschätzung nach dem COCOMO II aus der Planungs- und Entwurfsphase} \label{kap1}
-Bei COCOMO II (COnstrucitve COst MOdel), welches bereits 1981 durch den Softwareingenieur Barry W. Boehm entwickelt wurde, handelt sich es um ein algorithmisches Modell zur Aufwandsschätzung von Software. In diesem Modell werden zahlreiche Einflussfaktoren wie Quantität, Qualität oder Produktivität berücksichtigt. Zudem besteht COCOMO II aus drei Teilmodellen, welche sich unter anderem in den Skalenfaktoren oder den Modellkonstanten unterscheiden. Im Folgenden wird sich auf \textit{,,The Early Design Model''} (Die frühe Entwicklungsstufe) bezogen, da diese Stufe stark zum derzeitigen Projektstand passt. Auf dieser Stufe liegen schon sowohl die Anforderungen als auch ein erster Grobentwurf vor.
+Bei COCOMO II (COnstrucitve COst MOdel), welches bereits 1981 durch den Softwareingenieur Barry W. Boehm entwickelt wurde, handelt sich es um ein algorithmisches Modell zur Aufwandsschätzung von Software. In diesem Modell werden zahlreiche Einflussfaktoren wie Quantität, Qualität oder Produktivität berücksichtigt. Zudem besteht COCOMO II aus drei Teilmodellen, welche sich unter anderem in den Skalenfaktoren oder den Modellkonstanten unterscheiden. Im Folgenden wird sich auf \textit{\glqq The Early Design Model\grqq{}} (Die frühe Entwicklungsstufe) bezogen, da diese Stufe stark zum derzeitigen Projektstand passt. Auf dieser Stufe liegen schon sowohl die Anforderungen als auch ein erster Grobentwurf vor.
 
 Das Modell baut im Wesentlichen auf folgender Formel auf:
 \begin{align}
@@ -368,7 +392,6 @@ Nun kann der Aufwand in Personenmonat in Personenstunden umgerechnet werden die 
 Das Team besteht aus zwei Wirtschaftsinformatikern, die jede Woche 15 Stunden für das Softwareprojekt aufwenden sollen, sowie sechs Informatiker und Ingenieurinformatiker, deren Wochenstundenanzahl bei 20 Stunden liegt. Das Softwareprojekt soll innerhalb von 12 Wochen beendet werden.
 
 Somit ist die zur Verfügung stehende Zeit:
-
 \begin{align*}
     (2\cdot15 h+6\cdot20 h)\cdot12=1800h
 \end{align*}
@@ -439,15 +462,20 @@ Für KW 29 ergibt sich ein geschätzter Wert von 78h.
 
 \begin{figure} [h]
     \centering
-    \includegraphics[width = 0.9\linewidth]{img/Aufwandsschaetzung.pdf}
+    \includegraphics[width = 0.9\linewidth]{img/AufwandsschaetzungNeu.pdf}
     \caption{Tatsächlich aufgebrachte Zeit von KW 17 bis KW 27 und geschätzte Werte für KW 28 und KW 29}
     \label{aufw}
 \end{figure}
-Diese beiden geschätzten Werte werden nun auf die 1875h 43min aufaddiert. Das Ergebnis ist 2135h 43 min. Die Werte aller Kalenderwochen sind in Abb. \ref{auf} visualisert.
+Diese beiden geschätzten Werte werden nun auf die 1875h 43min aufaddiert. Das Ergebnis ist 2135h 43 min. Die Werte aller Kalenderwochen sind in Abb. \ref{aufw} visualisiert.
 
-Wenn ein Vergleich zwischen den 2135h 43 min und dem Ergebnis der Aufwandsschätzung aus COCOMO II (2107h) gezogen werden soll, zeigt sich, dass sich diese Ergebnisse nur minimal unterscheiden.
+Wenn ein Vergleich zwischen den 2135h 43 min und dem Ergebnis der Aufwandsschätzung aus COCOMO II (2107h) gezogen werden soll, zeigt sich nur eine minimale Differenz zwischen den beiden Ergebnissen.
 
 \section{Vergleich: Vorgehensmodell}
+
+Zuerst wird in diesem Teilkapitel auf das idealtypische und dann auf das tatsächliche Vorgehensmodell eingegangen.
+
+\subsection{Idealtypisches Vorgehensmodell}
+
 Gleich zu Beginn des Projekts wurde sich für den Unified Process als Vorgehensmodell entschieden.
 
 \begin{figure} [h]
@@ -461,21 +489,41 @@ In Abb. \ref{up} sehen ist ein idealisierter Verlauf der Kernprozesse des Projek
 
 Die Kernprozesse können wie folgt ins Deutsche übersetzt werden: Business Modelling $\widehat{=}$ Geschäftsprozessmodellierung, Requirements $\widehat{=}$ Anforderungsanalyse, Analysis and Design $\widehat{=}$ Analyse und Entwurf, Implementation $\widehat{=}$ Implementierung, Developement $\widehat{=}$ Auslieferung.
 
-Da im Projekt die Aktivitäten, die im Kimai verbucht wurden, nicht deckungsgleich mit den obigen Kernprozessen sind, muss eine Zuordnung vorgenommen werden:
+Da im Projekt die Aktivitäten, die im Kimai verbucht wurden, nicht deckungsgleich mit den obigen Kernprozessen sind, muss eine Zuordnung vorgenommen werden: Zum Entwurf zählen die Kernprozesse Analysis, Design und Business Modelling.
 
-\begin{center}
-    \begin{longtable} [h] {l l}
-        \toprule
-        \textbf{Aktivitäten im Kimai} & \textbf{Entsprechender Kernprozess}    \\ \midrule
-        Entwurf                       & Analysis \& Design, Business Modelling \\
-        Implementierung               & Implementation                         \\
-        Test                          & Test                                   \\ \bottomrule
-    \end{longtable}
-\end{center}
+Die anderen Aktivitäten im Kimai (z. B. Meeting, Präsentationsvorbereitung, Dokumentation) haben keine Entsprechung in den Kernprozessen.
 
-Die anderen Aktivitäten im Kimai (z.B. Meeting, Präsentationsvorbereitung, Dokumentation) haben keine Entsprechung in den Kernprozessen.
+\subsection{Tatsächliches Vorgehensmodell}
 
-\textcolor{red}{Hier kommt noch was, Auswertung erst in KW29 mgl}
+\begin{figure} [h]
+    \centering
+    \includegraphics[width = \linewidth]{img/kimai21.pdf}
+    \caption{Abbildung des tatsächlichen Vorgehens gegen Ende der Validierungsphase}
+    \label{kimai21}
+\end{figure}
 
+In Abbildung \ref{kimai21} ist eine zu Abbildung \ref{up} ähnliche Abbildung zu sehen. Dabei handelt es sich allerdings nicht um das für den Unified Process idealtypische Vorgehen, sondern um das tatsächliche. Dabei zeigt die Höhe des Säule einer bestimmten Woche den Anteil der in dieser Woche für diese Kategorie aufgewendeten Zeit an der insgesamt für diese Kategorie aufgewendeten Zeit. In der Woche mit der höchsten Säule wurde demzufolge am meisten für diese Kategorie gearbeitet.
+
+Es fällt zunächst auf, dass bereits in der Inception-Phase, also der ersten Woche des Projekts, ein großer Anteil der insgesamt für die \textbf{Präsentationsvorbereitung} gebuchten Zeit in Kimai erfasst wurde. Das liegt daran, dass hier alle Studierenden an einem von vier einleitenden Vorträgen arbeiteten. Die vier Themen werden der Vollständigkeit halber im Folgenden einmal aufgeführt:
+\begin{itemize}
+    %\setlength{\parskip}{-2pt}
+    \item DPDK
+    \item Denial-of-Service-Angriffe
+    \item Effiziente Datenstrukturen
+    \item git und Latex, Kimai
+\end{itemize}
+Außerdem sieht man, dass gegen Ende der jeweiligen Phase immer mehr an der Vorbereitung der Präsentationen gearbeitet wurde als am Anfang. Der Grund dafür ist, dass diese Vorbereitung insbesondere kurz vor den entsprechenden Reviews vorgenommen wurde. Im Diagramm stellt KW25 jedoch eine Ausnahme dar. Die in dieser Woche in der Kategorie für die Präsentationen eingetragenen Zeiten, zählen genau genommen auch zur Construction-Phase, weil das zweite Review am Donnerstag der KW25 stattgefunden hat.
+
+Die tatsächliche Verteilung der Arbeit am \textbf{Entwurf} ähnelt sehr der idealen. Das heißt, dass in der Elaboration-Phase (v. a. Grobentwurf) mit dem Entwurf begonnen wurde und diese mit dem Abschluss der Construction-Phase (v. a. Feinentwurf) fast vollständig abgeschlossen wurde.
+
+Auch in puncto \textbf{Implementierung} reicht das tatsächliche Vorgehen ziemlich nahe an das geplante bzw. ideale heran. Es wurde schon früh mit dem Implementieren begonnen und sowohl in Abb. \ref{up} als auch in Abb. \ref{kimai21} ist zu sehen, dass die Implementierung auch in der Validierungsphase noch nicht abgeschlossen gewesen ist.
+
+Mit dem \textbf{Testen} hätte zwar wie in anderen Kapiteln bereits hinreichend beschrieben eher begonnen werden können. Jedoch kann positiv angemerkt werden, dass die Tests vor allem gegen Ende immer häufiger wurden, denn das ist auch beim idealisierten Unified Process so.
+
+Der zu Beginn und gegen Ende relativ hohe \textbf{Administrationsaufwand} kann so begründet werden, dass in den frühen Phasen viele organisatorische Aspekte geklärt werden mussten.
+
+Im ersten Monat des Projekts wurde besonders viel Zeit für \textbf{Meetings} verwendet. Wie in der Abbildung zu sehen, waren die eingeleiteten Gegenmaßnahmen jedoch die richtigen. Ab der Construction-Phase hat sich die Dauer der Meetings auf einem moderaten Niveau eingependelt.
+
+Die Graphen für die \textbf{Recherche} und die \textbf{Installation} verlaufen beinahe identisch. Vor alle zu Beginn der einzelnen Phasen wurde ein Großteil der Zeiten in diesen Kategorien gebucht. Eine Erklärung dafür ist möglicherweise, dass gerade am Anfang eines neuen Projektabschnitts erstmals benötigte Software installiert werden musste. Auch war in diesen Wochen besonders häufig nötig, sich mit neuen Themen zu beschäftigen und zu diesen zu recherchieren.
 
 \end{document}

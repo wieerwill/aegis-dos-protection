@@ -11,7 +11,7 @@ In folgendem Unterkapitel werden die grundlegenden Entscheidungen des Entwurfs e
 \subsection{Netzwerkaufbau}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1.0\linewidth]{img/Netzwerkplan-Real}
+    \includegraphics[width=1.0\linewidth]{img/Netzwerkplan-Real.png}
     \caption{Realaufbau unter Verwendung eines Angreifers}
     \label{fig:netzwerkplan-real}
 \end{figure}
@@ -23,7 +23,7 @@ Leider ist durch Begrenzungen im Budget, der Ausstattung der Universität sowie 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\linewidth]{img/Netwerkplan-Versuch}
+    \includegraphics[width=0.7\linewidth]{img/Netwerkplan-Versuch.png}
     \caption{Versuchsaufbau}
     \label{fig:Versuchsaufbau}
 \end{figure}
@@ -47,13 +47,13 @@ In diesem Abschnitt soll veranschaulicht werden, wie genau die Behandlung eines 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[angle=90, width=0.8\linewidth]{img/activity_control_flow.pdf}
+    \includegraphics[angle=270, width=0.8\linewidth]{img/activity_control_flow.pdf}
     \caption{Schematische Darstellung des Kontrollflusses}
     \label{fig:control_flow}
 \end{figure}
 
 \subsubsection{Verwendung von Receive-Side-Scaling}
-Ein weiterer grundlegender Vorteil ergibt sich durch das von der Netzwerkkarte und von DPDK unterstützte Receive Side Scaling (RSS), siehe Abbildung \ref{fig:Receive-Side-Scaling}: Ein auf einem Port eingehendes Paket wird einer von mehreren sogenannten RX-Queues zugeordnet. Eine RX-Queue gehört immer zu genau einem Netzwerkkartenport, ein Port kann mehrere RX-Queues besitzen. Kommen mehrere Pakete bei der Netzwerkkarte an, so ist die Zuordnung von Paketen eines Ports zu seinen RX-Queues gleich verteilt~-- alle RX-Queues sind gleich stark ausgelastet. Diese Zuordnung wird durch eine Hashfunktion umgesetzt, in die Quell- und Ziel-Port-Nummer und IP-Adresse einfließen. Das führt dazu, dass Pakete, die auf einem Port ankommen und einer bestimmten Verbindung zugehören, immer wieder zu der selben RX-Queue dieses Ports zugeordnet werden. Mit ,,Port'' im Folgenden entweder der physische Steckplatz einer Netzwerkkarte gemeint oder jener Teil der Netzwerkadresse, die eine Zuordnung zu einem bestimmten Prozess bewirkt. Die Bedeutung erschließt sich aus dem Kontext.
+Ein weiterer grundlegender Vorteil ergibt sich durch das von der Netzwerkkarte und von DPDK unterstützte Receive Side Scaling (RSS), siehe Abbildung \ref{fig:Receive-Side-Scaling}: Ein auf einem Port eingehendes Paket wird einer von mehreren sogenannten RX-Queues zugeordnet. Eine RX-Queue gehört immer zu genau einem Netzwerkkartenport, ein Port kann mehrere RX-Queues besitzen. Kommen mehrere Pakete bei der Netzwerkkarte an, so ist die Zuordnung von Paketen eines Ports zu seinen RX-Queues gleich verteilt~-- alle RX-Queues sind gleich stark ausgelastet. Diese Zuordnung wird durch eine Hashfunktion umgesetzt, in die Quell- und Ziel-Port-Nummer und IP-Adresse einfließen. Das führt dazu, dass Pakete, die auf einem Port ankommen und einer bestimmten Verbindung zugehören, immer wieder zu der selben RX-Queue dieses Ports zugeordnet werden. Mit \glqq Port\grqq{} im Folgenden entweder der physische Steckplatz einer Netzwerkkarte gemeint oder jener Teil der Netzwerkadresse, die eine Zuordnung zu einem bestimmten Prozess bewirkt. Die Bedeutung erschließt sich aus dem Kontext.
 
 \begin{figure}[H]
     \centering
@@ -62,11 +62,11 @@ Ein weiterer grundlegender Vorteil ergibt sich durch das von der Netzwerkkarte u
     \label{fig:Receive-Side-Scaling}
 \end{figure}
 
-Ferner besteht die Möglichkeit, Symmetric RSS einzusetzen. Dieser Mechanismus sorgt dafür, dass die Pakete, die auf dem einen Port der Netzwerkkarte ankommen, nach genau der selben Zuordnung auf dessen RX-Queues aufgeteilt werden, wie die auf dem anderen Port ankommenden Pakete auf dessen RX-Queues. Dabei ist die Zuordnung auf dem einen Port ,,symmetrisch'' zu der auf dem anderen Port. Das heißt, wenn bei Port 0 ein Paket mit \texttt{Src-IP: a, Dst-IP: b, Src-Port: x, Dst-Port: y} ankommt, wird es genauso dessen RX-Queues zugeteilt, wie ein Paket mit \texttt{Src-IP: b, Dst-IP: a, Src-Port: y, Dst-Port: x} auf RX-Queues von Port 1. So ergeben sich Paare von RX-Queues, die jeweils immer Pakete von den gleichen Verbindungen beinhalten. Angenommen, die RX-Queues sind mit natürlichen Zahlen benannt und RX-Queue 3 auf Port 0 und RX-Queue 5 auf Port 1 sind ein korrespondierendes RX-Queue-Paar. Wenn nun ein Paket P, zugehörig einer Verbindung V auf RX-Queue 3, Port 0 ankommt, dann weiß man, dass Pakete, die auf Port 1 ankommen und der Verbindung V angehören immer auf RX-Queue 5, Port 1 landen.
+Ferner besteht die Möglichkeit, Symmetric RSS einzusetzen. Dieser Mechanismus sorgt dafür, dass die Pakete, die auf dem einen Port der Netzwerkkarte ankommen, nach genau der selben Zuordnung auf dessen RX-Queues aufgeteilt werden, wie die auf dem anderen Port ankommenden Pakete auf dessen RX-Queues. Dabei ist die Zuordnung auf dem einen Port \glqq symmetrisch\grqq{} zu der auf dem anderen Port. Das heißt, wenn bei Port 0 ein Paket mit \texttt{Src-IP: a, Dst-IP: b, Src-Port: x, Dst-Port: y} ankommt, wird es genauso dessen RX-Queues zugeteilt, wie ein Paket mit \texttt{Src-IP: b, Dst-IP: a, Src-Port: y, Dst-Port: x} auf RX-Queues von Port 1. So ergeben sich Paare von RX-Queues, die jeweils immer Pakete von den gleichen Verbindungen beinhalten. Angenommen, die RX-Queues sind mit natürlichen Zahlen benannt und RX-Queue 3 auf Port 0 und RX-Queue 5 auf Port 1 sind ein korrespondierendes RX-Queue-Paar. Wenn nun ein Paket P, zugehörig einer Verbindung V auf RX-Queue 3, Port 0 ankommt, dann ist einem bekannt, dass Pakete, die auf Port 1 ankommen und der Verbindung V angehören immer auf RX-Queue 5, Port 1 landen.
 
-Neben RX-Queues existieren auch TX-Queues (Transmit-Queues), die ebenfalls zu einem bestimmten Port gehören. Darin befindliche Pakete werden von der Netzwerkkarte auf den entsprechenden Port geleitet und gesendet. Auf Basis dieses Mechanismus sollen die Threads wie folgt organisiert werden: Einem Thread gehört ein Paar von korrespondierenden RX-Queues (auf verschiedenen Ports) und daneben eine TX-Queue auf dem einen und eine TX-Queue auf dem anderen Port. Das bringt einige Vorteile mit sich: Es müssen zwei Arten von Informationen entlang der Pipeline gespeichert, verarbeitet und gelesen werden: Informationen zu einer Verbindung und Analyseinformationen/Statistiken. Daher ist kaum Inter-Thread-Kommunikation nötig, weil alle Informationen zu einer Verbindung in Datenstrukturen gespeichert werden können, auf die nur genau der bearbeitende Thread Zugriff haben muss. An dieser Stelle soll auch kurz auf eine Besonderheit von DPDK eingegangen werden: Im Linux-Kernel empfängt ein Programm Pakete durch Interrupt-Handling. Gegensätzlich dazu werden bei DPDK alle empfangenen Pakete, die sich derzeit in den RX-Queues der Netzwerkkarte befinden, auf einmal von der Anwendung geholt. In der zu entwickelnden Software geschieht dieses Paket-holen (engl. ,,Polling'') durch den einzelnen Thread stets zu Beginn eines Pipeline-Durchlaufes.
+Neben RX-Queues existieren auch TX-Queues (Transmit-Queues), die ebenfalls zu einem bestimmten Port gehören. Darin befindliche Pakete werden von der Netzwerkkarte auf den entsprechenden Port geleitet und gesendet. Auf Basis dieses Mechanismus sollen die Threads wie folgt organisiert werden: Einem Thread gehört ein Paar von korrespondierenden RX-Queues (auf verschiedenen Ports) und daneben eine TX-Queue auf dem einen und eine TX-Queue auf dem anderen Port. Das bringt einige Vorteile mit sich: Es müssen zwei Arten von Informationen entlang der Pipeline gespeichert, verarbeitet und gelesen werden: Informationen zu einer Verbindung und Analyseinformationen/Statistiken. Daher ist kaum Inter-Thread-Kommunikation nötig, weil alle Informationen zu einer Verbindung in Datenstrukturen gespeichert werden können, auf die nur genau der bearbeitende Thread Zugriff haben muss. An dieser Stelle soll auch kurz auf eine Besonderheit von DPDK eingegangen werden: Im Linux-Kernel empfängt ein Programm Pakete durch Interrupt-Handling. Gegensätzlich dazu werden bei DPDK alle empfangenen Pakete, die sich derzeit in den RX-Queues der Netzwerkkarte befinden, auf einmal von der Anwendung geholt. In der zu entwickelnden Software geschieht dieses Paket-holen (engl. \glqq Polling\grqq{}) durch den einzelnen Thread stets zu Beginn eines Pipeline-Durchlaufes.
 
-Im Falle eines Angriffes ist die Seite des Angreifers (entsprechender Port z.B. ,,Port 0'') viel stärker belastet, als die Seite des Servers (z.B. ,,Port 1''). Wegen der gleich verteilten Zuordnung des eingehenden Verkehrs auf die RX-Queues und weil ein Thread von RX-Queues von beiden Ports regelmäßig Pakete pollt, sind alle Threads gleichmäßig ausgelastet und können die Pakete bearbeiten. Ein günstiger Nebeneffekt bei DDoS-Angriffen ist, dass die Absenderadressen von Angriffspaketen oft sehr unterschiedlich sind. Das begünstigt die gleichmäßige Verteilung von Paketen auf RX-Queues, weil das Tupel aus besagten Adressen der Schlüssel der RSS-Hash-Funktion sind.
+Im Falle eines Angriffes ist die Seite des Angreifers (entsprechender Port z.B. \glqq Port 0\grqq{}) viel stärker belastet, als die Seite des Servers (z.B. \glqq Port 1\grqq{}). Wegen der gleich verteilten Zuordnung des eingehenden Verkehrs auf die RX-Queues und weil ein Thread von RX-Queues von beiden Ports regelmäßig Pakete pollt, sind alle Threads gleichmäßig ausgelastet und können die Pakete bearbeiten. Ein günstiger Nebeneffekt bei DDoS-Angriffen ist, dass die Absenderadressen von Angriffspaketen oft sehr unterschiedlich sind. Das begünstigt die gleichmäßige Verteilung von Paketen auf RX-Queues, weil das Tupel aus besagten Adressen der Schlüssel der RSS-Hash-Funktion sind.
 
 \section{Überarbeiteter Grobentwurf}
 Die in diesem Abschnitt erläuterten Änderungen wurden im Laufe der Implementierungsphase vorgenommen. Für das bei diesem Softwareprojekt genutzte Vorgehensmodell des Unified Process ist es typisch, dass sich auch während der Implementierung Änderungen am Entwurf ergeben. Für die Teammitglieder ist es besonders aufgrund der geringen Erfahrung bezüglich der Thematik des Projekts unerlässlich, wichtige Verbesserungen direkt vornehmen zu können.
@@ -88,7 +88,7 @@ Die extrahierten Informationen werden von der \texttt{Inspection} verwendet, um 
 Sowohl \texttt{Treatment}, als auch \texttt{Inspection} und \texttt{PacketDissection} verwenden das \\ \texttt{ConfigurationManagement}, welches Parameter für die Programmbestandteile in Form von Konfigurationsdateien vorhält. Das \texttt{ConfigurationManagement} bietet die Möglichkeit für den Nutzer, aktiv Einstellungen am System vorzunehmen.
 
 \subsection{NicManagement}
-Das \texttt{NicManagement} übernimmt, wie im letzten Review-Dokument erwähnt, das Senden, das Pollen und das Löschen von Paketen. Dieses Paket wurde eingeführt, um bestimmte Funktionen und Initialisierungsschritte vom DPDK zu kapseln. Dabei handelt es sich vor allem um folgende Operationen: \texttt{rte\_eth\_rx\_burst()} und \texttt{rte\_eth\_tx\_burst()} Es hat sich allerdings herausgestellt, dass die Operationen ,,Senden'', ,,Empfangen'' und ,,Löschen'' in der Implementierung sehr wenig Aufwand bereiten. Das Zusammenbauen von Paketen wird von der Komponente \texttt{PacketDissection} übernommen. Der aufwändigere Teil ist die Initialisierung des DPDK, insbesondere die Ermöglichung von Multithreading und die Konfigurierung von symmetric Receive-Side-Scaling. Die dazu notwendigen Schritte werden jedoch von \texttt{Initializer} bzw in der main.cpp-Datei vor dem Starten der einzelnen Threads durchgeführt und sind nicht mehr Teil des \texttt{NicManagements}.
+Das \texttt{NicManagement} übernimmt, wie im letzten Review-Dokument erwähnt, das Senden, das Pollen und das Löschen von Paketen. Dieses Paket wurde eingeführt, um bestimmte Funktionen und Initialisierungsschritte vom DPDK zu kapseln. Dabei handelt es sich vor allem um folgende Operationen: \texttt{rte\_eth\_rx\_burst()} und \texttt{rte\_eth\_tx\_burst()} Es hat sich allerdings herausgestellt, dass die Operationen \glqq Senden\grqq{}, \glqq Empfangen\grqq{} und \glqq Löschen\grqq{} in der Implementierung sehr wenig Aufwand bereiten. Das Zusammenbauen von Paketen wird von der Komponente \texttt{PacketDissection} übernommen. Der aufwändigere Teil ist die Initialisierung des DPDK, insbesondere die Ermöglichung von Multithreading und die Konfigurierung von symmetric Receive-Side-Scaling. Die dazu notwendigen Schritte werden jedoch von \texttt{Initializer} bzw in der main.cpp-Datei vor dem Starten der einzelnen Threads durchgeführt und sind nicht mehr Teil des \texttt{NicManagements}.
 
 Aus diesem Grund und weil jeder nicht notwendige Funktionsaufruf Rechenzeit kostet, könnte das \texttt{NicManagement} aufgelöst und die bereitgestellten Funktionen an anderer Stelle implementiert werden. Die einzige Klasse, die das \texttt{NicManagement} zum jetzigen Zeitpunkt verwendet, ist die \texttt{PacketContainer}-Klasse in der Komponente \texttt{PacketDissection}. Es wäre möglich, den Inhalt der \texttt{NicManagement}-Aufgaben in diese Klasse zu verschieben.
 
@@ -115,7 +115,7 @@ Das Paket \texttt{ConfigurationManagement} kümmert sich um die Initialisierung 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.4\linewidth]{img/configurator.pdf}
+    \includegraphics[width=0.4\linewidth]{img/Configurator.pdf}
     \caption{Klassendiagramm: \texttt{Configurator}}
     \label{config}
 \end{figure}
@@ -144,12 +144,12 @@ Dafür war geplant, in dieser Komponente die Repräsentation eines Paketes - die
 
 Aus diesem Grund wurde eine neue Klasse namens \texttt{PacketContainer} eingeführt. Diese dient als Repräsentation einer Folge von Paketen, die empfangen wurden. Enthalten sind sowohl die Pointer auf die tatsächlichen Pakete, als auch Metadaten in Form mehrerer Objekte der \texttt{PacketInfo}-Klasse. Im \texttt{PacketContainer} ist es möglich, Pakete zu entnehmen, hinzuzufügen und zu löschen. Weiterhin gibt es jeweils eine Methode zum Pollen neuer Pakete und zum Senden aller vorhandener Pakete.
 
-Die \texttt{PaketInfo}-Klasse stellt immer noch alle relevanten Header-Informationen eines Paketes zur Verfügung. Allerdings werden Informationen nur noch auf Abruf extrahiert. Hierbei werden für die IP Versionen 4 und 6, sowie die Layer 4 Protokolle TCP, UDP und ICMP unterstützt. Darüber hinaus soll sie auch das verändern einzelner Informationen im Header ermöglichen.
+Die \texttt{PaketInfo}-Klasse stellt immer noch alle relevanten Header-Informationen eines Paketes zur Verfügung. Allerdings werden Informationen nur noch auf Abruf extrahiert. Hierbei werden für die IP Versionen 4 und 6, sowie die Layer 4 Protokolle TCP, UDP und ICMP unterstützt. Darüber hinaus soll sie auch das Verändern einzelner Informationen im Header ermöglichen.
 
 Die letzte Klasse in der \texttt{PacketDissection} ist der namensgebende \texttt{HeaderExtractor}. Seine Aufgabe wandelte sich vom Extrahieren der Informationen zum Vorbereiten des Extrahierens auf Bedarf.
 
 \subsection{Inspection}
-Die zuvor globale Auswertung von Angriffen aller Threads durch eine einzige Instanz wurde ersetzt durch eine lokale threadeigene Auswertung. Berechnete Zahlen und Statistiken wie Paketrate und Angriffsrate werden per Interthreadkommunikation nur noch an eine globale Statistikinstanz gesendet. Dadurch können die Threads unabhängig voneinander agieren und reagieren, die Implementation der Methoden ist deutlich einfacher ausgefallen und die Interthreadkommunikation konnte auf ein Minimum begrenzt werden, was der Auswertungsgeschwindigkeit jedes Inspection-Threads zugute kommt und ein Bottleneck-Problem an der Inspection vorbeugt.
+Die zuvor globale Auswertung von Angriffen aller Threads durch eine einzige Instanz wurde ersetzt durch eine lokale threadeigene Auswertung. Berechnete Zahlen und Statistiken wie Paketrate und Angriffsrate werden per Interthreadkommunikation nur noch an eine globale Statistikinstanz gesendet. Dadurch können die Threads unabhängig voneinander agieren und reagieren, die Implementierung der Methoden ist deutlich einfacher ausgefallen und die Interthreadkommunikation konnte auf ein Minimum begrenzt werden, was der Auswertungsgeschwindigkeit jedes Inspection-Threads zugute kommt und ein Bottleneck-Problem an der Inspection vorbeugt.
 
 \begin{figure}[h]
     \centering
@@ -158,7 +158,7 @@ Die zuvor globale Auswertung von Angriffen aller Threads durch eine einzige Inst
     \label{InspectionOld}
 \end{figure}
 
-Durch den Einsatz von symetric Receive Side Scaling ist sowohl die Auslastung jeder Inspektion ausgeglichen und zusätzlich werden gleiche Paketströme (selbe Paketquelle und -Empfänger) durch denselben Thread verarbeitet. Dies erleichtert die Erkennung legitimer Pakete, da diese über eine eigene Patchmap für bestimmte Fälle von großteils illegitimen Verkehr unterscheidbar ist und die Variationen geringer sind.
+Durch den Einsatz von symetric Receive Side Scaling ist sowohl die Auslastung jeder Inspektion ausgeglichen und zusätzlich werden gleiche Paketströme (selbe Paketquelle und -Empfänger) durch denselben Thread verarbeitet. Dies erleichtert die Erkennung legitimer Pakete, da diese über eine eigene Patchmap für bestimmte Fälle von großteils illegitimen Verkehr unterscheidbar sind und die Variationen geringer sind.
 
 Die Statistik wird statt durch eine eigene Klasse direkt in der \texttt{Inspection} erstellt und das Ergebnis an eine globale Statistik Instanz gesendet, um diese an den Nutzer auszugeben. Die \texttt{Inspection}-Klasse ist dadurch schlanker und folgt einem linearen Pipelinemodell für Paketverarbeitung.
 

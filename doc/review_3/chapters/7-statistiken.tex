@@ -3,16 +3,17 @@
 \begin{document}
 
 \chapter{Softwaremetriken und Statistiken}\thispagestyle{fancy}
-Der Zweck von Softwaremetriken besteht in der ,,Definition von Software-Kenngrößen und Entwicklungsprozessen'' und der ,,Abschätzung des Prozess- und Kostenaufwands oder dem Qualitätsmanagement''\cite{swmetriken}.
+Der Zweck von Softwaremetriken besteht in der \glqq Definition von Software-Kenngrößen und Entwicklungsprozessen\grqq{} und der \glqq Abschätzung des Prozess- und Kostenaufwands oder dem Qualitätsmanagement\grqq{}\cite{swmetriken}.
 
 Da das Reviewdokument noch vor Projektende fertiggestellt werden musste, sind die Daten, auf denen dieses Kapitel basiert, vom 10.07.2021.
+
 \section{Benennungs- und Programmierkonventionen}
 Während der Meetings wurde sich auf zahlreiche Konventionen geeinigt. Diese wurden dann wiederum sowohl in den einzelnen Meetingprotokollen als auch in einem eigenen Wikieintrag festgehalten.
 
-Unter Programmierkonventionen werden ,,Vorgaben für Programmierer über die Gestaltung von Programmen''\cite{progkonv} verstanden. Sie zeigen auf, wie der Code sowohl formal als auch strukturell gestaltet sein soll. Diese Konventionen sollen zur Verbesserung der Softwarequalität führen, was sich unter anderem in der durch die Konventionen gesteigerten Verständlichkeit und Änderungsfreundlichkeit des Codes zeigt.
+Unter Programmierkonventionen werden \glqq Vorgaben für Programmierer über die Gestaltung von Programmen\grqq{} \cite{progkonv} verstanden. Sie zeigen auf, wie der Code sowohl formal als auch strukturell gestaltet sein soll. Diese Konventionen sollen zur Verbesserung der Softwarequalität führen, was sich unter anderem in der durch die Konventionen gesteigerten Verständlichkeit und Änderungsfreundlichkeit des Codes zeigt.
 
 \subsection{C/C++ und UML}
-Das System wird in der Programmiersprache C++ entwickelt. Um dieses System zu entwerfen, wurden verschiedene Modelle und Diagramme im Rahmen des Softwareprojektes erstellt (z.B. Klassendiagramme, Aktivitätsdiagramme, Sequenzdiagramme). Diese Diagramme wurden mithilfe der Unified Modeling Language (UML) entwickelt. Die UML gibt bereits einige Richtlinien vor, wie zum Beispiel die grafische Notation oder die Bezeichner für die bei einer Modellierung wichtiger Begriffe.
+Das System wird in der Programmiersprache C++ entwickelt. Um dieses System zu entwerfen, wurden verschiedene Modelle und Diagramme im Rahmen des Softwareprojektes erstellt (z. B. Klassendiagramme, Aktivitätsdiagramme, Sequenzdiagramme). Diese Diagramme wurden mithilfe der Unified Modeling Language (UML) entwickelt. Die UML gibt bereits einige Richtlinien vor, wie zum Beispiel die grafische Notation oder die Bezeichner für die bei einer Modellierung wichtiger Begriffe.
 
 \subsubsection{Namenskonventionen}
 Im Folgenden werden die Namenskonventionen im vorliegenden Softwareprojekt aufgezeigt und mit kurzen Beispielen unterlegt:
@@ -24,10 +25,10 @@ Für \textbf{Methoden} werden ausschließlich Kleinbuchstaben verwendet. Sollte 
 
 Für \textbf{Variablen} gelten die gleichen Konventionen wie für Methoden, sodass \texttt{packet\_inside} als Bespiel dienen kann. Zusätzlich soll ein Unterstrich vor dem Namen darauf hinweisen, dass es sich um eine Membervariable handelt, wie z. B. bei \texttt{\_cookie\_secret}. Statische Membervariablen beginnen somit mit \texttt{\_s\_}, wie bei \texttt{\_s\_timestamp}.
 
-Auch bei \textbf{Objekten} gilt, dass nur Kleinbuchstaben verwendet werden sollen und mehrere Worte durch einem Unterstrich verbunden werden, wie in \texttt{nic\_man}.
+Auch bei \textbf{Objekten} gilt, dass nur Kleinbuchstaben verwendet werden sollen und mehrere Worte durch eine Unterstrich verbunden werden, wie in \texttt{nic\_man}.
 
 \subsubsection{Formatierungs-Richtlinien}
-Die Formatierungsrichtlinien legen unter anderem fest, dass nur ASCII-Zeichen, also zum Beispiel keine Umlaute oder  ß, verwendet werden dürfen. Die Einrückung im Code beträgt vier Leerzeichen. Zudem sollen ,,dauerhaft'' geschweifte Klammern verwendet werden. Das heißt zum Beispiel, dass auch geschweifte Klammern einzeiliger if-Blöcken verwendet werden. Nach Methoden- und Klassennamen (oder Ähnlichem) stehen öffnende geschweifte Klammer. Hier soll kein Zeilenumbruch entstehen. Dies zeigt der Codeausschnitt \ref{klammern} beispielhaft.
+Die Formatierungsrichtlinien legen unter anderem fest, dass nur ASCII-Zeichen, also zum Beispiel keine Umlaute oder ß, verwendet werden dürfen. Die Einrückung im Code beträgt vier Leerzeichen. Zudem sollen \glqq dauerhaft\grqq{} geschweifte Klammern verwendet werden. Das heißt zum Beispiel, dass auch geschweifte Klammern einzeiliger if-Blöcken verwendet werden. Nach Methoden- und Klassennamen (oder Ähnlichem) stehen öffnende geschweifte Klammern. Hier soll kein Zeilenumbruch entstehen. Dies zeigt der Codeausschnitt \ref{klammern} beispielhaft.
 \begin{lstlisting} [caption= {Formatierungsrichtlinie: Setzen von Klammern}, label = {klammern}]
 int i = rand();
          
@@ -70,7 +71,7 @@ Bei \texttt{@brief} lässt sich sofort erkennen, dass es sich um eine \textbf{Ku
 
 \texttt{@param} leitet hingegen die Beschreibung eines \textbf{Parameters}, der in eine Methode ein- oder von einer Methode ausgegeben wird, ein. \texttt{@param[in]} steht vor der Beschreibung eines \textbf{Eingabeparameters} und \texttt{@param[out]} vor einem \textbf{Ausgabeparameter}. Bei diesem handelt es sich um einen Parameter, der im C-Style einer Funktion mit Call-by-reference übergeben wird, damit er mit Werten gefüllt wird. Zur Beschreibung von Parametern, die sowohl ein- als auch ausgegeben werden, kann \texttt{@param[in, out]} verwendet werden.
 
-Der Command \texttt{@return} hilft bei der Beschreibung eines \textbf{Rückgabewertes} und \texttt{@file} zur Erklärung des \textbf{Zwecks} einer Datei, also z. B. einer Klasse oder eines structs.
+Der Command \texttt{@return} hilft bei der Beschreibung eines \textbf{Rückgabewertes} und \texttt{@file} zur Erklärung des \textbf{Zwecks} einer Datei, also z. B. einer Klasse oder eines Structs.
 
 \subsubsection{Source-Dateien}
 Pro Paket (vgl. Abb. \ref{fig:dospaketdiagramm}) wird ein Ordner in \texttt{source/} angelegt, der den gleichen Namen wie das Paket erhält. Alle zu diesem Paket zugehörigen Klassen befinden sich dann wiederum in diesem Ordner. Pro cpp-Klasse soll es eine eigene .cpp-Datei geben. Die dazugehörige Header-Datei  wird mit \texttt{\#include <header-file>} inkludiert. Im ganzen Projekt gibt es eine \texttt{main.cpp}-Datei in \texttt{source/} mit der main-Routine.
@@ -84,18 +85,18 @@ Im Softwareprojekt wird die GitLab zur Versionsverwaltung genutzt. Diese Webanwe
 \subsubsection{Git}
 Außer in Präsentationen und Review-Dokumenten werden in Git nur ASCII-Zeichen verwendet. Die \textbf{Sprache} ist auch hier grundsätzlich Englisch, wobei diese Festlegung auch bei den Präsentationen und Review-Dokumenten abweicht.
 
-Die \textbf{Branchnamen} sind klein geschrieben. Die Worte in diesem werden mit Unterstrich (,,\_'') verbunden. Dieselbe Regelungen gelten bei \textbf{Ordner- und Dateinamen}.
+Die \textbf{Branchnamen} sind klein geschrieben. Die Worte in diesem werden mit Unterstrich (\glqq \_\grqq{}) verbunden. Dieselbe Regelungen gelten bei \textbf{Ordner- und Dateinamen}.
 
 \subsubsection{Issue}
-Grundsätzlich werden die Issues in Englisch benannt. Lediglich deutsche ,,Eigennamen'' werden auf Deutsch geschrieben (Beispiel: Pflichtenheft).
+Grundsätzlich werden die Issues in Englisch benannt. Lediglich \glqq Eigennamen\grqq{} werden auf Deutsch geschrieben (Beispiel: Pflichtenheft).
 Die Issues werden klein und im Imperativ geschrieben. Leerzeichen sind erlaubt.
 
-Wenn Issues nicht nur einer sondern mehreren Personen zugeordnet werden sollen, wird dem eigentlichen Issue-Namen mit ,,@'' die Namen der zuständigen Teammitgliedern angehängt. Das heißt, der Issue-Name weist folgende Struktur auf: \texttt{<issue name> <space> @ <first name>}).
+Wenn Issues nicht nur einer, sondern mehreren Personen zugeordnet werden sollen, wird dem eigentlichen Issue-Namen mit \glqq @\grqq{} die Namen der zuständigen Teammitgliedern angehängt. Das heißt, der Issue-Name weist folgende Struktur auf: \texttt{<issue name> <space> @ <first name>}).
 
-Mit \texttt{@all} ist das Issue für alle Teammitglieder für die Bearbeitung offen. Derjenige, der mit der Bearbeitung dieser Aufgabe beginnt, löscht ,,@all'' trägt seinen eigenen Vornamen mit ,,@'' in den Issue-Namen ein.
+Mit \texttt{@all} ist das Issue für alle Teammitglieder für die Bearbeitung offen. Derjenige, der mit der Bearbeitung dieser Aufgabe beginnt, löscht \glqq @all\grqq{} trägt seinen eigenen Vornamen mit \glqq @\grqq{} in den Issue-Namen ein.
 
 \subsubsection{Label}
-In diesem Projekt werden die Labels grundsätzlich für zwei verschiedene Kategorien von Aufgaben verwendet verwendet: Zum einen für Status-Issues und zum anderen für Super-Issues (bzw. Tasks). Bei diesen Super-Issues handelt es sich um große Aufgaben, denen wiederum verschiedene Issues als Teilaufgaben zugeordnet werden.
+In diesem Projekt werden die Labels grundsätzlich für zwei verschiedene Kategorien von Aufgaben verwendet: Zum einen für Status-Issues und zum anderen für Super-Issues (bzw. Tasks). Bei diesen Super-Issues handelt es sich um große Aufgaben, denen wiederum verschiedene Issues als Teilaufgaben untergeordnet werden.
 
 Die Benennung sieht Folgendes vor:
 
@@ -121,15 +122,15 @@ Label für \texttt{Super-Issues bzw. Tasks} werden folgendermaßen benannt: \tex
     \caption{Beispiel: Label für außerordentliche Kategorien}
     \label{extra}
 \end{figure}
-Label, die keiner dieser beiden Kategorien zugeordnet werden könne, werden folgendermaßen benannt: \texttt{EXTRA: <label name>}. Als Beispiel hierfür kann das Label \texttt{EXTRA: open for all} genannt werden, welches es den Teammitgliedern verinfachen soll, noch nciht zugeteilte Aufgaben zu finden.
+Label, die keiner dieser beiden Kategorien zugeordnet werden können, werden folgendermaßen benannt: \texttt{EXTRA: <label name>}. Als Beispiel hierfür kann das Label \texttt{EXTRA: open for all} genannt werden, welches es den Teammitgliedern vereinfachen soll, noch nicht zugeteilte Aufgaben zu finden.
 
-\subsection{Latex}
-Zum Erstellen der Reviewdokumente und der Präsentationen wird Latex verwendet. Hierbei wurde sich darauf geeinigt, unter anderem um Merge-Konflikte zu verhindern, dass ein Tab vier Leerzeichen entspricht. Außerdem sollen neue Kapitel mit einem Kommentarblock eingeleitet werden, um sich besser in den Dokumenten zurechtzufinden.
+\subsection{LaTeX}
+Zum Erstellen der Reviewdokumente und der Präsentationen wird LaTeX verwendet. Hierbei wurde sich darauf geeinigt, unter anderem um Merge-Konflikte zu verhindern, dass ein Tab vier Leerzeichen entspricht. Außerdem sollen neue Kapitel mit einem Kommentarblock eingeleitet werden, um sich besser in den Dokumenten zurechtzufinden.
 
 
 \section{Umfang der Software}
 
-Unter \textbf{Lines of Code} (Loc) wird die Anzahl der Zeilen inklusive Leerzeilen und Kommentare verstanden. Dagegen enthalten die \textbf{Source Lines of Code} (SLOC) nur Codezeilen ohne Leerzeilen und Kommentare. Die \textbf{Comment Lines of Code} (CLOC) geben die Anzahl der Kommentarzeilen an. Dabei werden in diesem Dokument in diese Zeilenanzahl keine Zeilen miteinbezogen, welche zugleich Code und Kommentaren beinhalten.
+Unter \textbf{Lines of Code} (Loc) wird die Anzahl der Zeilen inklusive Leerzeilen und Kommentare verstanden. Dagegen enthalten die \textbf{Source Lines of Code} (SLOC) nur Codezeilen ohne Leerzeilen und Kommentare. Die \textbf{Comment Lines of Code} (CLOC) geben die Anzahl der Kommentarzeilen an. Dabei werden in diesem Dokument in diese Zeilenanzahl keine Zeilen miteinbezogen, welche zugleich Code und Kommentare beinhalten.
 
 Die Lines of Codes von allen Header-Dateien betragen ungefähr 2000. Das davon über die Hälfte Kommentarzeilen sind, überrascht nicht. Denn die gesamte Codedokumentation bzw. Entwicklerdokumentation erfolgte in diesem Projekt mittels Doxygen, was die automatische Generierung von Dokumentation auf Basis spezieller Kommentare. Diese Dokumentation mittels Kommentarzeilen fand in den Header-Dateien statt.
 \begin{longtable}[H]{p{10cm}rrr}
@@ -198,7 +199,7 @@ Von den insgesamt über 2500 LoC in den Source-Dateien sind ca. 13,25\% Kommenta
 \end{longtable}
 
 Die Test-Dateien beinhalten den Code der Unit-Tests. Über die Hälfte der LOC aller Test-Dateien kommen aus der Datei \texttt{Treatment\_test.cpp}.
-In den Test-Dateien wurdemusste vergleichsweise wenig kommentiert werden, wenn die Namen der Testcases und der Sections aussagekräftig gewählt wurden und diese Aussagekraft durch die Strukturierung der Tests unterstützt wurde.
+In den Test-Dateien musste vergleichsweise wenig kommentiert werden, wenn die Namen der Testcases und der Sections aussagekräftig gewählt wurden und diese Aussagekraft durch die Strukturierung der Tests unterstützt wurde.
 \begin{longtable}[H]{p{10cm}rrr} \toprule
     \textbf{Test-Datei}             & \textbf{LoC} & \textbf{CLOC} & \textbf{SLOC} \\ \midrule \endhead
     Attacker\_test.cpp              & 37           & 7             & 24            \\
@@ -233,6 +234,7 @@ Die lipdpdk-Header-Dateien wurden hier extra aufgeführt, da sie nicht komplett 
     rte\_udp.h                           & 10           & 0             & 8             \\ \midrule
     $\sum$                               & 527          & 72            & 357           \\ \bottomrule
 \end{longtable}
+\vspace{-0.2cm}
 Um das Testbed effizient nutzen zu können, wurden kurze Skripte zur Initialisierung der Hardware geschrieben. Insgesamt entstanden hierbei 26 LoC.
 \begin{longtable}[H]{p{10cm}rrr} \toprule
     \textbf{Skripte zur Intialisierung der Hardware} & \textbf{LoC} & \textbf{CLOC} & \textbf{SLOC} \\ \midrule \endhead
@@ -241,7 +243,8 @@ Um das Testbed effizient nutzen zu können, wurden kurze Skripte zur Initialisie
     \midrule
     $\sum$                                           & 26           & 12            & 14            \\ \bottomrule
 \end{longtable}
-Insgesamt entstanden im vorliegenden Projekt ca. 7300 LOC, fast 1800 CLOC und ca. 4300 SLOC.
+\vspace{-0.2cm}
+Insgesamt entstanden im Projekt ca. 7300 LOC, fast 1800 CLOC und ca. 4300 SLOC.
 \begin{longtable} [H]{p{10cm}rrr}
     \toprule
     \textbf{Datei-Art}                       & \textbf{LoC} & \textbf{CLOC} & \textbf{SLOC} \\ \midrule \endhead
@@ -254,37 +257,45 @@ Insgesamt entstanden im vorliegenden Projekt ca. 7300 LOC, fast 1800 CLOC und ca
 \end{longtable}
 
 \section{Repository-Analyse in Gitlab}
-Ein Teil der Funktionalität von Gitlab bilden die Repository-Analysen. Diese werden verwendet, um sich  einen stark abstrahierten Überblick über das Git-Repository eines Projektes zu verschaffen. Die dort zur Verfügung gestellten Diagramme werden nach jedem Commit aktualisiert.
+Ein Teil der Funktionalität von Gitlab bilden die Repository-Analysen. Diese werden verwendet, um sich einen stark abstrahierten Überblick über das Git-Repository eines Projektes zu verschaffen. Die dort zur Verfügung gestellten Diagramme werden nach jedem Commit aktualisiert.
 \subsection{Verwendete Programmiersprachen}
-\begin{figure} [h]
+\begin{figure} [H]
     \centering
     \includegraphics[width =0.95\linewidth]{img/gitlab1.png}
     \caption{Verwendete Programmiersprachen in Prozent, gemessen an den Bytes of Code}
     \label{gitlab1}
 \end{figure}
-Abbildung \ref{gitlab1} zeigt, dass im Repository des vorliegenden Softwareprojektes  vorwiegend mit 84,6\% die Programmiersprache C++ verwendet wurde. Mit großen Abstand folgt C mit 14,74\%. Der C-Code resultiert aus die Beispielprogramme von DPDK, die verwendet werden, um die Funktionalität von DPDK zu testen. Diese Beispielprogramme werden in dem Repoisitory, das später auf Github veröffentlicht wird, nicht mehr vorhanden sein. Meson (0,44\%) und Shell (0,23\%) stellen keinen wesentlichen Anteil dar.
+Abbildung \ref{gitlab1} zeigt, dass im Repository des vorliegenden Softwareprojektes mit 84,6\%  vorwiegend die Programmiersprache C++ verwendet wurde. Mit großem Abstand folgt C mit 14,74\%. Der C-Code resultiert aus den Beispielprogrammen von DPDK, die verwendet werden, um die Funktionalität von DPDK zu testen. Diese Beispielprogramme werden in dem Repoisitory, das später auf Github veröffentlicht wird, nicht mehr vorhanden sein. Meson (0,44\%) und Shell (0,23\%) stellen keinen wesentlichen Anteil dar.
 \subsection{Commit-Statistik}
 Insgesamt gab es vom 03.05.2021 bis zum 08.07.2021 im Master-Branch 1183 Commits. Merge-Commits sind hierbei ausgeschlossen. Aus diesen Zahlen lässt sich folgern, dass es durchschnittlich 17,7 Commits pro Tag gab.
-\begin{figure} [h]
+\begin{figure} [H]
     \centering
-    \includegraphics[width =0.65\linewidth]{img/gitlab2.png}
+    \includegraphics[width =0.6\linewidth]{img/gitlab2.png}
     \caption{Commits pro Tag des Monats, Zeitraum: 03.05.2021 bis 08.07.2021}
     \label{gitlab2}
 \end{figure}
 Abbildung \ref{gitlab2} macht deutlich, das die Anzahl der Commits pro Tag des Monats stark schwankte. An manchen Tagen gab es weniger als 10 Commits (z.B. Tag 27), an anderen beinahe 80 (z.B. Tag 7, Tag 26).
-\begin{figure} [h]
+\begin{figure} [H]
     \centering
     \includegraphics[width =0.55\linewidth]{img/gitlab3.png}
     \caption{Commits pro Wochentag (UTC), Zeitraum: 03.05.2021 bis 08.07.2021}
     \label{gitlab3}
 \end{figure}
 Abbildung \ref{gitlab3} zeigt, dass es dienstags die meisten Commits pro Wochentag gab (215 Commits pro Tag). Die Wochentage Donnerstag (205 Commits pro Tag), Mittwoch (181 Commits pro Tag), Sonntag (170 Commits pro Tag), Montag (148 Commits pro Tag) und Freitag (139 Commits pro Tag) folgen. Mit 125 Commits pro Tag gab es die wenigsten Commits samstags.
-\begin{figure} [h]
+\begin{figure} [H]
     \centering
     \includegraphics[width =0.65\linewidth]{img/gitlab4.png}
     \caption{Commits pro Stunde des Tages (UTC), Zeitraum: 03.05.2021 bis 08.07.2021}
     \label{gitlab4}
 \end{figure}
-In Abbildung \ref{gitlab4} sind die Commits pro Stunde des Tages dargestellt. Die Abbildung macht deutlich, dass kaum nachts gearbeitet wurde, insbesondere kaum zwischen 2 und 5 Uhr. Dagegen gab es vor allem am späten Vormittag bis späten Nachmittag viele Commits.
+In Abbildung \ref{gitlab4} sind die Commits pro Stunde des Tages dargestellt. Die Abbildung macht deutlich, dass kaum nachts gearbeitet wurde, insbesondere kaum zwischen 2 und 5 Uhr. Dagegen gab es vor allem vom späten Vormittag bis zum späten Nachmittag viele Commits.
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width =\linewidth]{img/commitsToMaster.png}
+    \caption{Commits in den Master, Zeitraum: 03.05.2021 bis 19.07.2021}
+    \label{commitsToMaster}
+\end{figure}
+Ähnliche Aussagen können durch Abbildung \ref{commitsToMaster} geschlossen werden. In dieser Abbildung werden wie oben Merge-Commits nicht berücksichtigt. Im Zeitraum vom 03.05.2021 bis 19.07.2021 wurden im Durchscnitt 19,7 Commits getätigt. Der Maximalwert lag bei 63.
 
 \end{document}

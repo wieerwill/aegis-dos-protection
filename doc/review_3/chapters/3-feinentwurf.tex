@@ -110,7 +110,7 @@ Ausgehender Verkehr aus dem internen System wird grundsätzlich vertraut und nic
 Nach jedem Durchlauf eines \texttt{PacketContainer}s werden die lokalen und globalen Statistiken aktualisiert. Die Weitergabe der Informationen an die Statistik erfolgt über einen eigenen Interthread- Kommunikationskanal zum globalen Statistik-Thread. Die globale Statistik führt alle einzelnen Informationen zusammen und macht sie dem Nutzer in einfacher Weise abrufbar.
 \begin{figure}[h]
     \centering
-    \includegraphics[angle=90, width=\linewidth]{img/inspection_ablauf.png}
+    \includegraphics[angle=270, width=\linewidth]{img/inspection_ablauf.png}
     \caption{Aktivitätsdiagramm der Methode \texttt{analyzeContainer()} der Inspection}
     \label{inspection_activity}
 \end{figure}
@@ -129,7 +129,7 @@ Wird ein SYN-ACK von extern empfangen, so ist dies ohne Veränderung an das inte
 
 Werden Pakete ohne gesetzte Flags, beziehungsweise nur mit gesetztem ACK-Flag verschickt, so findet eine Sequenznummernzuordnung und eine Anpassung von Sequenznummern statt. Hierzu wird eine Densemap mit individueller Hashfunktion, in diesem Fall XXH3, verwendet. Bei der Densemap handelt es sich um eine besonders effiziente Hashmap, welche ein Einfügen, Suchen und Löschen in bis zu vier mal weniger Zeit als eine unordered\_map ermöglicht. Die Auswahl der Hashfunktion XXH3 ist  dadurch motiviert, dass sie extrem schnell ist und dennoch kaum Kollisionen erzeugt. Insbesondere werden durch sie bereits auf handelsüblichen Computersystemen Hashraten von bis zu 31.5 Gbit/s erzielt.
 
-Der Ablauf bei Empfang eines solchen Paketes ist wie folgt: Bei eingehenden Paketen wird ein zuvor berechneter Offset, welcher in der Offsetmap für jede Verbindung gespeichert ist, von der ACK-Nummer subtrahiert.
+Der Ablauf beim Empfang eines solchen Paketes ist wie folgt: Bei eingehenden Paketen wird ein zuvor berechneter Offset, welcher in der Offsetmap für jede Verbindung gespeichert ist, von der ACK-Nummer subtrahiert.
 
 Wird ein ACK empfangen, welches zu einer Verbindung gehört, in deren Info finseen auf true gesetzt ist, so muss die ACK-Nummer angepasst, das Paket an den internen Server geschickt und der Eintrag in der Densemap verworfen werden.
 
@@ -137,11 +137,11 @@ Falls ein Paket mit gesetztem RST-Flag von extern empfangen wird, wird der Eintr
 
 Sollte ein FIN empfangen werden, so muss im Info-Struct, welches Teil der Offsetmap ist, der Wert finseen auf true gesetzt werden. In diesem Fall ist das Paket nach Anpassung der ACK-Nummer weiterzuleiten.
 
-Im zweiten Fall der übergeordneten Fallunterscheidung erhält das Programm anschließend den \texttt{PacketContainer} der Pakete, welche das Netz von intern nach extern verlassen wollen. Auch hier wird, bevor ein Paket der Behandlung unterzogen wird, geprüft, ob das Paket nicht bereits gelöscht wurde, oder es sich um ein Paket falschen Typs handelt.
+Im zweiten Fall der übergeordneten Fallunterscheidung erhält das Programm anschließend den \texttt{PacketContainer} der Pakete, welche das Netz von intern nach extern verlassen wollen. Auch hier wird, bevor ein Paket der Behandlung unterzogen wird, geprüft, ob das Paket nicht bereits gelöscht wurde oder es sich um ein Paket falschen Typs handelt.
 
 Erhält das System ein SYN-Paket von einem internen Server, so wird dieses an das im Paket spezifizierte Ziel weitergeleitet. Eine Anpassung der Sequenznummer findet in diesem Fall nicht statt.
 
-Erhält das System ein SYN-ACK aus dem internen Netz, so muss das System die Differenz aus der ACK-Nummer dieses Pakets, und der des in der ACKmap gespeicherten Paketes berechnen, und den Wert als Offset in der Offsetmap eintragen. Das von intern empfangene SYN-ACK Paket muss verworfen werden.
+Erhält das System ein SYN-ACK aus dem internen Netz, so muss das System die Differenz aus der ACK-Nummer dieses Pakets. und der des in der ACKmap gespeicherten Paketes berechnen. Dieser Wert wird als Offset in der Offsetmap eintragen. Das von intern empfangene SYN-ACK Paket muss verworfen werden.
 Das zuvor in der ACKmap zwischengespeicherte Paket muss nun mit angepasster ACK-Nummer intACK = extACK-offset an den internen Host geschickt werden.
 
 Wird ein Paket ohne gesetzte Flags oder mit gesetztem ACK-Flag von Intern nach Extern verschickt, so findet eine weitere Fallunterscheidung statt.
@@ -175,7 +175,7 @@ Des weiteren könnte es unter Umständen erforderlich werden, die Einträge mit 
     \label{check_syn_cookie}
 \end{figure}
 Nachdem ein ACK als Reaktion auf ein SYN-ACK bei dem zu entwerfenden System angekommen ist, wird die Methode \texttt{check\_typ\_syn\_cookie()} aufgerufen.
-Grundsätzlich wird hier überprüft, ob der Hash-Wert aus dem empfangenen Paket mit dem eigens berechneten Hash-Wert übereinstimmt. Falls dies nicht der Fall ist oder die Differenz der Zeitstempel zu groß ist, wird ein Paket mit gesetzten Reset-Flag (RST) an den Sender geschickt. Dieses Flag zeigt an, dass die Verbindung beendet werden soll. Andernfalls wird die Verbindung als legitim erkannt und das Paket in der ACKmap zwischengespeichert, bis die Verbindung mit dem internen System erfolgreich war.
+Grundsätzlich wird hier überprüft, ob der Hash-Wert aus dem empfangenen Paket mit dem eigens berechneten Hash-Wert übereinstimmt. Falls dies nicht der Fall ist oder die Differenz der Zeitstempel zu groß ist, wird ein Paket mit gesetzten Reset-Flag (RST) an den Sender geschickt. Dieses Flag zeigt an, dass die Verbindung beendet werden soll. Andernfalls wird die Verbindung als legitim erkannt und das Paket in der ACKmap zwischengespeichert bis die Verbindung mit dem internen System erfolgreich war.
 
 Abbildung \ref{createcookiesecret} zeigt die parameterlose Methode \texttt{create\_cookie\_secret()}. Zu Beginn werden drei 16 Bit lange Zufallszahlen generiert, wobei auf die Funktion \texttt{rand()} aus der C Standardbibliothek zugegriffen wird. Der erste mit \texttt{rand()} generierte Wert wird um 48 Bit nach links verschoben, der zweite um 32 Bit. Diese beiden Werte werden danach bitweise ODER miteinander verknüpft. Dieser verknüpfte Wert wird dann wiederum mit der dritten zufälligen 16 Bit Zahl bitweise ODER verknüpft. Das Ergebnis dieser Verknüpfung ist eine 64 Bit lange Zufallszahl, die von der Methode zurückgegeben wird.
 
