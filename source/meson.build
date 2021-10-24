@@ -1,11 +1,14 @@
+# Please keep all alphabetically sorted
 sources = [
 	'source/main.cpp',
 	'source/Initializer.cpp',
 	'source/DebugHelper.cpp',
-	'source/ConfigurationManagement/Configurator.cpp',
+	'source/Configurator.cpp',
 	'source/Threads/DefenseThread.cpp',
-	'source/Cli.cpp',
-	#'source/Threads/StatisticsThread.cpp',
+	'source/Threads/StatisticsThread.cpp',
+	'source/DebugHelper.cpp',
+	'source/Initializer.cpp',
+	'source/main.cpp',
 	]
 
 # Attacker

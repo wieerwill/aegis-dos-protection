@@ -1,24 +1,26 @@
+/**
+ * @file DefenseThread.hpp
+ * @author Jakob
+ * @brief 
+ * @version 0.1
+ * @date 2021-07-12
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #pragma once
 
 #include "PacketDissection/PacketContainer.hpp"
+#include "Inspection.hpp"
 #include "Treatment/Treatment.hpp"
-
+#include "Threads/StatisticsThread.hpp"
 #include "Threads/ForwardingThread.hpp"
 
-class DefenseThread : public Thread {
+class DefenseThread : public ForwardingThread {
   public:
-    DefenseThread(MbufContainerReceiving* mbuf_container_from_inside,
-                  MbufContainerReceiving* mbuf_container_from_outside,
-                  MbufContainerTransmitting* mbuf_container_to_inside,
-                  MbufContainerTransmitting* mbuf_container_to_outside);
-
-    ~DefenseThread() { delete _treatment; }
-
-    void start_treat() { _do_treat = true; }
-
-    void stop_treat() { _do_treat = false; }
-
-    bool _do_treat;
+    DefenseThread(PacketContainer* pkt_container_to_inside,
+                  PacketContainer* pkt_container_to_outside,
+                  StatisticsThread* stat_thread);
 
     /**
      * @brief Wrapper for the run-method
@@ -34,13 +36,9 @@ class DefenseThread : public Thread {
     static int s_run(void* thread_obj);
 
   private:
-    Treatment* _treatment;
-
-    MbufContainerReceiving* _mbuf_container_from_outside;
-    MbufContainerReceiving* _mbuf_container_from_inside;
-    MbufContainerTransmitting* _mbuf_container_to_outside;
-    MbufContainerTransmitting* _mbuf_container_to_inside;
-
+    Inspection _inspection;
+    Treatment _treatment;
+    StatisticsThread* _statistics_thread;
     /**
      * @brief Run thread
      *

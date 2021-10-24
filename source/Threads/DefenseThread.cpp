@@ -1,28 +1,20 @@
+#include <iostream>
 #include <rte_cycles.h>
 #include <rte_lcore.h>
 #include <rte_mbuf.h>
 
 #include "Definitions.hpp"
-
 #include "Threads/DefenseThread.hpp"
+#include "Threads/StatisticsThread.hpp"
 
 // ===== PUBLIC ===== //
 
-DefenseThread::DefenseThread(
-    MbufContainerReceiving* mbuf_container_from_inside,
-    MbufContainerReceiving* mbuf_container_from_outside,
-    MbufContainerTransmitting* mbuf_container_to_inside,
-    MbufContainerTransmitting* mbuf_container_to_outside)
-    : Thread()
-    , _mbuf_container_from_inside(mbuf_container_from_inside)
-    , _mbuf_container_from_outside(mbuf_container_from_outside)
-    , _mbuf_container_to_inside(mbuf_container_to_inside)
-    , _mbuf_container_to_outside(mbuf_container_to_outside)
-    , _do_treat(false) {
-
-    _treatment =
-        new Treatment(_mbuf_container_to_outside, _mbuf_container_to_inside, 0);
-}
+DefenseThread::DefenseThread(PacketContainer* pkt_container_to_inside,
+                             PacketContainer* pkt_container_to_outside,
+                             StatisticsThread* stat_thread)
+    : ForwardingThread(pkt_container_to_inside, pkt_container_to_outside),
+      _treatment(pkt_container_to_inside, pkt_container_to_outside),
+      _statistics_thread(stat_thread) {}
 
 int DefenseThread::s_run(void* thread_vptr) {
     DefenseThread* thread = static_cast<DefenseThread*>(thread_vptr);
@@ -33,94 +25,54 @@ int DefenseThread::s_run(void* thread_vptr) {
 // ===== PRIVATE ===== //
 
 void DefenseThread::run() {
-    /*
-    LOG_INFO << "\nRunning on lcore " << rte_lcore_id() << ". [Ctrl+C to quit]"
-             << LOG_END;
-             */
+    uint16_t nb_pkts_to_inside;
+    uint16_t nb_pkts_to_outside;
+
+    BOOST_LOG_TRIVIAL(info)
+        << "\nRunning on lcore " << rte_lcore_id() << ". [Ctrl+C to quit]\n";
+
+    // stats for StatisticThread_testing
+    Stats* thread_statistics = new Stats();
+    thread_statistics->attacks = rte_lcore_id();
+    thread_statistics->bytes = rte_lcore_id();
+    thread_statistics->dropped = rte_lcore_id();
+    thread_statistics->packets = rte_lcore_id();
+    thread_statistics->work_time = rte_lcore_id();
 
     // Run until the application is quit or killed.
     while (likely(_quit == false)) {
+        _statistics_thread->enqueue_statistics(rte_lcore_id(),
+                                               thread_statistics);
 
-        // std::cout << _do_treat << std::endl;
-
-        // continue if no packets are received
-        int mbufs_from_inside = _mbuf_container_from_inside->poll_mbufs();
-        /*  if (mbufs_from_inside != 0) {
-             BOOST_LOG_TRIVIAL(info)
-                 << "Number of packets received from inside: "
-                 << mbufs_from_inside;
-         } */
-        bool keep = true;
-        for (int i = 0; i < mbufs_from_inside; ++i) {
-            rte_mbuf* mbuf = _mbuf_container_from_inside->get_mbuf_at_index(i);
-
-            if (PacketInfoCreator::is_ipv4_tcp(mbuf) == true &&
-                _do_treat == true) {
-                PacketInfoIpv4Tcp* pkt_info = new PacketInfoIpv4Tcp(mbuf);
-                keep = _treatment->treat_packets_to_outside(pkt_info);
-                if (keep == false) {
-                    // delete PacketInfo
-                    delete pkt_info;
-                }
-            } else {
-                // fwd
-                // std::cout << _do_treat;
-                _mbuf_container_to_outside->add_mbuf(mbuf);
-            }
-        }
-
-        _mbuf_container_to_inside->send_mbufs();
-        _mbuf_container_to_outside->send_mbufs();
-
-        // _mbuf_container_to_inside->send_mbufs();
-        // _mbuf_container_to_outside->send_mbufs();
-
-        // for mbuf in pktsFromOutside
-        //    pktInfoCreator::determinePacketType without creating a pktinfo
-        //    create packetInfo with obtained type
-        //    if tcp: treat
-        //    else: fwd
-        //    destroy pktInfo
-        // Pakete von innen, auch die selbsterzeugten bevorzugen
+        // ===== ALICE --[DAVE]--> BOB ===== //
 
         // continue if no packets are received
+        _pkt_container_to_inside->poll_packets(nb_pkts_to_inside);
+        if (likely(nb_pkts_to_inside > 0)) {
 
-        int mbufs_from_outside = _mbuf_container_from_outside->poll_mbufs();
-        /*  if (mbufs_from_outside != 0) {
-             BOOST_LOG_TRIVIAL(info)
-                 << "Number of packets received from outside: "
-                 << mbufs_from_outside;
-         } */
-        for (int i = 0; i < mbufs_from_outside; ++i) {
-            rte_mbuf* mbuf = _mbuf_container_from_outside->get_mbuf_at_index(i);
+            /// TODO: implement pipeline
 
-            if (PacketInfoCreator::is_ipv4_tcp(mbuf) == true &&
-                _do_treat == true) {
-                PacketInfoIpv4Tcp* pkt_info = new PacketInfoIpv4Tcp(mbuf);
-                keep = _treatment->treat_packets_to_inside(
-                    static_cast<PacketInfoIpv4Tcp*>(pkt_info));
-                if (keep == false) {
-                    // delete PacketInfo
-                    delete pkt_info;
-                }
-            } else {
-                // std::cout << _do_treat;
-                _mbuf_container_to_inside->add_mbuf(mbuf);
-            }
+            _treatment.treat_packets_to_inside();
+            _pkt_container_to_inside->send_packets();
+            _pkt_container_to_outside->send_packets();
         }
-        /*   if (_mbuf_container_to_inside->get_number_of_mbufs() > 0) {
-              BOOST_LOG_TRIVIAL(info)
-                  << "Number of packets sent to inside: "
-                  << _mbuf_container_to_inside->get_number_of_mbufs();
-          }
-          if (_mbuf_container_to_outside->get_number_of_mbufs() > 0) {
-              BOOST_LOG_TRIVIAL(info)
-                  << "Number of packets sent to outside: "
-                  << _mbuf_container_to_outside->get_number_of_mbufs();
-          } */
+        // ===== ALICE <--[DAVE]-- BOB ===== //
 
-        _mbuf_container_to_inside->send_mbufs();
-        _mbuf_container_to_outside->send_mbufs();
+        // continue if no packets are received
+        _pkt_container_to_outside->poll_packets(nb_pkts_to_outside);
+        if (likely(nb_pkts_to_outside > 0)) {
+
+            /// TODO: implement pipeline
+            _treatment.treat_packets_to_outside();
+            _pkt_container_to_inside->send_packets();
+            _pkt_container_to_outside->send_packets();
+        }
+
+        if (likely(nb_pkts_to_inside != 0 || nb_pkts_to_outside != 0)) {
+            BOOST_LOG_TRIVIAL(info)
+                << "pkts_to_inside = " << nb_pkts_to_inside
+                << "\tpkts_to_outside = " << nb_pkts_to_outside << "\n";
+        }
     }
 
     _running = false;

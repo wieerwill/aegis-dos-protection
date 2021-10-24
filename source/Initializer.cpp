@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-#include "ConfigurationManagement/Configurator.hpp"
+#include "Configurator.hpp"
 #include "Definitions.hpp"
 
 #include "Initializer.hpp"
@@ -20,15 +20,19 @@ rte_mempool* Initializer::init_dpdk(int argc, char** argv,
     };
 
     rte_eth_conf port_conf = {
-        .rxmode = {.mq_mode = ETH_MQ_RX_RSS,
-                   .max_rx_pkt_len = RTE_ETHER_MAX_LEN,
-                   .offloads = DEV_RX_OFFLOAD_CHECKSUM},
+        .rxmode =
+            {
+                .mq_mode = ETH_MQ_RX_RSS,
+                .max_rx_pkt_len = RTE_ETHER_MAX_LEN,
+                .offloads =
+                    DEV_RX_OFFLOAD_CHECKSUM
+            },
         .txmode =
             {
                 .offloads =
                     (DEV_TX_OFFLOAD_IPV4_CKSUM | DEV_TX_OFFLOAD_UDP_CKSUM |
-                     DEV_TX_OFFLOAD_TCP_CKSUM),
-            },
+                    DEV_TX_OFFLOAD_TCP_CKSUM),
+            },  
         .rx_adv_conf = {.rss_conf =
                             {
                                 .rss_key = hash_key,
@@ -53,8 +57,8 @@ rte_mempool* Initializer::init_dpdk_attacker(int argc, char** argv,
             {
                 .offloads =
                     (DEV_TX_OFFLOAD_IPV4_CKSUM | DEV_TX_OFFLOAD_UDP_CKSUM |
-                     DEV_TX_OFFLOAD_TCP_CKSUM),
-            },
+                    DEV_TX_OFFLOAD_TCP_CKSUM),
+            },  
     };
 
     return init_dpdk_template(0, port_conf, argc, argv, nb_worker_threads);
@@ -66,7 +70,7 @@ rte_mempool* Initializer::init_dpdk_template(uint16_t nb_non_worker_threads,
                                              uint16_t& nb_worker_threads) {
     int ret;
     unsigned int nb_ports;
-    uint16_t portid;
+    uint16_t portid; //< init portid
     struct rte_mempool* mbuf_pool;
 
     // initialize eal
@@ -100,21 +104,22 @@ rte_mempool* Initializer::init_dpdk_template(uint16_t nb_non_worker_threads,
         cache_size -= 1;
     }
 
-    mbuf_pool =
-        rte_pktmbuf_pool_create("MBUF_POOL", NUM_MBUF_POOL_ELEMENTS, cache_size,
-                                0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
+    mbuf_pool = rte_pktmbuf_pool_create(
+        "MBUF_POOL", NUM_MBUF_POOL_ELEMENTS, 0 /*cache_size*/, 0,
+        RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
 
     if (mbuf_pool == nullptr) {
         rte_exit(EXIT_FAILURE, "Cannot create mbuf pool\n");
     }
 
     // Initialize all ports.
-    try {
-        RTE_ETH_FOREACH_DEV(portid) {
+    RTE_ETH_FOREACH_DEV(portid) {
+        try {
             init_port(port_conf, portid, mbuf_pool, nb_worker_threads);
+            }
+        catch (std::exception& e) {
+            rte_exit(EXIT_FAILURE, "Cannot init port %" PRIu16 "\n", portid);
         }
-    } catch (std::exception& e) {
-        rte_exit(EXIT_FAILURE, "Cannot init port %" PRIu16 "\n", portid);
     }
 
     return mbuf_pool;
@@ -150,23 +155,17 @@ void Initializer::init_port(rte_eth_conf port_conf, uint16_t port,
         // |= is not allowed operator. negation of DEV_TX_OFFL...
         port_conf.txmode.offloads |= DEV_TX_OFFLOAD_MBUF_FAST_FREE;
     // test if checksum offloading is possible
-    if (((dev_info.tx_offload_capa & DEV_TX_OFFLOAD_TCP_CKSUM) ==
-         DEV_TX_OFFLOAD_TCP_CKSUM) &&
-        ((dev_info.tx_offload_capa & DEV_TX_OFFLOAD_IPV4_CKSUM) ==
-         DEV_TX_OFFLOAD_IPV4_CKSUM)) {
-        std::cout << "ethernet device is checksum offloading capable"
-                  << std::endl;
+    if (((dev_info.tx_offload_capa & DEV_TX_OFFLOAD_TCP_CKSUM) == DEV_TX_OFFLOAD_TCP_CKSUM) && 
+            ((dev_info.tx_offload_capa & DEV_TX_OFFLOAD_IPV4_CKSUM) == DEV_TX_OFFLOAD_IPV4_CKSUM) ){
+        std::cout << "ethernet device is checksum offloading capabel" << std::endl;
     } else {
-        std::cout << "ethernet device is not checksum offloading capable"
-                  << std::endl;
+        std::cout << "ethernet device is not checksum offloading capabel" << std::endl;
     }
-    if (((dev_info.tx_queue_offload_capa & DEV_TX_OFFLOAD_IPV4_CKSUM) ==
-         DEV_TX_OFFLOAD_IPV4_CKSUM) &&
-        ((dev_info.tx_queue_offload_capa & DEV_TX_OFFLOAD_TCP_CKSUM) ==
-         DEV_TX_OFFLOAD_TCP_CKSUM)) {
-        std::cout << "queue is checksum offloading capable" << std::endl;
+    if (((dev_info.tx_queue_offload_capa & DEV_TX_OFFLOAD_IPV4_CKSUM) == DEV_TX_OFFLOAD_IPV4_CKSUM) &&
+            ((dev_info.tx_queue_offload_capa & DEV_TX_OFFLOAD_TCP_CKSUM) == DEV_TX_OFFLOAD_TCP_CKSUM)) {
+        std::cout << "queue is checksum offloading capabel" << std::endl;
     } else {
-        std::cout << "queue is not checksum offloading capable" << std::endl;
+        std::cout << "queue is not checksum offloading capabel" << std::endl;
     }
 
     // Configure the Ethernet device.

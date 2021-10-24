@@ -1,3 +1,14 @@
+/**
+ * @file Definitions.h
+ * @author Jakob
+ * @brief 
+ * @version 0.1
+ * @date 2021-07-12
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #pragma once
 
 #define RX_RING_SIZE 1024
@@ -10,8 +21,7 @@
 // Argument "n" in rte_pktmbuf_pool_create
 #define NUM_MBUF_POOL_ELEMENTS 32767
 
-#define BURST_SIZE 64
-// #define MBUF_ARR_SIZE 2 * BURST_SIZE
+#define BURST_SIZE 32
 
 #define RSS_HASH_KEY_LENGTH 40
 
@@ -31,4 +41,7 @@
 #define LOG_END "\e[0m"
 
 // ATTACKE
+//#define SINGLE_ITERATION
 //#define LOG_PKTS_SENT
+//#define SEND_ONCE
+//#define SEND_PKTS_EVERY_NTH_ITERATION 1000

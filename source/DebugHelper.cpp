@@ -57,7 +57,7 @@ void DebugHelper::hex_dump_raw(const void *addr, int len) {
     unsigned char res[2 * len + 1];
     res[2 * len] = '\0';
 
-    for(unsigned int i = 0; i < len; i++) {
+    for(int i = 0; i < len; i++) {
         printf((char *)res + i * 2, "%02X", pc[i]);
     }
     printf ("%s\n", res);

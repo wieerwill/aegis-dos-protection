@@ -1,14 +1,24 @@
+/**
+ * @file AttackThread.hpp
+ * @author Jakob
+ * @brief
+ * @version 0.1
+ * @date 2021-07-12
+ *
+ * @copyright Copyright (c) 2021
+ *
+ */
 #pragma once
 
 #include <rte_ether.h>
 
-#include "PacketDissection/PacketContainerLean.hpp"
+#include "PacketDissection/PacketContainer.hpp"
 #include "PacketDissection/PacketInfo.hpp"
 #include "PacketDissection/PacketInfoIpv4Tcp.hpp"
 #include "RandomNumberGenerator.hpp"
 #include "Threads/ForwardingThread.hpp"
 
-class AttackThread : public Thread {
+class AttackThread : public ForwardingThread {
   private:
     inline void run() {
         std::cout << "\nRunning on lcore " << rte_lcore_id()
@@ -16,7 +26,6 @@ class AttackThread : public Thread {
                   << std::endl;
 
         while (likely(_quit == false)) {
-            // have skip iterate field in config and skip for nb of packets
             iterate();
 #ifdef SINGLE_ITERATION
             _quit = false;
@@ -50,15 +59,16 @@ class AttackThread : public Thread {
     uint64_t _data_rate_per_cycle;
     uint64_t _delta_cycles_mean;
 
-    uint64_t _total_nb_pkts_to_dave;
-    uint64_t _total_nb_pkts_from_dave;
-    uint64_t _total_nb_pkts_to_alice;
+    uint64_t _total_nb_atk_pkts;
+    uint64_t _total_nb_pkts_to_alcie;
     uint64_t _total_data_volume_to_alice;
     uint64_t _total_nb_pkts_from_alice;
     uint64_t _total_data_volume_from_alice;
 
+    // ============ needed for special define options
+
     int _iterations;
-    uint _call_send_pkts_every_nth_iteration;
+    bool _send;
 
     // ============ not needed
 
@@ -80,12 +90,6 @@ class AttackThread : public Thread {
      * variables.
      *
      * @param[in] pkt_size
-     * @param[in] cycles
-     * @param[in] delta_cycles
-     * @param[in] cycles_old
-     * @param[in] data_volume
-     * @param[in] data_rate_per_cycle
-     * @param[out] nb_attack_packets
      */
     inline void calculate_nb_attack_packets(int pkt_size) {
 
@@ -126,7 +130,7 @@ class AttackThread : public Thread {
      */
     inline uint32_t calculate_ipv4_address(uint8_t byte1, uint8_t byte2,
                                            uint8_t byte3, uint8_t byte4) {
-        return byte1 * 2 ^ 24 + byte2 * 2 ^ 16 + byte3 * 2 ^ 8 + byte4;
+        return (byte1 * 2 ^ 24) + (byte2 * 2 ^ 16) + (byte3 * 2 ^ 8) + byte4;
     }
 
     /**
@@ -140,7 +144,7 @@ class AttackThread : public Thread {
 
         rte_mbuf* m_copy;
 
-        for (int i = 0; i < nb_pkts; ++i) {
+        for (u_int32_t i = 0; i < nb_pkts; ++i) {
             m_copy = rte_pktmbuf_copy(_mbuf_origin, mempool, 0, UINT32_MAX);
 
             if (unlikely(m_copy == nullptr)) {
@@ -173,7 +177,7 @@ class AttackThread : public Thread {
 
         rte_mbuf* m_copy;
 
-        for (int i = 0; i < nb_pkts; ++i) {
+        for (uint32_t i = 0; i < nb_pkts; ++i) {
             m_copy = rte_pktmbuf_copy(_mbuf_origin, mempool, 0, UINT32_MAX);
 
             if (unlikely(m_copy == nullptr)) {
@@ -217,30 +221,20 @@ class AttackThread : public Thread {
     }
 
   public:
-    bool _do_attack;
-
-    inline AttackThread(PacketContainerLean* pkt_container_to_dave,
-                        PacketContainerLean* pkt_container_to_alice,
+    inline AttackThread(PacketContainerLean* pkt_container_to_inside,
+                        PacketContainerLean* pkt_container_to_outside,
                         unsigned int nb_worker_threads)
-
-        : Thread(), _nb_worker_threads(nb_worker_threads), _iterations(0),
-          _call_send_pkts_every_nth_iteration(0),
-          _pkt_container_to_dave(pkt_container_to_dave),
-          _pkt_container_to_alice(pkt_container_to_alice), _nb_pkts_to_dave(0),
-          _nb_pkts_to_alice(0), _total_nb_pkts_to_dave(0), 
-          _total_nb_pkts_from_dave(0), _total_nb_pkts_to_alice(0), 
-          _total_data_volume_to_alice(0), _total_nb_pkts_from_alice(0), 
-          _total_data_volume_from_alice(0), _pkt_type(NONE), _cycles(0), 
-          _delta_cycles(0), _data_volume(0), _nb_attack_packets(0), 
-          _hz(rte_get_tsc_hz()), _delta_cycles_mean(0), _n(1), 
+        : ForwardingThread(pkt_container_to_inside, pkt_container_to_outside),
+          _pkt_container_to_dave(pkt_container_to_inside),
+          _pkt_container_to_alice(pkt_container_to_outside),
+          _nb_worker_threads(nb_worker_threads),
           _bob_mac({.addr_bytes = {60, 253, 254, 163, 231, 48}}),
           _src_mac({.addr_bytes = {60, 253, 254, 163, 231, 88}}),
-          _bob_ip(167772162), _alice_ip(167772161), _tcp_flags(0),
-          _mbuf_origin(nullptr), _do_attack(false) {
-
-        // ===== calculate stuff regarding clock calculation ===== //
-
-        /*
+          _bob_ip(167772162), _alice_ip(167772161), _nb_attack_packets(0),
+          _delta_cycles_mean(0), _iterations(0), _send(true),
+          _nb_pkts_to_dave(0), _nb_pkts_to_alice(0), _pkt_type(NONE),
+          _cycles(0), _delta_cycles(0), _data_volume(0), _hz(rte_get_tsc_hz()),
+          _n(1) {
         _data_rate =
             int((std::stoi(Configurator::instance()->get_config_as_string(
                      "attack_rate")) *
@@ -255,7 +249,6 @@ class AttackThread : public Thread {
         }
 
         _cycles_old = rte_get_tsc_cycles();
-        */
 
         // ===== read and set attack type ===== //
 
@@ -286,14 +279,10 @@ class AttackThread : public Thread {
         // ===== set number of attack packets ===== //
 
         _nb_attack_packets =
-            Configurator::instance()->get_config_as_unsigned_int(
-                "number_of_attack_packets_per_thread_per_send_call");
+            std::stoi(Configurator::instance()->get_config_as_string(
+                "number_of_attack_packets_per_thread_per_iteration"));
 
-        _call_send_pkts_every_nth_iteration =
-            Configurator::instance()->get_config_as_unsigned_int(
-                "call_send_pkts_every_nth_iteration");
-
-        LOG_INFO << "number_of_attack_packets_per_thread_per_send_call : "
+        LOG_INFO << "number_of_attack_packets_per_thread_per_iteration : "
                  << _nb_attack_packets << LOG_END;
 
         // ===== create origin attack packet ===== //
@@ -336,8 +325,6 @@ class AttackThread : public Thread {
             delete pkt_info_origin;
             pkt_info_origin = nullptr;
         }
-
-        // ===== attack rate
     }
 
     inline ~AttackThread() { rte_pktmbuf_free(_mbuf_origin); }
@@ -354,7 +341,6 @@ class AttackThread : public Thread {
         // ===== ALICE <--[MALLORY]-- DAVE/BOB ===== //
 
         _pkt_container_to_alice->poll_mbufs(_nb_pkts_to_alice);
-        _total_nb_pkts_from_dave += _nb_pkts_to_alice;
 
         // continue if no packets are received
         if (likely(_nb_pkts_to_alice > 0)) {
@@ -372,7 +358,7 @@ class AttackThread : public Thread {
                     _total_data_volume_to_alice += rte_pktmbuf_pkt_len(mbuf);
                 }
             }
-            _total_nb_pkts_to_alice += _pkt_container_to_alice->send_mbufs();
+            _total_nb_pkts_to_alcie += _pkt_container_to_alice->send_mbufs();
         }
 
         // ===== ALICE --[MALLORY]--> DAVE/BOB ===== //
@@ -384,11 +370,13 @@ class AttackThread : public Thread {
                 _pkt_container_to_dave->get_mbuf_at_index(i));
         }
 
-        if (unlikely(_iterations == _call_send_pkts_every_nth_iteration)) {
+#ifdef SEND_PKTS_EVERY_NTH_ITERATION
+        if (_iterations == SEND_PKTS_EVERY_NTH_ITERATION) {
             _iterations = 0;
+#endif
 
             // create attack packets
-            if (likely(_do_attack)) {
+            if (likely(_send == true)) {
                 if (_attack_type == SYN_FLOOD || _attack_type == SYN_FIN ||
                     _attack_type == SYN_FIN_ACK) {
                     create_attack_packet_burst_tcp(_nb_attack_packets,
@@ -396,34 +384,29 @@ class AttackThread : public Thread {
                 } else if (_attack_type == UDP_FLOOD) {
                     create_attack_packet_burst_udp(_nb_attack_packets);
                 }
-            } else{
-                _total_nb_pkts_to_dave = 0;
-                _total_nb_pkts_from_dave = 0;
-                _total_nb_pkts_to_alice = 0;
-                _total_data_volume_to_alice = 0;
-                _total_nb_pkts_from_alice = 0;
-                _total_data_volume_from_alice = 0;
             }
+
+#ifdef SEND_PKTS_EVERY_NTH_ITERATION
         }
 
         ++_iterations;
+#endif
 
-        _total_nb_pkts_to_dave = _total_nb_pkts_to_dave +
-                             _pkt_container_to_dave->send_mbufs();
+        _total_nb_atk_pkts = _total_nb_atk_pkts +
+                             _pkt_container_to_dave->send_mbufs() -
+                             _nb_pkts_to_dave;
+
+#ifdef SEND_ONCE
+        _send = false;
+#endif
 
         // calculate_cycles();
     }
 
-    inline uint64_t get_total_nb_pkts_to_dave() { 
-        return _total_nb_pkts_to_dave; 
-    }
-
-    inline uint64_t get_total_nb_pkts_from_dave() {
-        return _total_nb_pkts_from_dave;
-    }
+    inline uint64_t get_total_nb_atk_pkts() { return _total_nb_atk_pkts; }
 
     inline uint64_t get_total_nb_pkts_to_alice() {
-        return _total_nb_pkts_to_alice;
+        return _total_nb_pkts_to_alcie;
     }
 
     inline uint64_t get_total_data_volume_to_alice() {

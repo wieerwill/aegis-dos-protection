@@ -1,39 +1,40 @@
-#pragma once
+/**
+ * @file Treatment.hpp
+ * @author Fabienne, Felix, Tim
+ * @brief This header file includes the class structure, structs and needed includes 
+ * @version 0.1
+ * @date 2021-06-10
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 
-#include "PacketDissection/MbufContainer.hpp"
-#include "PacketDissection/MbufContainerReceiving.hpp"
-#include "PacketDissection/MbufContainerTransmitting.hpp"
+#pragma once 
+
+// TEST 0: Normal (No Testing)
+// Test 1: Unit Test without DPDK
+// Test 2: Unit Test with DPDK
+#define TEST 1
+#include <list>
+#include <sparsehash/dense_hash_map>
+#include <boost/log/trivial.hpp>
+#include <boost/log/core.hpp>
+#include "rand.h"
 #include "PacketDissection/PacketContainer.hpp"
 #include "PacketDissection/PacketInfo.hpp"
 #include "PacketDissection/PacketInfoIpv4Tcp.hpp"
-#include "rand.hpp"
-#include "xxh3.hpp"
-#include "xxhash.hpp"
-#include <boost/log/core.hpp>
-#include <boost/log/trivial.hpp>
-#include <list>
-#include <sparsehash/dense_hash_map>
+#include "Treatment/xxh3.hpp"
+#include "Treatment/xxhash.hpp"
+#include "Treatment/random.hpp"
 
-/**
- * @file Treatment.h
- * @author Fabienne, Felix, Tim
- * @brief This header file includes the class structure, structs and needed
- * includes
- * @version 0.1
- * @date 2021-06-10
- *
- * @copyright Copyright (c) 2021
- *
- */
 
-enum _flag_enum {
+enum _flags {
     SYN = 0b00000010,
     RST = 0b00000100,
     FIN = 0b00000001,
     ACK = 0b00010000,
     FINACK = 0b00010001,
-    SYNACK = 0b00010010,
-    SYNFIN = 0b00000011
+    SYNACK = 0b00010010
 };
 
 /**
@@ -58,11 +59,7 @@ class Data {
      * @brief Construct a new Data object from scratch
      *
      */
-    Data()
-        : _extip(0)
-        , _intip(0)
-        , _extport(0)
-        , _intport(0) {}
+    Data() : _extip(0), _intip(0), _extport(0), _intport(0) {}
     /**
      * @brief Construct a new Data object
      *
@@ -73,10 +70,8 @@ class Data {
      */
     Data(u_int32_t _extip, u_int32_t _intip, u_int16_t _extport,
          u_int16_t _intport)
-        : _extip(_extip)
-        , _intip(_intip)
-        , _extport(_extport)
-        , _intport(_intport) {}
+        : _extip(_extip), _intip(_intip), _extport(_extport),
+          _intport(_intport) {}
 
     /**
      * @brief Redefinition of operator==
@@ -117,38 +112,34 @@ class Info {
      *
      */
     Info()
-        : _offset(0)
-        , _finseen_to_inside(false)
-        , _finseen_to_outside(false)
-        , _ack_to_inside_expected(false)
-        , _ack_to_outside_expected(false)
-        , _pkt_inf_list() {}
+        : _offset(0), _finseen_to_inside(false), _finseen_to_outside(false),
+          _ack_to_inside_expected(false), _ack_to_outside_expected(false),
+          _pkt_inf_list() {}
     /**
-     * @brief Construct a new Info object
-     * @param _offset Stores the difference between Sequence- and ACK-Numbers
-     * @param _finseen  Stores if a fin has already been seen
-     * @param _pkt_inf Stores the PacketInfo for an ACK from connection
-     * establishment
+     * @brief Construct a new Info object with member initializer lists
+     * 
+     * @param offset Stores the difference between Sequence- and ACK-Numbers
+     * @param finseen  Stores if a fin has already been seen
+     * @param pkt_inf Stores the PacketInfo for an ACK from connection establishment
+     * 
      */
     Info(int offset, bool finseen_to_inside, bool finseen_to_outside,
          bool ack_to_inside, bool ack_to_outside, PacketInfoIpv4Tcp* pkt_inf)
-        : _offset(offset)
-        , _finseen_to_inside(finseen_to_inside)
-        , _finseen_to_outside(finseen_to_outside)
-        , _ack_to_inside_expected(ack_to_inside)
-        , _ack_to_outside_expected(ack_to_outside) {
-        if (pkt_inf != nullptr) {
-            _pkt_inf_list.push_back(pkt_inf);
-        }
+        : _offset(offset), _finseen_to_inside(finseen_to_inside),
+          _finseen_to_outside(finseen_to_outside),
+          _ack_to_inside_expected(ack_to_inside),
+          _ack_to_outside_expected(ack_to_outside) {
+
+        _pkt_inf_list.push_back(pkt_inf);
     }
 };
 
 /**
- * @brief TreatmentHash manages the calculation of the hashvalue over a Data
+ * @brief MyHashFunction manages the calculation of the hashvalue over a Data
  * Struct and is used in the _densemap
  *
  */
-class TreatmentHash {
+class MyHashFunction {
   public:
     /**
      * @brief Redefinition of the operator() used in the _densemap and _ackmap
@@ -192,18 +183,14 @@ class Treatment {
      * @param pkt_to_outside PacketContainer containing the packets with the
      * destination being the internet
      */
-    inline Treatment(MbufContainerTransmitting* pkt_send_to_outside,
-                     MbufContainerTransmitting* pkt_send_to_inside,
-                     u_int8_t syn_thresh)
-        : _cookie_secret(Rand::get_random_64bit_value())
-        , _packet_to_inside(pkt_send_to_inside)
-        , _packet_to_outside(pkt_send_to_outside)
-        , _syn_thresh(syn_thresh)
-        , _skip_syn(0) {
+    inline Treatment(PacketContainer* pkt_to_inside,
+                     PacketContainer* pkt_to_outside)
+        : _cookie_secret(Rand::get_random_64bit_value()),
+          _packet_to_inside(pkt_to_inside), _packet_to_outside(pkt_to_outside) {
 
         // disables logging
-        /*  auto corehandle = boost::log::core::get();
-         corehandle->set_logging_enabled(false); */
+        /* auto corehandle = boost::log::core::get();
+        corehandle->set_logging_enabled(false); */
 
         // Densemap requires you to set an empty key, which is never used by
         // legit connections Dense_hash_map requires you call set_empty_key()
@@ -212,9 +199,9 @@ class Treatment {
         // immediately after constructing the hash_map, and before calling any
         // other dense_hash_map method
         _densemap.set_deleted_key(Data(0, 0, 1, 1));
-        // BOOST_LOG_TRIVIAL(info) << "|---Init of Treatment done. Created
-        // cookie_secret, " "_s_timestamp and inserted empty and deleted
-        // key---|";
+        BOOST_LOG_TRIVIAL(info)
+            << "|---Init of Treatment done. Created cookie_secret, "
+               "_s_timestamp and inserted empty and deleted key---|";
     }
 
     /**
@@ -241,321 +228,320 @@ class Treatment {
      * and checking syn-cookies. Depending on internal rules packets can be
      * forwarded, adjusted, stored and dropped on their way through the system.
      */
-    inline bool treat_packets_to_inside(PacketInfoIpv4Tcp* _pkt_info) {
+    inline void treat_packets_to_inside() {
 
-        // BOOST_LOG_TRIVIAL(info)<< "Size of densemap before to inside: " <<
-        // _densemap.size();
+        BOOST_LOG_TRIVIAL(info)
+            << "Size of densemap before to inside: " << _densemap.size();
 
-        /************************************************************************
-         ****Treatment of packets with direction towards the internal
-         *network****
-         ************************************************************************/
-        // get packetInfo at current position
-        // check if packet has been deleted
-        // check wether packet is IPv4TCP
-        // get the flags of packet i as they will be needed a few times
-        u_int8_t _flags = _pkt_info->get_flags();
-        // SYN-ACK is set, simply forward the packet to the internal
-        // network and create an entry in the _densemap
-        if ((_flags & _flag_enum::SYNFIN) == _flag_enum::SYNFIN) {
-            rte_pktmbuf_free(_pkt_info->get_mbuf());
-        } else if ((_flags & _flag_enum::SYNACK) ==
-                   _flag_enum::SYNACK) { // check wether the syn and ack
-                                         // flag is set
-            // BOOST_LOG_TRIVIAL(info) << "|---Received SYN-ACK from
-            // outside---|";
-            // just simply forward the packet to the internal network
-            // also create entry in the _densemap, with _offset
-            // difference =
-            // 0
-            Data insert(_pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
-                        _pkt_info->get_src_port(), _pkt_info->get_dst_port());
-            Info info(0, false, false, false, false, nullptr);
-            _densemap.insert(std::make_pair(insert, info));
-            // BOOST_LOG_TRIVIAL(info)  << "|---Created new entry for
-            // connection: _extip  " << _pkt_info->get_src_ip() << " _extport: "
-            // << _pkt_info->get_src_port()<< " _intip: " <<
-            // _pkt_info->get_dst_ip() << " _intport: " <<
-            // _pkt_info->get_dst_port() << "---|"; place packet in the sending
-            // container to inside
-            _packet_to_inside->add_mbuf(_pkt_info->get_mbuf());
+        for (int i = 0; i < _packet_to_inside->get_number_of_polled_packets();
+             ++i) {
 
-        }
-        // SYN is set, generate cookie hash
-        else if ((_flags & _flag_enum::SYN) == _flag_enum::SYN) {
-
-            if (_skip_syn < _syn_thresh) {
-                ++_skip_syn;
-            } else { // SYN to INSIDE
-                // BOOST_LOG_TRIVIAL(info) << "|---Received SYN to inside---|";
-                // BOOST_LOG_TRIVIAL(info) << "|---Mbuf is: " <<
-                // _pkt_info->get_mbuf() << "---|";
-                /* use this part to calculate the syn-cookie, create a new
-                 * packet and send it back to the same side it came from */
-                u_int32_t _cookie = calc_cookie_hash(
-                    _s_timestamp, _pkt_info->get_src_ip(),
-                    _pkt_info->get_dst_ip(), _pkt_info->get_src_port(),
-                    _pkt_info->get_dst_port());
-                // BOOST_LOG_TRIVIAL(info) << "|---Calculated cookie is: " <<
-                // _cookie << "---|";
-
-                _cookie = _cookie & 0xFFFFFF00; // got upper bits
-                u_int32_t _seqnum =
-                    _cookie |
-                    _s_timestamp; // got cookie + 8 bit _s_timestamp
-                                  // BOOST_LOG_TRIVIAL(info)<<
-                                  // "|---Calculated cookie with timestamp
-                                  // is: " << _seqnum << "---|";
-
-                // create the reply for the external connection/host
-                rte_mbuf* reply_mbuf = _packet_to_outside->get_empty_mbuf();
-                if (reply_mbuf == nullptr) {
-                    return false;
-                }
-                rte_pktmbuf_append(reply_mbuf, sizeof(struct rte_ether_hdr) +
-                                                   sizeof(struct rte_ipv4_hdr) +
-                                                   sizeof(struct rte_tcp_hdr));
-                PacketInfoIpv4Tcp* reply = new PacketInfoIpv4Tcp(reply_mbuf);
-                // BOOST_LOG_TRIVIAL(info) << "|---The reply is of type: " <<
-                // reply->get_type() << "---|";
-
-                reply->fill_payloadless_tcp_packet(
-                    _pkt_info->get_dst_mac(), _pkt_info->get_src_mac(),
-                    _pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
-                    _pkt_info->get_dst_port(), _pkt_info->get_src_port(),
-                    _seqnum, _pkt_info->get_seq_num() + 1, _flag_enum::SYNACK,
-                    _pkt_info->get_window_size());
-                reply->prepare_offloading_checksums();
-                // BOOST_LOG_TRIVIAL(info) << "|---Created SYN-ACK with Cookie:
-                // " << reply->get_seq_num()<< "---|"; BOOST_LOG_TRIVIAL(info)
-                // << " |---The new SYN-ACK goes with: extip: " <<
-                // reply->get_dst_ip()<< " extport: " << reply->get_dst_port()<<
-                // " intip: " << reply->get_src_ip() << " intport: " <<
-                // reply->get_src_port() << "---|"; delete/drop received
-                rte_pktmbuf_free(_pkt_info->get_mbuf());
-                // BOOST_LOG_TRIVIAL(info) << "|---Dropped incoming packet---|";
-                // now packet is getting send out in the next burst cycle
-
-                delete reply;
-                _skip_syn = 0;
-            }
-
-        }
-        // Case: RST received from outside
-        else if ((_flags & _flag_enum::RST) == _flag_enum::RST) {
-            // BOOST_LOG_TRIVIAL(info) << "|---Received RST from outside,
-            // ""deleting entry in densemap---|"; erase entry in _densemap with
-            // key = hash(AliceIP, AlicePort, BobIP, BobPort) Send packet to
-            // inside with destIP = BobIP, destPort = BobPort, srcIP = AliceIP,
-            // srcPort = AlicePort erased entry in _densemap
-            _densemap.erase(
-                Data(_pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
-                     _pkt_info->get_src_port(), _pkt_info->get_dst_port()));
-
-            _packet_to_inside->add_mbuf(_pkt_info->get_mbuf());
-
-        }
-        // Case: Received FIN, no FIN-ACK from outside
-        else if (((_flags & _flag_enum::FIN) == _flag_enum::FIN)) {
-            // BOOST_LOG_TRIVIAL(info) << "|---Received a FIN from outside---|";
-            // create Data fin for the packet
-            // find the entry in our map
-            auto iter = _densemap.find(
-                Data(_pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
-                     _pkt_info->get_src_port(), _pkt_info->get_dst_port()));
-            // Catch case, that we dont interact on empty map
-            if (iter == _densemap.end()) {
-                // drop packet
-                rte_pktmbuf_free(_pkt_info->get_mbuf());
-                // BOOST_LOG_TRIVIAL(info)<< "|---Dropped Packet comming from
-                // outside---|";
-            }
-
-            // Check if fin has already been seen, and we do not have an
-            // finack
-            else if (iter->second._finseen_to_outside == true) {
-                // BOOST_LOG_TRIVIAL(info) << "|---FIN-ACK to FIN received from
-                // outside---|"; change the packets ack number tweak by adding
-                // into one line
-                iter->second._finseen_to_inside = true;
-                iter->second._ack_to_outside_expected = true;
-                _pkt_info->set_ack_num(_pkt_info->get_ack_num() -
-                                       iter->second._offset);
-                _pkt_info->prepare_offloading_checksums();
-
-                // delete the entry
-                /*  _densemap.erase(Data(
-                     _pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
-                     _pkt_info->get_src_port(),
-                 _pkt_info->get_dst_port()));
-                 //BOOST_LOG_TRIVIAL(info) << "Deleted entry in densemap";
-               */
-
-                // send packet to inside // aka. do nothing
-                _packet_to_inside->add_mbuf(_pkt_info->get_mbuf());
-
-            } else if (iter->second._finseen_to_inside == false) {
-                // change status _finseen to true
-                iter->second._finseen_to_inside = true;
-                // change the packets ack number
-                _pkt_info->set_ack_num(_pkt_info->get_ack_num() -
-                                       iter->second._offset);
-                // refresh the checksums
-                _pkt_info->prepare_offloading_checksums();
-                // BOOST_LOG_TRIVIAL(info) << "|---Changed Finseen to true for
-                // connection: ""extip: " << _pkt_info->get_src_ip()
-                //<< " extport: " << _pkt_info->get_src_port()
-                //<< " intip: " << _pkt_info->get_dst_ip()
-                //<< " intport: " << _pkt_info->get_dst_port() << "---|";
-
-                _packet_to_inside->add_mbuf(_pkt_info->get_mbuf());
-            } else {
-                // BOOST_LOG_TRIVIAL(info) << "|---Duplicate FIN from
-                // Outside---|";
-                _pkt_info->set_ack_num(_pkt_info->get_ack_num() -
-                                       iter->second._offset);
-                // refresh the checksums
-                _pkt_info->prepare_offloading_checksums();
-                _packet_to_inside->add_mbuf(_pkt_info->get_mbuf());
-            }
-
-        }
-        // CASE: ACK RECEIVED from Alice
-        else if ((_flags & _flag_enum::ACK) == _flag_enum::ACK &&
-                 ((_flags & _flag_enum::FINACK) != _flag_enum::FINACK)) {
-            // BOOST_LOG_TRIVIAL(info) << "|---Received ACK from outside---|";
-            Data ack(_pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
-                     _pkt_info->get_src_port(), _pkt_info->get_dst_port());
-            auto id = _densemap.find(ack);
-            if (id == _densemap.end()) { // no entry is here yet
-                                         // BOOST_LOG_TRIVIAL(info)
-                // << "|---Received ACK to SYN-ACK from outside---|";
-                // BOOST_LOG_TRIVIAL(info) << "|---Checking the SYN-COOKIE---|";
-                u_int32_t _cookie_val =
-                    _pkt_info->get_ack_num(); // get acknowledgementnumber
-                                              // from packet
-                bool _legit =
-                    check_syn_cookie(_cookie_val - 1,
-                                     ack); // check for the correkt cookie
-                if (_legit == true) { // the connection is to be established
-                    // Take the packet and save it, till the connection
-                    // to the internal host is established Use the
-                    // densemap for this purpose by setting the pointer
-                    // in info to taken_packet
-                    rte_mbuf* reply_mbuf = _packet_to_inside->get_empty_mbuf();
-                    if (reply_mbuf == nullptr) {
-                        return false;
-                    }
-                    rte_pktmbuf_append(reply_mbuf,
-                                       sizeof(struct rte_ether_hdr) +
-                                           sizeof(struct rte_ipv4_hdr) +
-                                           sizeof(struct rte_tcp_hdr));
-                    PacketInfoIpv4Tcp* reply =
-                        new PacketInfoIpv4Tcp(reply_mbuf);
-
-                    if (reply == nullptr) {
-                        // BOOST_LOG_TRIVIAL(fatal) << "created a nullptr";
-                    }
-                    _densemap.insert(std::make_pair(
-                        ack, Info(0, false, false, false, false, _pkt_info)));
-                    // Still need to send that syn to inside
-
-                    // TO-DO check if _pkt_info is legit there
-                    reply->fill_payloadless_tcp_packet(
-                        _pkt_info->get_src_mac(), _pkt_info->get_dst_mac(),
+            /************************************************************************
+             ****Treatment of packets with direction towards the internal
+             *network****
+             ************************************************************************/
+            // get packetInfo at current position
+            PacketInfo* _pkt_info_plain =
+                _packet_to_inside->get_packet_at_index(i);
+            BOOST_LOG_TRIVIAL(info)
+                << "|---Got plain packet from outside with type: "
+                << _pkt_info_plain->get_type() << "---|";
+            // check if packet has been deleted
+            // check wether packet is IPv4TCP
+            if (_pkt_info_plain != nullptr &&
+                _pkt_info_plain->get_type() == IPv4TCP) {
+                PacketInfoIpv4Tcp* _pkt_info =
+                    static_cast<PacketInfoIpv4Tcp*>(_pkt_info_plain);
+                // get the flags of packet i as they will be needed a few times
+                u_int8_t _flags = _pkt_info->get_flags();
+                // SYN-ACK is set, simply forward the packet to the internal
+                // network and create an entry in the _densemap
+                if ((_flags & _flags::SYNACK) ==
+                    _flags::SYNACK) { // check wether the syn and ack flag is
+                                      // set
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Received SYN-ACK from outside---|";
+                    // just simply forward the packet to the internal network
+                    // also create entry in the _densemap, with _offset
+                    // difference =
+                    // 0
+                    Data insert(
                         _pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
-                        _pkt_info->get_src_port(), _pkt_info->get_dst_port(),
-                        _pkt_info->get_seq_num() - 1, 123, _flag_enum::SYN,
-                        _pkt_info->get_window_size());
-                    reply->prepare_offloading_checksums();
-                    // BOOST_LOG_TRIVIAL(info)
-                    // << "|---Cookie " << _pkt_info->get_ack_num() - 1
-                    // << " correct, sending SYN to inside---|";
-                    // BOOST_LOG_TRIVIAL(info)
-                    //<< "|---SYN to inside goes from " << reply->get_src_ip()
-                    // << " to: " << reply->get_dst_ip() << " ---|";
+                        _pkt_info->get_src_port(), _pkt_info->get_dst_port());
+                    Info info(0, false, false, false, false, nullptr);
+                    _densemap.insert(std::make_pair(insert, info));
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Created new entry for connection: _extip  "
+                        << _pkt_info->get_src_ip()
+                        << " _extport: " << _pkt_info->get_src_port()
+                        << " _intip: " << _pkt_info->get_dst_ip()
+                        << " _intport: " << _pkt_info->get_dst_port() << "---|";
+                    // place packet in the sending container to inside
 
-                    // now packet is getting send out in the next burst
-                    // cycle
-                    _packet_to_outside->add_mbuf(reply_mbuf);
-                    delete reply;
-                    return true;
-
-                } else if (_legit == false) { // the connection is closed
-                                              // with an rst, drop packet
-                                              // BOOST_LOG_TRIVIAL(info)
-                    // << "|---Cookie incorrect, dropped packet---|";
-
-                    // Send RST if (diff>1 XOR hash!=cookie_value)
-                    rte_mbuf* rst_mbuf = _packet_to_inside->get_empty_mbuf();
-                    if (rst_mbuf == nullptr) {
-                        return false;
-                    }
-                    PacketInfo* rst =
-                        PacketInfoCreator::create_pkt_info(rst_mbuf, IPv4TCP);
-                    PacketInfoIpv4Tcp* rst4 =
-                        static_cast<PacketInfoIpv4Tcp*>(rst);
-
-                    rst4->fill_payloadless_tcp_packet(
-                        _pkt_info->get_dst_mac(), _pkt_info->get_src_mac(),
-                        ack._extip, ack._intip, ack._extport, ack._intport,
-                        _pkt_info->get_ack_num(), 0, _flag_enum::RST,
-                        _pkt_info
-                            ->get_window_size()); // fill_payloadless_tcp_packet
-                                                  // already exists, we
-                                                  // just need it from
-                                                  // Tobias
-                    rst4->prepare_offloading_checksums();
-                    _packet_to_outside->add_mbuf(rst4->get_mbuf());
-
-                    rte_pktmbuf_free(_pkt_info->get_mbuf());
                 }
+                // SYN is set, generate cookie hash
+                else if ((_flags & _flags::SYN) ==
+                         _flags::SYN) { // SYN to INSIDE
+                    BOOST_LOG_TRIVIAL(info) << "|---Received SYN to inside---|";
+                    /* use this part to calculate the syn-cookie, create a new
+                     * packet and send it back to the same side it came from */
+                    u_int32_t _cookie = calc_cookie_hash(
+                        _s_timestamp, _pkt_info->get_src_ip(),
+                        _pkt_info->get_dst_ip(), _pkt_info->get_src_port(),
+                        _pkt_info->get_dst_port());
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Calculated cookie is: " << _cookie << "---|";
 
-            }
-            // No entry in _densemap -> It is an ACK as a reply to
-            // SYN-ACK entry can be found and its not a reply to an fin
-            // ack
-            else if (unlikely(id->second._finseen_to_inside == true &&
-                              id->second._finseen_to_outside == true &&
-                              id->second._ack_to_inside_expected == true)) {
-                // BOOST_LOG_TRIVIAL(info)
-                //  << "|---ACK to FIN-ACK, Connection Closed---|";
-                // simply manage _offset and thats it
-                _pkt_info->set_ack_num(_pkt_info->get_ack_num() -
-                                       id->second._offset);
-                _pkt_info->prepare_offloading_checksums();
+                    _cookie = _cookie & 0xFFFFFF00; // got upper bits
+                    u_int32_t _seqnum =
+                        _cookie |
+                        _s_timestamp; // got cookie + 8 bit _s_timestamp
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Calculated cookie with timestamp is: "
+                        << _seqnum << "---|";
 
-                // delete the entry
-                _densemap.erase(id);
-                // BOOST_LOG_TRIVIAL(info) << "|---Deleted entry in
-                // densemap---|";
+                    // create the reply for the external connection/host
+                    PacketInfo* _reply = _packet_to_outside->get_empty_packet();
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---The reply is of type: " << _reply->get_type()
+                        << "---|";
+                    PacketInfoIpv4Tcp* _reply4 =
+                        static_cast<PacketInfoIpv4Tcp*>(_reply);
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---The reply4 is of type: " << _reply4->get_type()
+                        << "---|";
+                    // fill packet with calculated seqnum
+                    _reply4->fill_payloadless_tcp_packet(
+                        _pkt_info->get_dst_mac(), _pkt_info->get_src_mac(),
+                        _pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
+                        _pkt_info->get_dst_port(), _pkt_info->get_src_port(),
+                        _seqnum, _pkt_info->get_seq_num() + 1, _flags::SYNACK,
+                        _pkt_info->get_window_size());
+                    _reply4->recalculate_checksums();
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Created SYN-ACK with Cookie: "
+                        << _reply4->get_seq_num() << "---|";
+                    BOOST_LOG_TRIVIAL(info)
+                        << " |---The new SYN-ACK goes with: extip: "
+                        << _reply4->get_dst_ip()
+                        << " extport: " << _reply4->get_dst_port()
+                        << " intip: " << _reply4->get_src_ip()
+                        << " intport: " << _reply4->get_src_port() << "---|";
+                    // delete/drop received
+                    _packet_to_inside->drop_packet(i, _pkt_info);
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Dropped incoming packet---|";
+                    // now packet is getting send out in the next burst cycle
 
-                _packet_to_inside->add_mbuf(_pkt_info->get_mbuf());
+                }
+                // Case: RST received from outside
+                else if ((_flags & _flags::RST) == _flags::RST) {
+                    BOOST_LOG_TRIVIAL(info) << "|---Received RST from outside, "
+                                               "deleting entry in densemap---|";
+                    // erase entry in _densemap with key = hash(AliceIP,
+                    // AlicePort, BobIP, BobPort) Send packet to inside with
+                    // destIP = BobIP, destPort = BobPort, srcIP = AliceIP,
+                    // srcPort = AlicePort erased entry in _densemap
+                    _densemap.erase(Data(
+                        _pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
+                        _pkt_info->get_src_port(), _pkt_info->get_dst_port()));
 
-            }
-            // If the connection from inside is not fully established
-            // yet, i need to add it to the queue first
-            else if (unlikely(id->second._pkt_inf_list.empty() == false)) {
-                // now add it to the queue
-                // BOOST_LOG_TRIVIAL(info) << "|---Put early ack into
-                // queue---|";
-                id->second._pkt_inf_list.push_back(_pkt_info);
-                return true;
+                }
+                // Case: Received FIN, no FIN-ACK from outside
+                else if (((_flags & _flags::FIN) == _flags::FIN)) {
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Received a FIN from outside---|";
+                    // create Data fin for the packet
+                    // find the entry in our map
+                    auto iter = _densemap.find(Data(
+                        _pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
+                        _pkt_info->get_src_port(), _pkt_info->get_dst_port()));
+                    // Catch case, that we dont interact on nullpointer
+                    if (iter == _densemap.end()) {
+                        // drop packet
+                        _packet_to_inside->drop_packet(i, _pkt_info);
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Dropped Packet comming from outside---|";
+                    }
 
-            } else {
-                // BOOST_LOG_TRIVIAL(info) << "|---Regular ACK, simply
-                // send---|";
-                // simply manage _offset and thats it
-                _pkt_info->set_ack_num(_pkt_info->get_ack_num() -
-                                       id->second._offset);
-                _pkt_info->prepare_offloading_checksums();
+                    // Check if fin has already been seen, and we do not have an
+                    // finack
+                    else if (iter->second._finseen_to_outside == true) {
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---FIN-ACK to FIN received from outside---|";
+                        // change the packets ack number
+                        // tweak by adding into one line
+                        iter->second._finseen_to_inside = true;
+                        iter->second._ack_to_outside_expected = true;
+                        _pkt_info->set_ack_num(_pkt_info->get_ack_num() -
+                                               iter->second._offset);
+                        _pkt_info->recalculate_checksums();
 
-                _packet_to_inside->add_mbuf(_pkt_info->get_mbuf());
+                        // delete the entry
+                        /*  _densemap.erase(Data(
+                             _pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
+                             _pkt_info->get_src_port(),
+                         _pkt_info->get_dst_port()));
+                         BOOST_LOG_TRIVIAL(info) << "Deleted entry in densemap";
+                       */
+
+                        // send packet to inside // aka. do nothing
+
+                    } else if (iter->second._finseen_to_inside == false) {
+                        // change status _finseen to true
+                        iter->second._finseen_to_inside = true;
+                        // change the packets ack number
+                        _pkt_info->set_ack_num(_pkt_info->get_ack_num() -
+                                               iter->second._offset);
+                        // refresh the checksums
+                        _pkt_info->recalculate_checksums();
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Changed Finseen to true for connection: "
+                               "extip: "
+                            << _pkt_info->get_src_ip()
+                            << " extport: " << _pkt_info->get_src_port()
+                            << " intip: " << _pkt_info->get_dst_ip()
+                            << " intport: " << _pkt_info->get_dst_port()
+                            << "---|";
+                    }
+
+                }
+                // CASE: ACK RECEIVED from Alice
+                else if ((_flags & _flags::ACK) == _flags::ACK &&
+                         ((_flags & _flags::FINACK) != _flags::FINACK)) {
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Received ACK from outside---|";
+                    Data ack(_pkt_info->get_src_ip(), _pkt_info->get_dst_ip(),
+                             _pkt_info->get_src_port(),
+                             _pkt_info->get_dst_port());
+                    auto id = _densemap.find(ack);
+                    if (id == _densemap.end()) { // no entry is here yet
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Received ACK to SYN-ACK from outside---|";
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Checking the SYN-COOKIE---|";
+                        u_int32_t _cookie_val =
+                            _pkt_info
+                                ->get_ack_num(); // get acknowledgementnumber
+                                                 // from packet
+                        bool _legit = check_syn_cookie(
+                            _cookie_val - 1,
+                            ack); // check for the correkt cookie
+                        if (_legit ==
+                            true) { // the connection is to be established
+                            // Take the packet and save it, till the connection
+                            // to the internal host is established Use the
+                            // densemap for this purpose by setting the pointer
+                            // in info to taken_packet
+                            PacketInfo* _reply =
+                                _packet_to_inside->get_empty_packet();
+                            PacketInfoIpv4Tcp* taken_packet =
+                                static_cast<PacketInfoIpv4Tcp*>(
+                                    _packet_to_inside->take_packet(i));
+
+                            if (_reply == nullptr) {
+                                BOOST_LOG_TRIVIAL(fatal)
+                                    << "inserted a nullptr in our map, this is "
+                                       " stupid";
+                            }
+                            _densemap.insert(
+                                std::make_pair(ack, Info(0, false, false, false,
+                                                         false, taken_packet)));
+                            // Still need to send that syn to inside
+                            PacketInfoIpv4Tcp* _reply4 =
+                                static_cast<PacketInfoIpv4Tcp*>(_reply);
+                            // TO-DO check if _pkt_info is legit there
+                            _reply4->fill_payloadless_tcp_packet(
+                                _pkt_info->get_src_mac(),
+                                _pkt_info->get_dst_mac(),
+                                _pkt_info->get_src_ip(),
+                                _pkt_info->get_dst_ip(),
+                                _pkt_info->get_src_port(),
+                                _pkt_info->get_dst_port(),
+                                _pkt_info->get_seq_num() - 1, 123, _flags::SYN,
+                                _pkt_info->get_window_size());
+                            _reply4->recalculate_checksums();
+                            BOOST_LOG_TRIVIAL(info)
+                                << "|---Cookie " << _pkt_info->get_ack_num() - 1
+                                << " correct, sending SYN to inside---|";
+                            BOOST_LOG_TRIVIAL(info)
+                                << "|---SYN to inside goes from "
+                                << _reply4->get_src_ip()
+                                << " to: " << _reply4->get_dst_ip() << " ---|";
+
+                            // now packet is getting send out in the next burst
+                            // cycle
+
+                        } else if (_legit ==
+                                   false) { // the connection is closed
+                                            // with an rst, drop packet
+                            BOOST_LOG_TRIVIAL(info)
+                                << "|---Cookie incorrect, dropped packet---|";
+
+                            // Send RST if (diff>1 XOR hash!=cookie_value)
+                            PacketInfo* _rst =
+                                _packet_to_inside->get_empty_packet();
+                            PacketInfoIpv4Tcp* _rst4 =
+                                static_cast<PacketInfoIpv4Tcp*>(_rst);
+
+                            _rst4->fill_payloadless_tcp_packet(
+                                _pkt_info->get_dst_mac(),
+                                _pkt_info->get_src_mac(), ack._extip,
+                                ack._intip, ack._extport, ack._intport,
+                                _pkt_info->get_ack_num(), 0, _flags::RST,
+                                _pkt_info
+                                    ->get_window_size()); // fill_payloadless_tcp_packet
+                                                          // already exists, we
+                                                          // just need it from
+                                                          // Tobias
+                            _rst4->recalculate_checksums();
+
+                            _packet_to_inside->drop_packet(i, _pkt_info);
+                        }
+
+                    }
+                    // No entry in _densemap -> It is an ACK as a reply to
+                    // SYN-ACK entry can be found and its not a reply to an fin
+                    // ack
+                    else if (id->second._finseen_to_inside == true &&
+                             id->second._finseen_to_outside == true &&
+                             id->second._ack_to_inside_expected == true) {
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---ACK to FIN-ACK, Connection Closed---|";
+                        // simply manage _offset and thats it
+                        _pkt_info->set_ack_num(_pkt_info->get_ack_num() -
+                                               id->second._offset);
+                        _pkt_info->recalculate_checksums();
+
+                        // delete the entry
+                        _densemap.erase(id);
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Deleted entry in densemap---|";
+
+                    }
+                    // If the connection from inside is not fully established
+                    // yet, i need to add it to the queue first
+                    else if (!id->second._pkt_inf_list.empty()) {
+                        // now add it to the queue
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Put early ack into queue---|";
+                        id->second._pkt_inf_list.push_back(
+                            static_cast<PacketInfoIpv4Tcp*>(
+                                _packet_to_inside->take_packet(i)));
+
+                    } else {
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Regular ACK, simply send---|";
+                        // simply manage _offset and thats it
+                        _pkt_info->set_ack_num(_pkt_info->get_ack_num() -
+                                               id->second._offset);
+                        _pkt_info->recalculate_checksums();
+                    }
+                }
             }
         }
-        // BOOST_LOG_TRIVIAL(info) << "Size of densemap after to inside: " <<
-        // _densemap.size();
-        return false;
+        BOOST_LOG_TRIVIAL(info)
+            << "Size of densemap after to inside: " << _densemap.size();
     }
     /**
      * @brief This method checks if the packet to outside is suitable for
@@ -571,225 +557,230 @@ class Treatment {
      * and checking syn-cookies. Depending on internal rules packets can be
      * forwarded, adjusted, stored and dropped on their way through the system.
      */
-    inline bool treat_packets_to_outside(PacketInfoIpv4Tcp* _pkt_info) {
+    inline void treat_packets_to_outside() {
 
-        // BOOST_LOG_TRIVIAL(info) << "Size of densemap before to outside: " <<
-        // _densemap.size();
+        BOOST_LOG_TRIVIAL(info)
+            << "Size of densemap before to outside: " << _densemap.size();
         /************************************************************************
         ****Treatment of packets with direction towards the external network****
         ************************************************************************/
-        u_int8_t _flags =
-            _pkt_info->get_flags(); // get the flags of packet as
-                                    // they will be needed a few times
-        // BOOST_LOG_TRIVIAL(info) << "THE TYPE IS" << std::to_string(_flags);
-        if ((_flags & _flag_enum::SYNFIN) == _flag_enum::SYNFIN) {
-            rte_pktmbuf_free(_pkt_info->get_mbuf());
-        } else if ((_flags & _flag_enum::SYNACK) ==
-                   _flag_enum::SYNACK) { // check wether the syn&ack flag is
-                                         // set
-                                         // BOOST_LOG_TRIVIAL(info) << "|---Got
-                                         // a SYN-ACK comming from inside---|";
-            // Create entry in the Densemap
-            // Reply with the ack stored in _densemap for this specific
-            // connection...
+        for (int i = 0; i < _packet_to_outside->get_number_of_polled_packets();
+             ++i) {
 
-            // Get Data from connection in order to create entry in
-            // _densemap and check _densemap
-            Data dfirst(_pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
+            PacketInfo* _pkt_info_plain =
+                _packet_to_outside->get_packet_at_index(i);
+            BOOST_LOG_TRIVIAL(info)
+                << "|---Got plain packet from inside with type: "
+                << _pkt_info_plain->get_type() << "---|";
+            if ((_pkt_info_plain != nullptr) &&
+                (_pkt_info_plain->get_type() == IPv4TCP)) {
+                PacketInfoIpv4Tcp* _pkt_info =
+                    static_cast<PacketInfoIpv4Tcp*>(_pkt_info_plain);
+
+                u_int8_t _flags =
+                    _pkt_info->get_flags(); // get the flags of packet i as they
+                                            // will be needed a few times
+                if ((_flags & _flags::SYNACK) ==
+                    _flags::SYNACK) { // check wether the syn&ack flag is set
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Got a SYN-ACK comming from inside---|";
+                    // Create entry in the Densemap
+                    // Reply with the ack stored in _densemap for this specific
+                    // connection...
+
+                    // Get Data from connection in order to create entry in
+                    // _densemap and check _densemap
+                    Data dfirst(
+                        _pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
                         _pkt_info->get_dst_port(), _pkt_info->get_src_port());
-            // find according value in _densemap
-            auto id = _densemap.find(dfirst);
-            // unsure about that, was to catch the case, that no ack has
-            // ever been held
-            if (id == _densemap.end()) {
-                // drop packet and delete connection info
-                rte_pktmbuf_free(_pkt_info->get_mbuf());
-            } else if (id->second._pkt_inf_list.empty() == false) {
-                // cast into an ipv4 packet
+                    // find according value in _densemap
+                    auto id = _densemap.find(dfirst);
+                    // unsure about that, was to catch the case, that no ack has
+                    // ever been held
+                    if (id == _densemap.end()) {
+                        // drop packet and delete connection info
+                        _packet_to_outside->drop_packet(i, _pkt_info);
 
-                bool first_packet = true;
-                for (auto elem : id->second._pkt_inf_list) {
+                    } else if (id->second._pkt_inf_list.empty() == false) {
+                        // cast into an ipv4 packet
 
-                    if (first_packet) {
+                        bool first_packet = true;
+                        for (auto elem : (id->second._pkt_inf_list)) {
 
-                        // calculate _offset by substracting
-                        // internal_ack_num from external_ack_num
-                        int offset =
-                            elem->get_ack_num() - _pkt_info->get_seq_num() - 1;
+                            if (first_packet) {
 
-                        // BOOST_LOG_TRIVIAL(info)  << "|---The offset is:" <<
-                        // offset << ", the external acknum is: " <<
-                        // elem->get_ack_num() << " the internal seqnum is: " <<
-                        // _pkt_info->get_seq_num() << " --- |";
+                                // calculate _offset by substracting
+                                // internal_ack_num from external_ack_num
+                                int offset = elem->get_ack_num() -
+                                             _pkt_info->get_seq_num() - 1;
 
-                        id->second._offset = offset;
-                        // adjust the acknum of the ack as a response to
-                        // syn ack
-                        // outside->set_ack_num(outside->get_ack_num() -
-                        // offset);
-                        elem->set_ack_num(_pkt_info->get_seq_num() + 1);
-                        // refresh checksum
-                        elem->prepare_offloading_checksums();
-                        // send received ack with adjusted acknum, this
-                        // may already contain data
-                        _packet_to_inside->add_mbuf(elem->get_mbuf());
-                        // erase entry in _pkt_inf
+                                BOOST_LOG_TRIVIAL(info)
+                                    << "|---The offset is:" << offset
+                                    << ", the external acknum is: "
+                                    << elem->get_ack_num()
+                                    << " the internal seqnum is: "
+                                    << _pkt_info->get_seq_num() << " --- |";
 
-                        first_packet = false;
+                                id->second._offset = offset;
+                                // adjust the acknum of the ack as a response to
+                                // syn ack
+                                // outside->set_ack_num(outside->get_ack_num() -
+                                // offset);
+                                elem->set_ack_num(_pkt_info->get_seq_num() + 1);
+                                // refresh checksum
+                                elem->recalculate_checksums();
+                                // send received ack with adjusted acknum, this
+                                // may already contain data
+                                _packet_to_inside->add_packet(elem);
+                                // erase entry in _pkt_inf
+
+                                first_packet = false;
+                            } else {
+
+                                elem->set_ack_num(elem->get_ack_num() -
+                                                  id->second._offset);
+
+                                elem->recalculate_checksums();
+                            }
+                        }
+                        id->second._pkt_inf_list.clear();
                     } else {
-
-                        elem->set_ack_num(elem->get_ack_num() -
-                                          id->second._offset);
-
-                        elem->prepare_offloading_checksums();
-                        _packet_to_inside->add_mbuf(elem->get_mbuf());
+                        BOOST_LOG_TRIVIAL(fatal) << "No element in the list";
                     }
-                    delete elem;
+
                 }
-                id->second._pkt_inf_list.clear();
-            } else {
-                // BOOST_LOG_TRIVIAL(fatal) << "No element in the list";
-            }
-        }
-        // check wether the syn flag is set
-        else if ((_flags & _flag_enum::SYN) == _flag_enum::SYN) {
-            // Simply forward the packet
-            // BOOST_LOG_TRIVIAL(info) << "|---Forwarding the " "SYN from
-            // internal to external ---|";
-            _packet_to_outside->add_mbuf(_pkt_info->get_mbuf());
-        }
-        // RST received from inside_pkt_
-        else if ((_flags & _flag_enum::RST) == _flag_enum::RST) {
-            // BOOST_LOG_TRIVIAL(info) << "|---Received an RST from inside---|";
-            Data erase(_pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
-                       _pkt_info->get_dst_port(), _pkt_info->get_src_port());
-            auto id = _densemap.find(erase);
-            if (id == _densemap.end()) {
-                // drop packet
-                rte_pktmbuf_free(_pkt_info->get_mbuf());
+                // check wether the syn flag is set
+                else if ((_flags & _flags::SYN) == _flags::SYN) {
+                    // Simply forward the packet
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Forwarding the "
+                           "SYN from internal to external ---|";
 
-            } else {
-                _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
-                                       id->second._offset);
-                _pkt_info->prepare_offloading_checksums();
+                }
+                // RST received from inside_pkt_
+                else if ((_flags & _flags::RST) == _flags::RST) {
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Received an RST from inside---|";
+                    Data erase(_pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
+                               _pkt_info->get_dst_port(),
+                               _pkt_info->get_src_port());
+                    auto id = _densemap.find(erase);
+                    if (id == _densemap.end()) {
+                        // drop packet
+                        _packet_to_outside->drop_packet(i, _pkt_info);
 
-                _packet_to_outside->add_mbuf(_pkt_info->get_mbuf());
+                    } else {
+                        _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
+                                               id->second._offset);
+                        _pkt_info->recalculate_checksums();
+                        _densemap.erase(erase);
+                    }
 
-                _densemap.erase(erase);
-            }
-        }
-        // FIN received from inside_pkt
-        else if (((_flags & _flag_enum::FIN) == _flag_enum::FIN)) {
-            // BOOST_LOG_TRIVIAL(info) << "|---Recevied a FIN from inside---|";
-            // create Data fin for the packet
+                }
+                // FIN received from inside_pkt
+                else if (((_flags & _flags::FIN) == _flags::FIN)) {
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Recevied a FIN from inside---|";
+                    // create Data fin for the packet
 
-            // find the entry in our map
-            auto iter = _densemap.find(
-                Data(_pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
-                     _pkt_info->get_dst_port(), _pkt_info->get_src_port()));
-            if (iter == _densemap.end()) {
-                // drop packet
-                rte_pktmbuf_free(_pkt_info->get_mbuf());
-            }
-            else if ((iter->second._finseen_to_inside == true) /* &&
+                    // find the entry in our map
+                    auto iter = _densemap.find(Data(
+                        _pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
+                        _pkt_info->get_dst_port(), _pkt_info->get_src_port()));
+                    if (iter == _densemap.end()) {
+                        // drop packet
+                        _packet_to_outside->drop_packet(i, _pkt_info);
+                    }
+                // it is a fin-ack fin-ack
+                else if ((iter->second._finseen_to_inside == true) /* &&
                          ((_flags & _flags::FINACK) == _flags::FINACK)*/) {
-                // Check if fin has already been seen and we are not
-                // looking for the reply
-                // BOOST_LOG_TRIVIAL(info) << "|---FIN-ACK for FIN---|";
-                // change the packets seq number
-                iter->second._finseen_to_outside = true;
-                iter->second._ack_to_inside_expected = true;
-                _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
-                                       iter->second._offset);
-                _pkt_info->prepare_offloading_checksums();
-                // delete the entry
-                /*  _densemap.erase(Data(
-                     _pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
-                     _pkt_info->get_dst_port(),
-                   _pkt_info->get_src_port()));
-                 */
-                // send packet to inside // aka. do nothing
+                        // Check if fin has already been seen and we are not
+                        // looking for the reply
+                        BOOST_LOG_TRIVIAL(info) << "|---FIN-ACK for FIN---|";
+                        // change the packets seq number
+                        iter->second._finseen_to_outside = true;
+                        iter->second._ack_to_inside_expected = true;
+                        _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
+                                               iter->second._offset);
+                        _pkt_info->recalculate_checksums();
+                        // delete the entry
+                        /*  _densemap.erase(Data(
+                             _pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
+                             _pkt_info->get_dst_port(),
+                           _pkt_info->get_src_port()));
+                         */
+                        // send packet to inside // aka. do nothing
 
-                _packet_to_outside->add_mbuf(_pkt_info->get_mbuf());
-            }
+                    }
+                    // Case: its the first FIN with piggybagged ack
+                    else if (iter->second._finseen_to_outside == false) {
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Recevied the first FIN from inside---|";
+                        // change status _finseen to true
+                        iter->second._finseen_to_outside = true;
+                        // get _offset
+                        // change the packets seq number
+                        _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
+                                               iter->second._offset);
+                        _pkt_info->recalculate_checksums();
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Changed Finseen to true for connection: "
+                               "extip: "
+                            << _pkt_info->get_dst_ip()
+                            << " extport: " << _pkt_info->get_dst_port()
+                            << " intip: " << _pkt_info->get_src_ip()
+                            << " intport: " << _pkt_info->get_src_port()
+                            << "---|";
+                    }
+                }
 
-            // Case: its the first FIN with piggybagged ack
-            else if (iter->second._finseen_to_outside == false) {
-                // BOOST_LOG_TRIVIAL(info)<< "|---Recevied the first FIN from
-                // inside---|"; change status _finseen to true
-                iter->second._finseen_to_outside = true;
-                // get _offset
-                // change the packets seq number
-                _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
-                                       iter->second._offset);
-                _pkt_info->prepare_offloading_checksums();
-                // BOOST_LOG_TRIVIAL(info)  << "|---Changed Finseen to true for
-                // connection: "   "extip: "
-                /*  << _pkt_info->get_dst_ip()
-                 << " extport: " << _pkt_info->get_dst_port()
-                 << " intip: " << _pkt_info->get_src_ip()
-                 << " intport: " << _pkt_info->get_src_port() << "---|"; */
+                // CASE: ACK RECEIVED from Bob
+                else if (((_flags & _flags::ACK) == _flags::ACK) &&
+                         ((_flags & _flags::FINACK) != _flags::FINACK)) {
 
-                _packet_to_outside->add_mbuf(_pkt_info->get_mbuf());
-            } else {
-                // BOOST_LOG_TRIVIAL(info)  << "|--- Saw duplicate FIN from
-                // outside----|";
+                    BOOST_LOG_TRIVIAL(info)
+                        << "|---Received an ACK from inside---|";
+                    Data ack(_pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
+                             _pkt_info->get_dst_port(),
+                             _pkt_info->get_src_port());
+                    auto id = _densemap.find(ack);
+                    // no entry in _densemap, create one and adjust value
+                    // accordingly
+                    if (id == _densemap.end()) {
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Created new entry in the densemap---|";
+                        Info info(0, false, false, false, false, nullptr);
+                        _densemap.insert(std::make_pair(ack, info));
+                        // send out packet, aka do nothing
 
-                _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
-                                       iter->second._offset);
-                _pkt_info->prepare_offloading_checksums();
-                _packet_to_outside->add_mbuf(_pkt_info->get_mbuf());
-            }
-        }
+                    } else if (id->second._finseen_to_inside == true &&
+                               id->second._finseen_to_outside == true &&
+                               id->second._ack_to_outside_expected == true) {
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---ACK to FIN-ACK-Packet---|";
 
-        // CASE: ACK RECEIVED from Bob
-        else if (((_flags & _flag_enum::ACK) == _flag_enum::ACK) &&
-                 ((_flags & _flag_enum::FINACK) != _flag_enum::FINACK)) {
+                        _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
+                                               id->second._offset);
+                        _pkt_info->recalculate_checksums();
 
-            // BOOST_LOG_TRIVIAL(info) << "|---Received an ACK from inside---|";
-            Data ack(_pkt_info->get_dst_ip(), _pkt_info->get_src_ip(),
-                     _pkt_info->get_dst_port(), _pkt_info->get_src_port());
-            auto id = _densemap.find(ack);
-            // no entry in _densemap, create one and adjust value
-            // accordingly
-            if (id == _densemap.end()) {
-                // BOOST_LOG_TRIVIAL(info) << "|---Created new entry in the
-                // densemap---|";
-                Info info(0, false, false, false, false, nullptr);
-                _densemap.insert(std::make_pair(ack, info));
+                        _densemap.erase(id);
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Deleted entry in densemap--|";
 
-                // send out packet, aka do nothing
-                _packet_to_outside->add_mbuf(_pkt_info->get_mbuf());
-
-            } else if (unlikely(id->second._finseen_to_inside == true &&
-                                id->second._finseen_to_outside == true &&
-                                id->second._ack_to_outside_expected == true)) {
-                // BOOST_LOG_TRIVIAL(info) << "|---ACK to FIN-ACK-Packet---|";
-
-                _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
-                                       id->second._offset);
-                _pkt_info->prepare_offloading_checksums();
-
-                _densemap.erase(id);
-                // BOOST_LOG_TRIVIAL(info) << "|---Deleted entry in
-                // densemap--|";
-                _packet_to_outside->add_mbuf(_pkt_info->get_mbuf());
-
-            } else {
-                // BOOST_LOG_TRIVIAL(info) << "|---Just a regular
-                // ACK-Packet---|";
-                // it is just a regular packet, simply adjust with
-                // _offset and you are done.
-                _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
-                                       id->second._offset);
-                _pkt_info->prepare_offloading_checksums();
-
-                _packet_to_outside->add_mbuf(_pkt_info->get_mbuf());
+                    } else {
+                        BOOST_LOG_TRIVIAL(info)
+                            << "|---Just a regular ACK-Packet---|";
+                        // it is just a regular packet, simply adjust with
+                        // _offset and you are done.
+                        _pkt_info->set_seq_num(_pkt_info->get_seq_num() +
+                                               id->second._offset);
+                        _pkt_info->recalculate_checksums();
+                    }
+                }
             }
         }
-        // BOOST_LOG_TRIVIAL(info) << "Size of densemap after to outside: " <<
-        // _densemap.size();
-        return false;
+        BOOST_LOG_TRIVIAL(info)
+            << "Size of densemap after to outside: " << _densemap.size();
     }
 
     /**
@@ -875,6 +866,7 @@ class Treatment {
                 return true;
             }
         }
+
         // return false, so that treat_packets is able to continue
         return false;
     }
@@ -884,19 +876,16 @@ class Treatment {
 
     u_int64_t _cookie_secret; ///< cookie_secret used to enhance the efficency
                               ///< of SYN-cookies
-    u_int8_t _skip_syn;
 
-    u_int8_t _syn_thresh;
-
-    MbufContainerTransmitting*
-        _packet_to_inside; ///< MbufContainer containing packets with
+    PacketContainer*
+        _packet_to_inside; ///< PacketContainer containing packets with
                            ///< destination being the internal network
 
-    MbufContainerTransmitting*
-        _packet_to_outside; ///< MbufContainer containing packets with
+    PacketContainer*
+        _packet_to_outside; ///< PacketContainer containing packets with
                             ///< destination being the extern network
 
-    google::dense_hash_map<Data, Info, TreatmentHash>
+    google::dense_hash_map<Data, Info, MyHashFunction>
         _densemap; ///< Map to store information about connections including
                    ///< _offset and if a fin has been seen
 

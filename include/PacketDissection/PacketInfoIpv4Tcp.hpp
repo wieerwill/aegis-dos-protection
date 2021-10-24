@@ -13,37 +13,26 @@
 #include <rte_byteorder.h>
 #include <rte_tcp.h>
 
-#include "DebugHelper.hpp"
-#include "Definitions.hpp"
 #include "PacketDissection/PacketInfoIpv4.hpp"
 #include "PacketDissection/PacketProtTcp.hpp"
+#include "DebugHelper.hpp"
+#include "Definitions.hpp"
 
 class PacketInfoIpv4Tcp : public PacketInfoIpv4 {
   public:
     inline PacketInfoIpv4Tcp();
 
-    inline PacketInfoIpv4Tcp(rte_mbuf* mbuf)
-        : PacketInfoIpv4(
-              IPv4TCP, mbuf, rte_pktmbuf_mtod(mbuf, struct rte_ether_hdr*),
-              rte_pktmbuf_mtod_offset(mbuf, struct rte_ipv4_hdr*,
-                                      (uint16_t)sizeof(struct rte_ether_hdr)))
-        , _tcp_hdr(rte_pktmbuf_mtod_offset(
-              mbuf, struct rte_tcp_hdr*,
-              (sizeof(struct rte_ether_hdr) + sizeof(struct rte_ipv4_hdr)))) {}
-
     inline PacketInfoIpv4Tcp(rte_mbuf* mbuf, rte_ether_hdr* eth_hdr,
                              rte_ipv4_hdr* ip_hdr, rte_tcp_hdr* l4_hdr)
-        : PacketInfoIpv4(IPv4TCP, mbuf, eth_hdr, ip_hdr)
-        , _tcp_hdr(l4_hdr) {}
+        : PacketInfoIpv4(IPv4TCP, mbuf, eth_hdr, ip_hdr), _tcp_hdr(l4_hdr) {}
 
     inline PacketInfoIpv4Tcp(rte_mbuf* mbuf, rte_ipv4_hdr* ip_hdr,
                              rte_tcp_hdr* l4_hdr)
-        : PacketInfoIpv4(IPv4TCP, mbuf, ip_hdr)
-        , _tcp_hdr(l4_hdr) {}
+        : PacketInfoIpv4(IPv4TCP, mbuf, ip_hdr), _tcp_hdr(l4_hdr) {}
 
     inline ~PacketInfoIpv4Tcp() {
         //   PacketInfoIpv4::~PacketInfoIpv4();
-        // _tcp_hdr = nullptr;
+        _tcp_hdr = nullptr;
     }
 
     /**
@@ -88,7 +77,7 @@ class PacketInfoIpv4Tcp : public PacketInfoIpv4 {
      * @return uint8_t
      */
     inline uint8_t get_flags() {
-        const char desc[] = "mbuf";
+        //const char desc[] = "mbuf";
         return PacketProtTcp::get_flags(
             _tcp_hdr); // these are FIN to CWR flag, but
                        // i am not shure in which order
@@ -185,6 +174,7 @@ class PacketInfoIpv4Tcp : public PacketInfoIpv4 {
         rte_ether_addr src_mac, rte_ether_addr dst_mac, uint32_t src_ip,
         uint32_t dst_ip, uint16_t src_port, uint16_t dst_port, uint32_t seq_num,
         uint32_t ack_num, uint8_t flags, uint16_t tcp_window) {
+
         // const char desc[] = "mbuf";
 
         // let PacketInfo handle ethernet filling
@@ -214,6 +204,7 @@ class PacketInfoIpv4Tcp : public PacketInfoIpv4 {
     }
 
     inline void prepare_offloading_checksums() {
+
         rte_mbuf* mbuf = get_mbuf();
         mbuf->ol_flags = PKT_TX_IPV4 | PKT_TX_IP_CKSUM | PKT_TX_TCP_CKSUM;
         mbuf->l4_len = sizeof(struct rte_tcp_hdr);
@@ -228,4 +219,5 @@ class PacketInfoIpv4Tcp : public PacketInfoIpv4 {
 
   private:
     rte_tcp_hdr* _tcp_hdr;
+
 };

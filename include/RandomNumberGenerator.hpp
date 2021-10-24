@@ -1,3 +1,14 @@
+/**
+ * @file RandomNumberGenerator.hpp
+ * @author Jakob, Tim
+ * @brief 
+ * @version 0.1
+ * @date 2021-07-12
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #pragma once
 
 #include <cstdlib>

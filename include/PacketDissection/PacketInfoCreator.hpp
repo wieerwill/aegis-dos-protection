@@ -4,12 +4,11 @@
  * @brief
  * @date 2021-06-16
  */
+
 #pragma once
 
 #include <rte_ether.h>
-
 #include <boost/log/trivial.hpp>
-
 #include "Definitions.hpp"
 #include "PacketDissection/PacketInfo.hpp"
 #include "PacketDissection/PacketInfoIpv4.hpp"
@@ -31,7 +30,7 @@ class PacketInfoCreator {
      */
     inline static PacketInfo* create_pkt_info(rte_mbuf* mbuf) {
         struct rte_ether_hdr* eth_hdr;
-        eth_hdr = rte_pktmbuf_mtod(mbuf, struct rte_ether_hdr*);
+        eth_hdr = rte_pktmbuf_mtod(mbuf, rte_ether_hdr*);
         uint16_t offset = (uint16_t)sizeof(struct rte_ether_hdr);
 
         /// from here on we know the l3 type
@@ -264,27 +263,6 @@ class PacketInfoCreator {
 
         default:
             break;
-        }
-    }
-
-    inline static bool is_ipv4_tcp(rte_mbuf* mbuf) {
-        struct rte_ether_hdr* eth_hdr;
-        eth_hdr = rte_pktmbuf_mtod(mbuf, struct rte_ether_hdr*);
-
-        if (rte_be_to_cpu_16(eth_hdr->ether_type) == ETHER_TYPE_IPv4) {
-            uint16_t offset = (uint16_t)sizeof(struct rte_ether_hdr);
-            struct rte_ipv4_hdr* ip4_hdr;
-            ip4_hdr =
-                rte_pktmbuf_mtod_offset(mbuf, struct rte_ipv4_hdr*, offset);
-            uint8_t protocol_id = ip4_hdr->next_proto_id;
-
-            if (protocol_id == 6) { // TCP
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
         }
     }
 };

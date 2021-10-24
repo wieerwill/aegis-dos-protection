@@ -25,7 +25,9 @@ class PacketProtTcp {
     /**
      * @brief Set packets TCP sequence number
      *
+     * @param tcp_hdr
      * @param seq_num
+     * \todo describe param tcp_hdr
      */
     inline static void set_seq_num(rte_tcp_hdr* tcp_hdr, uint32_t seq_num) {
         tcp_hdr->sent_seq = rte_cpu_to_be_32(seq_num);
@@ -34,7 +36,9 @@ class PacketProtTcp {
     /**
      * @brief Set packets TCP acknowledgment number
      *
+     * @param tcp_hdr
      * @param ack_num
+     * \todo describe param tcp_hdr
      */
     inline static void set_ack_num(rte_tcp_hdr* tcp_hdr, uint32_t ack_num) {
         tcp_hdr->recv_ack = rte_cpu_to_be_32(ack_num);
@@ -43,7 +47,10 @@ class PacketProtTcp {
     /**
      * @brief Get packets TCP destination port
      *
+     * @param tcp_hdr
      * @return uint16_t
+     *
+     * \todo describe param tcp_hdr
      */
     inline static uint16_t get_dst_port(rte_tcp_hdr* tcp_hdr) {
         return rte_be_to_cpu_16(tcp_hdr->dst_port);
@@ -52,7 +59,9 @@ class PacketProtTcp {
     /**
      * @brief Get packets TCP source port
      *
+     * @param tcp_hdr
      * @return uint16_t
+     * \todo describe param tcp_hdr
      */
     inline static uint16_t get_src_port(rte_tcp_hdr* tcp_hdr) {
         return rte_be_to_cpu_16(tcp_hdr->src_port);
@@ -61,7 +70,9 @@ class PacketProtTcp {
     /**
      * @brief Get packets TCP flags
      * MSB is CWR flag, LSB is FIN flag, NS flag not included
+     * @param tcp_hdr
      * @return uint8_t
+     * \todo describe param tcp_hdr
      */
     inline static uint8_t get_flags(rte_tcp_hdr* tcp_hdr) {
         return tcp_hdr->tcp_flags; // these are FIN to CWR flag, but i am not
@@ -165,6 +176,8 @@ class PacketProtTcp {
      * If this PacketInfo has a _mbuf and this _mbuf is empty,
      * then all IP and TCP header information is filled in.
      * This function doesn't create a new mbuf.
+     * @param tcp_hdr
+     * @param mbuf
      * @param src_ip IP address packet originally originated from
      * @param dst_ip IP address packet is going to be send to
      * @param src_port TCP port packet originally was send from

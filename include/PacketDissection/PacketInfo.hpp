@@ -26,10 +26,10 @@ enum PacketType {
 
 class PacketInfo {
   public:
-    inline PacketInfo() : _type(NONE), _mbuf(nullptr), _eth_hdr(nullptr) {}
+    inline PacketInfo() : _type(NONE), _eth_hdr(nullptr), _mbuf(nullptr) {}
 
     inline PacketInfo(rte_mbuf* const mbuf, rte_ether_hdr* const eth_hdr)
-        : _type(NONE), _mbuf(mbuf), _eth_hdr(eth_hdr) {}
+        : _type(NONE), _eth_hdr(eth_hdr), _mbuf(mbuf) {}
 
     inline ~PacketInfo() {
         //_mbuf = nullptr;
@@ -66,10 +66,10 @@ class PacketInfo {
   protected:
     inline PacketInfo(PacketType const type, rte_mbuf* const mbuf,
                       rte_ether_hdr* const eth_hdr)
-        : _type(type), _mbuf(mbuf), _eth_hdr(eth_hdr) {}
+        : _type(type), _eth_hdr(eth_hdr), _mbuf(mbuf) {}
 
     inline PacketInfo(PacketType const type, rte_mbuf* const mbuf)
-        : _type(type), _mbuf(mbuf), _eth_hdr(nullptr) {}
+        : _type(type), _eth_hdr(nullptr), _mbuf(mbuf) {}
 
     PacketType const _type;
     rte_ether_hdr* const _eth_hdr;

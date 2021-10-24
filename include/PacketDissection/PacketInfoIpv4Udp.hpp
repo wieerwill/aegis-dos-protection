@@ -1,6 +1,6 @@
 /**
  * @file PacketInfoIpv4Udp.hpp
- * @author @Tobias
+ * @author Tobias
  * @brief class to provide packets IPv4 and UDP header information
  * @date 2021-06-08
  *

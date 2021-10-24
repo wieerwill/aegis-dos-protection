@@ -1,3 +1,14 @@
+/**
+ * @file PacketContainer.hpp
+ * @author Jakob, Tobias
+ * @brief 
+ * @version 0.1
+ * @date 2021-06-26
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #pragma once
 
 #include <rte_ethdev.h>
@@ -11,6 +22,8 @@
 #include "Definitions.hpp"
 #include "PacketDissection/PacketInfo.hpp"
 #include "PacketDissection/PacketInfoCreator.hpp"
+
+class PacketInfoIpv4Tcp;
 
 #define ERROR_STR_INDEX_OUT_OF_BOUNDS                                          \
     "index is out of bounds of PacketContainer. The highest possible index "   \
@@ -71,10 +84,10 @@ class PacketContainer {
     inline PacketContainer(struct rte_mempool* mbuf_pool,
                            uint16_t entrance_port, uint16_t exit_port,
                            uint16_t rx_queue_number, uint16_t tx_queue_number)
-        : _mempool(mbuf_pool), _entrance_port(entrance_port),
-          _exit_port(exit_port), _nb_pkts_polled(0), _nb_pkts_total(0),
-          _nb_pkts_dropped(0), _nb_pkt_arrays(1),
-          _rx_queue_number(rx_queue_number), _tx_queue_number(tx_queue_number) {
+        : _mempool(mbuf_pool), _rx_queue_number(rx_queue_number), _tx_queue_number(tx_queue_number),
+         _entrance_port(entrance_port), _exit_port(exit_port), _nb_pkts_polled(0),
+         _nb_pkts_total(0), _nb_pkt_arrays(1), _nb_pkts_dropped(0)
+          {
 
         for (int i = 0; i < NUM_MBUF_ARRS; ++i) {
             _nb_mbufs_in_mbuf_arr[i] = 0;
@@ -263,9 +276,12 @@ class PacketContainer {
      * be adopted. These are set as
      * parameter of the function call.
      *
-     * @param[in] pkt_container packet container pointer to the packet to be
-     * added
+     * @param[in] pkt_container packet container pointer to the packet to be added
+     * @param pkt_info
      * @return index of the newly added packet
+     * \todo warning: parameter 'pkt_info' is not documented
+     * \todo pkt_container remove description?
+
      */
     inline int add_packet(PacketInfo* pkt_info) {
         int i, j;
@@ -452,7 +468,7 @@ class PacketContainer {
      * will be given to the send_packets_to_port method of the
      * NetworkPacketHandler.
      */
-    inline void reorder_mbuf_arrays() {
+    void reorder_mbuf_arrays() {
         if (likely(_nb_pkts_total > 0)) {
             for (int i = 0; i < _nb_pkt_arrays; ++i) {
 
@@ -486,8 +502,7 @@ class PacketContainer {
      * @param[out] i
      * @param[out] j
      */
-    inline void calculate_array_coordinates_from_index(int index, int& i,
-                                                       int& j) {
+    void calculate_array_coordinates_from_index(int index, int& i, int& j) {
         i = (index - (index % BURST_SIZE)) / BURST_SIZE;
         j = index % BURST_SIZE;
     }
@@ -503,8 +518,7 @@ class PacketContainer {
      * @param[in] j second dimension index
      * @param[out] index
      */
-    inline void calculate_index_from_array_coordinates(int i, int j,
-                                                       int& index) {
+    void calculate_index_from_array_coordinates(int i, int j, int& index) {
         index = i * BURST_SIZE + j;
     }
 
@@ -512,8 +526,8 @@ class PacketContainer {
      * @brief Set the _state of the container to EMPTY
      * and assign variables to 0.
      */
-    inline void empty_container() {
-        int nb_pkts_remaining = _nb_pkts_total;
+    void empty_container() {
+        //int nb_pkts_remaining = _nb_pkts_total;
 
         for (int i = 0; i < _nb_pkt_arrays; ++i) {
             int len = _nb_mbufs_in_mbuf_arr[i];
@@ -542,7 +556,7 @@ class PacketContainer {
      * corresponding index in PacketInfo Array
      *
      */
-    inline void extract_header_info() {
+    void extract_header_info() {
         for (int i = 0; i < _nb_pkts_polled; ++i) {
             _pkt_info_arrs[0][i] =
                 fill_info(_mbuf_arrs[0][i], _pkt_info_arrs[0][i]);
@@ -556,7 +570,7 @@ class PacketContainer {
      * for which a PacketInfo should be created
      * @param[out] pkt_inf newly created PacketInfo
      */
-    inline PacketInfo* fill_info(rte_mbuf* mbuf, PacketInfo* pkt_inf) {
+    PacketInfo* fill_info(rte_mbuf* mbuf, PacketInfo* pkt_inf) {
         pkt_inf = PacketInfoCreator::create_pkt_info(mbuf);
         return pkt_inf;
     }

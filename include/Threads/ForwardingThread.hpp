@@ -1,3 +1,14 @@
+/**
+ * @file ForwardingThread.hpp
+ * @author Jakob
+ * @brief 
+ * @version 0.1
+ * @date 2021-07-12
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #pragma once
 
 #include "PacketDissection/PacketContainer.hpp"
@@ -31,7 +42,6 @@ class ForwardingThread : public Thread {
      */
     PacketContainer* _pkt_container_to_inside;
     PacketContainerLean* _pkt_container_to_inside_lean;
-    // PacketContainerLean* _pkt_container_from_outside_lean;
 
     /**
      * @brief in AttackThread: to alice

@@ -13,8 +13,8 @@
 #include <rte_ip.h>
 #include <rte_mbuf.h>
 
-#include "Definitions.hpp"
 #include "PacketDissection/PacketInfo.hpp"
+#include "Definitions.hpp"
 
 #define IP_HDR_LEN 20
 #define VERSION_AND_IP_HDR_LEN 0b01000101
